@@ -1900,6 +1900,21 @@ svg {
   grid-column: span 2;
   border-radius: 30px;
 }
+.calculator .calc-history header strong {
+  font-size: 20px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%); /* 讓標題完美置中 */
+}
+.calculator button.calc-history-item {
+  height: auto;
+  background: transparent;
+  border-radius: 0;
+  text-align: left;
+  padding: 12px 15px;
+  font-size: 22px;
+  width: 100%;
+}
 .dark-phone .app-screen,
 .dark-phone .app-nav,
 .dark-phone .app-tabs,

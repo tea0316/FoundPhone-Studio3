@@ -3,12 +3,12 @@
   "id": "foundphone-demo",
   "title": "山下瞳月的IPHONE",
   "description": "僅用於介面測試，不含劇情",
-  "revision": 4,
+  "revision": 6,
   "phone": {
     "owner": "山下瞳月",
     "date": "2026-10-25",
     "time": "09:41",
-    "battery": 94,
+    "battery": 47,
     "network": "5G",
     "wallpaper": "custom"
   },
@@ -333,16 +333,11 @@
         "meta": {}
       }
     ],
+    
     "calculator": [
-      {
-        "id": "test-item-calculator",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
-        "kind": "text",
-        "meta": {}
-      }
+
     ],
+    
     "settings": [
       {
         "id": "test-item-settings",

@@ -323,7 +323,7 @@ useEffect(() => {
       setBattery((v) =>
         charging ? Math.min(100, v + 1) : Math.max(1, v - 1),
       ),
-    charging ? 30000 : 60000, // 充電時每 30秒 +1%，放電時每 60 秒 -1%
+    charging ? 20000 : 45000, // 充電時每 20秒 +1%，放電時每 45 秒 -1%
   );
 
   return () => clearInterval(timer); // 
@@ -499,18 +499,30 @@ onClick={(e) => {
   }}
 >
   {level}
-{charging && (
-  <i
-    style={{
-      fontSize: 9,
-      fontStyle: "normal",
-      marginLeft: 1,
-      verticalAlign: "1px",
-    }}
-  >
-    ⚡
-  </i>
-)}
+  {charging && (
+    <i
+      style={{
+        fontSize: 9,
+        fontStyle: "normal",
+        marginLeft: 1,
+        verticalAlign: "1px",
+      }}
+    >
+      ⚡
+    </i>
+  )}
+  {level === 46 && !charging && (
+    <i
+      style={{
+        fontSize: 9,
+        fontStyle: "normal",
+        marginLeft: 1,
+        verticalAlign: "1px",
+      }}
+    >
+      🌸
+    </i>
+  )}
 </b>
               </span>
             </button>

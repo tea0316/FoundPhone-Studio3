@@ -7,7 +7,7 @@ import {
 import { UnlockHandle } from "./vendor/ios-web/UnlockHandle";
 import { useState, useEffect, createContext, useContext } from "react";
 import { useVolume } from "./volume";
-import { coverUrl, playerNext, playerPrev, playerToggle, usePlayer } from "./player";
+import { coverUrl as _coverUrl, playerNext, playerPrev, playerToggle, usePlayer } from "./player";
 import {
   LockKeyhole,
   Flashlight,

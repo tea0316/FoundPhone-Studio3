@@ -1,251 +1,346 @@
-import { AudioPlayer, useTrack } from "../audio";
+import { AudioPlayer } from "../audio";
 import { useSkinState } from "../skinState";
 import {
-   Bookmark,
-   Check,
-   Compass,
-   Heart,
-   Home,
-   MessageCircle,
-   Music,
-   Play,
-   Plus,
-   Search,
-   SkipForward,
-   User,
-   Users,
-   Video,
+  Bookmark,
+  Check,
+  ChevronDown,
+  Compass,
+  Heart,
+  Home,
+  MessageCircle,
+  Music,
+  Pause,
+  Play,
+  Plus,
+  Repeat,
+  Repeat1,
+  Search,
+  Shuffle,
+  SkipBack,
+  SkipForward,
+  User,
+  Users,
+  Video,
 } from "lucide-react";
-import { useState } from "react";
-import { safeMedia, type Item } from "../schema";
+import { useState, type CSSProperties } from "react";
+import type { Item } from "../schema";
 import {
-   Avatar,
-   Empty,
-   groupItems,
-   Header,
-   Media,
-   meta,
-   SearchBox,
-   Tabs,
-   useContent,
-   type Props,
+  chooseTrack,
+  coverUrl,
+  fmtTime,
+  playerNext,
+  playerPrev,
+  playerRepeat,
+  playerSeek,
+  playerShuffle,
+  playerToggle,
+  usePlayer,
+} from "../player";
+import {
+  Avatar,
+  Empty,
+  groupItems,
+  Header,
+  Media,
+  meta,
+  SearchBox,
+  Tabs,
+  useContent,
+  type Props,
 } from "./shared";
 
-function TrackPlayer({
-   item,
-   p,
-   onNext,
-}: {
-   item: Item;
-   p: Props;
-   onNext: () => void;
-}) {
-   return (
-      <div className="track-player">
-         <button onClick={() => p.onItem(item)}>
-            {item.avatar ? (
-               <Avatar name={item.title} src={item.avatar} round={false} />
-            ) : (
-               <Music size={20} />
-            )}
-            <span>
-               {item.title}
-               <small>{item.sender}</small>
-            </span>
-         </button>
-         {item.kind === "audio" && safeMedia(item.media) ? (
-            <AudioPlayer p={p} item={item} onNext={onNext} />
-         ) : (
-            <button onClick={() => p.onItem(item)}>查看</button>
-         )}
-         <button aria-label="下一首" onClick={onNext}>
-            <SkipForward size={19} />
-         </button>
+function TrackPlayer({ p, onOpen }: { p: Props; onOpen?: () => void }) {
+  const { item } = usePlayer();
+  if (!item) return null;
+  return (
+    <div className="track-player">
+      <button onClick={() => (onOpen ? onOpen() : p.onItem(item))}>
+        {coverUrl(item.avatar) ? (
+          <Avatar name={item.title} src={item.avatar} round={false} />
+        ) : (
+          <Music size={20} />
+        )}
+        <span>
+          {item.title}
+          <small>{item.sender}</small>
+        </span>
+      </button>
+      <AudioPlayer />
+      <button aria-label="下一首" onClick={playerNext}>
+        <SkipForward size={19} />
+      </button>
+    </div>
+  );
+}
+
+function NowPlaying({ p, close }: { p: Props; close: () => void }) {
+  const { item, queue, playing, pos, dur, shuffle, repeat } = usePlayer();
+  const [liked, setLiked] = useSkinState<string[]>(p, "likes", []);
+  if (!item) return null;
+  const isLiked = liked.includes(item.id);
+  const cover = coverUrl(item.avatar);
+  return (
+    <div className="np-page">
+      <div className="np-top">
+        <button aria-label="收起播放頁" onClick={close}>
+          <ChevronDown size={26} />
+        </button>
+        <div>
+          <small>正在播放</small>
+          <strong>{item.folder || meta(item, "album", "我的音樂")}</strong>
+        </div>
+        <span />
       </div>
-   );
+      <div className="np-cover">
+        {cover ? <img src={cover} alt="" /> : <Music size={80} />}
+      </div>
+      <div className="np-info">
+        <div>
+          <strong>{item.title}</strong>
+          <small>{item.sender}</small>
+        </div>
+        <button
+          aria-label={isLiked ? "取消喜歡" : "喜歡"}
+          onClick={() =>
+            setLiked(
+              isLiked ? liked.filter((x) => x !== item.id) : [...liked, item.id],
+            )
+          }
+        >
+          <Heart
+            size={24}
+            fill={isLiked ? "#1ed760" : "none"}
+            color={isLiked ? "#1ed760" : "#fff"}
+          />
+        </button>
+      </div>
+      <div className="np-progress">
+        <input
+          className="np-seek"
+          type="range"
+          aria-label="播放進度"
+          min={0}
+          max={dur || 0}
+          step={0.1}
+          value={pos}
+          style={{ "--pct": dur ? (pos / dur) * 100 + "%" : "0%" } as CSSProperties}
+          onChange={(e) => playerSeek(Number(e.target.value))}
+        />
+        <div>
+          <span>{fmtTime(pos)}</span>
+          <span>{fmtTime(dur)}</span>
+        </div>
+      </div>
+      <div className="np-controls">
+        <button
+          className={shuffle ? "on" : ""}
+          aria-label="隨機播放"
+          aria-pressed={shuffle}
+          onClick={playerShuffle}
+        >
+          <Shuffle size={22} />
+        </button>
+        <button aria-label="上一首" onClick={playerPrev}>
+          <SkipBack size={30} fill="currentColor" />
+        </button>
+        <button
+          className="np-play"
+          aria-label={playing ? "暫停" : "播放"}
+          onClick={playerToggle}
+        >
+          {playing ? (
+            <Pause size={28} fill="currentColor" />
+          ) : (
+            <Play size={28} fill="currentColor" />
+          )}
+        </button>
+        <button aria-label="下一首" onClick={playerNext}>
+          <SkipForward size={30} fill="currentColor" />
+        </button>
+        <button
+          className={repeat !== "off" ? "on" : ""}
+          aria-label="重複播放"
+          onClick={playerRepeat}
+        >
+          {repeat === "one" ? <Repeat1 size={22} /> : <Repeat size={22} />}
+        </button>
+      </div>
+      <div className="np-queue">
+        <h4>播放清單</h4>
+        {queue.map((q) => (
+          <button
+            key={q.id}
+            className={q.id === item.id ? "on" : ""}
+            onClick={() => chooseTrack(p, q, queue)}
+          >
+            <Avatar name={q.title} src={q.avatar} round={false} />
+            <span>
+              <b>{q.title}</b>
+              <small>
+                {q.sender}
+                {meta(q, "duration", "") ? " · " + meta(q, "duration", "") : ""}
+              </small>
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export function SpotifySkin(p: Props) {
-   const { tab, setTab, q, setQ, items } = useContent(p, "首頁");
-   const [playlist, setPlaylist] = useState(""),
-      [track, setTrack] = useTrack(p, items);
-   const list = playlist
-      ? items.filter((i) => (i.folder || "我的音樂") === playlist)
-      : items;
-   return (
-      <div className="catalog-skin spotify-ui">
-         <Header p={p} />
-         <div className="catalog-scroll">
-            <div className="spotify-heading">
-               <Avatar name={p.owner ?? "我"} />
-               <button
-                  className={tab === "首頁" ? "selected" : ""}
-                  onClick={() => setTab("首頁")}
-               >
-                  音樂
-               </button>
-               <button
-                  className={tab === "音樂庫" ? "selected" : ""}
-                  onClick={() => setTab("音樂庫")}
-               >
-                  音樂庫
-               </button>
-            </div>
-            {tab === "搜尋" && <SearchBox value={q} set={setQ} />}
-            <h1>{playlist || (tab === "音樂庫" ? "音樂庫" : "為你收藏")}</h1>
-            {!playlist && (
-               <div className="spotify-playlists">
-                  {groupItems(items, "我的音樂").map((g) => (
-                     <button key={g} onClick={() => setPlaylist(g)}>
-                        <Music size={29} />
-                        <strong>{g}</strong>
-                     </button>
-                  ))}
-               </div>
-            )}
-            {playlist && (
-               <button className="playlist-back" onClick={() => setPlaylist("")}>
-                  返回全部音樂
-               </button>
-            )}
-            <div className="spotify-tracks">
-               {list.map((i, n) => (
-                  <button
-                     key={i.id}
-                     onClick={() => {
-                        setTrack(i);
-                     }}
-                  >
-                     <span>{n + 1}</span>
-                     <div>
-                        <strong>{i.title}</strong>
-                        <small>
-                           {i.sender} · {meta(i, "album")}
-                        </small>
-                     </div>
-                     <small>{meta(i, "duration")}</small>
-                  </button>
-               ))}
-            </div>
-            <Empty items={list} />
-         </div>
-         {track && (
-            <TrackPlayer
-               item={track}
-               p={p}
-               onNext={() =>
-                  setTrack(
-                     items[
-                        (items.findIndex((i) => i.id === track.id) + 1) % items.length
-                     ],
-                  )
-               }
-            />
-         )}
-         <Tabs
-            tabs={["首頁", "搜尋", "音樂庫"]}
-            value={tab}
-            set={(t) => {
-               setTab(t);
-               setPlaylist("");
-            }}
-            icons={[<Home />, <Search />, <Music />]}
-         />
+  const { tab, setTab, q, setQ, items } = useContent(p, "首頁");
+  const [playlist, setPlaylist] = useState("");
+  const [full, setFull] = useState(false);
+  const { item: current } = usePlayer();
+  const list = playlist
+    ? items.filter((i) => (i.folder || "我的音樂") === playlist)
+    : items;
+  return (
+    <div className="catalog-skin spotify-ui">
+      <Header p={p} />
+      <div className="catalog-scroll">
+        <div className="spotify-heading">
+          <Avatar name={p.owner ?? "我"} />
+          <button
+            className={tab === "首頁" ? "selected" : ""}
+            onClick={() => setTab("首頁")}
+          >
+            音樂
+          </button>
+          <button
+            className={tab === "音樂庫" ? "selected" : ""}
+            onClick={() => setTab("音樂庫")}
+          >
+            音樂庫
+          </button>
+        </div>
+        {tab === "搜尋" && <SearchBox value={q} set={setQ} />}
+        <h1>{playlist || (tab === "音樂庫" ? "音樂庫" : "為你收藏")}</h1>
+        {!playlist && (
+          <div className="spotify-playlists">
+            {groupItems(items, "我的音樂").map((g) => (
+              <button key={g} onClick={() => setPlaylist(g)}>
+                <Music size={29} />
+                <strong>{g}</strong>
+              </button>
+            ))}
+          </div>
+        )}
+        {playlist && (
+          <button className="playlist-back" onClick={() => setPlaylist("")}>
+            返回全部音樂
+          </button>
+        )}
+        <div className="spotify-tracks">
+          {list.map((i, n) => (
+            <button
+              key={i.id}
+              className={current?.id === i.id ? "playing" : ""}
+              onClick={() => chooseTrack(p, i, items)}
+            >
+              <span>{n + 1}</span>
+              <div>
+                <strong>{i.title}</strong>
+                <small>
+                  {i.sender} · {meta(i, "album")}
+                </small>
+              </div>
+              <small>{meta(i, "duration")}</small>
+            </button>
+          ))}
+        </div>
+        <Empty items={list} />
       </div>
-   );
+      <TrackPlayer p={p} onOpen={() => setFull(true)} />
+      {full && <NowPlaying p={p} close={() => setFull(false)} />}
+      <Tabs
+        tabs={["首頁", "搜尋", "音樂庫"]}
+        value={tab}
+        set={(t) => {
+          setTab(t);
+          setPlaylist("");
+        }}
+        icons={[<Home />, <Search />, <Music />]}
+      />
+    </div>
+  );
 }
 
 export function NeteaseSkin(p: Props) {
-   const { tab, setTab, q, setQ, items } = useContent(p, "發現");
-   const [folder, setFolder] = useState(""),
-      [track, setTrack] = useTrack(p, items);
-   const list = folder
-      ? items.filter((i) => (i.folder || "我的歌單") === folder)
-      : items;
-   return (
-      <div className="catalog-skin netease-ui">
-         <Header p={p} />
-         <div className="catalog-scroll">
-            <SearchBox value={q} set={setQ} />
-            {tab === "發現" ? (
-               <>
-                  <div className="netease-feature">
-                     <Music size={44} />
-                     <h2>推薦歌單</h2>
-                  </div>
-                  <div className="netease-shelves">
-                     {groupItems(items, "我的歌單").map((g) => (
-                        <button
-                           key={g}
-                           onClick={() => {
-                              setFolder(g);
-                              setTab("我的");
-                           }}
-                        >
-                           <Music size={33} />
-                           <strong>{g}</strong>
-                        </button>
-                     ))}
-                  </div>
-               </>
-            ) : (
-               <>
-                  <div className="netease-profile">
-                     <Avatar name={p.owner ?? "我"} />
-                     <h2>{p.owner ?? "我的音樂"}</h2>
-                  </div>
-                  <h3>{folder || "我的歌單"}</h3>
-               </>
-            )}
-            {list.map((i, n) => (
-               <div className="netease-track" key={i.id}>
-                  <button
-                     onClick={() => {
-                        setTrack(i);
-                     }}
-                  >
-                     <span>{n + 1}</span>
-                     <div>
-                        <strong>{i.title}</strong>
-                        <small>
-                           {i.sender} · {meta(i, "album")}
-                        </small>
-                     </div>
-                  </button>
-                  <button
-                     aria-label={`歌曲詳情${i.title}`}
-                     onClick={() => p.onItem(i)}
-                  >
-                     <MessageCircle size={18} />
-                  </button>
-               </div>
-            ))}
-            <Empty items={list} />
-         </div>
-         {track && (
-            <TrackPlayer
-               item={track}
-               p={p}
-               onNext={() =>
-                  setTrack(
-                     items[
-                        (items.findIndex((i) => i.id === track.id) + 1) % items.length
-                     ],
-                  )
-               }
-            />
-         )}
-         <Tabs
-            tabs={["發現", "我的"]}
-            value={tab}
-            set={(t) => {
-               setTab(t);
-               setFolder("");
-            }}
-            icons={[<Compass />, <Music />]}
-         />
+  const { tab, setTab, q, setQ, items } = useContent(p, "發現");
+  const [folder, setFolder] = useState("");
+  const list = folder
+    ? items.filter((i) => (i.folder || "我的歌單") === folder)
+    : items;
+  return (
+    <div className="catalog-skin netease-ui">
+      <Header p={p} />
+      <div className="catalog-scroll">
+        <SearchBox value={q} set={setQ} />
+        {tab === "發現" ? (
+          <>
+            <div className="netease-feature">
+              <Music size={44} />
+              <h2>推薦歌單</h2>
+            </div>
+            <div className="netease-shelves">
+              {groupItems(items, "我的歌單").map((g) => (
+                <button
+                  key={g}
+                  onClick={() => {
+                    setFolder(g);
+                    setTab("我的");
+                  }}
+                >
+                  <Music size={33} />
+                  <strong>{g}</strong>
+                </button>
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="netease-profile">
+              <Avatar name={p.owner ?? "我"} />
+              <h2>{p.owner ?? "我的音樂"}</h2>
+            </div>
+            <h3>{folder || "我的歌單"}</h3>
+          </>
+        )}
+        {list.map((i, n) => (
+          <div className="netease-track" key={i.id}>
+            <button onClick={() => chooseTrack(p, i, items)}>
+              <span>{n + 1}</span>
+              <div>
+                <strong>{i.title}</strong>
+                <small>
+                  {i.sender} · {meta(i, "album")}
+                </small>
+              </div>
+            </button>
+            <button
+              aria-label={`歌曲詳情${i.title}`}
+              onClick={() => p.onItem(i)}
+            >
+              <MessageCircle size={18} />
+            </button>
+          </div>
+        ))}
+        <Empty items={list} />
       </div>
-   );
+      <TrackPlayer p={p} />
+      <Tabs
+        tabs={["發現", "我的"]}
+        value={tab}
+        set={(t) => {
+          setTab(t);
+          setFolder("");
+        }}
+        icons={[<Compass />, <Music />]}
+      />
+    </div>
+  );
 }
 
 export function YouTubeSkin(p: Props) {

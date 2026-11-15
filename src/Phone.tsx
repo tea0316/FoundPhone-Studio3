@@ -40,6 +40,21 @@ import {
   Suspense,
   type CSSProperties,
 } from "react";
+import {
+  coverUrl,
+  playerNext,
+  playerPrev,
+  playerToggle,
+  stopPlayer,
+  usePlayer,
+} from "./player";
+import {
+  Music2 as IslandNote,
+  Pause as IslandPause,
+  Play as IslandPlay,
+  SkipBack as IslandPrev,
+  SkipForward as IslandNext,
+} from "lucide-react";
 const realNow = () => {
   const d = new Date();
   const pad = (n: number) => String(n).padStart(2, "0");
@@ -298,7 +313,19 @@ function PhoneRuntime({
   useEffect(() => {
     if (app && !work.apps.some((a) => a.id === app && a.installed)) setApp("");
   }, [app, work.apps]);
-
+  useEffect(() => () => stopPlayer(), []);
+  const np = usePlayer();
+  const [islandOpen, setIslandOpen] = useState(false);
+  const inMusicApp = ["spotify", "netease", "music"].includes(app);
+  const islandCompact = !!np.item && np.playing && !inMusicApp && !islandOpen;
+  useEffect(() => {
+    if (!np.item) setIslandOpen(false);
+  }, [np.item]);
+  useEffect(() => {
+    if (!islandOpen) return;
+    const timer = setTimeout(() => setIslandOpen(false), 5000);
+    return () => clearTimeout(timer);
+  }, [islandOpen]);
 const [clock, setClock] = useState(() => new Date());
 useEffect(() => {
   const timer = setInterval(() => setClock(new Date()), 1000);
@@ -456,7 +483,76 @@ useEffect(() => {
               {displayTime}
               <StatusGlyph kind="silent" />
             </button>
-            <div className="dynamic-island" />
+            <div
+  className={
+    "dynamic-island" +
+    (islandCompact ? " np-compact" : "") +
+    (islandOpen ? " np-expanded" : "")
+  }
+  onClick={() => {
+    if (!np.item || (!np.playing && !islandOpen)) return;
+    setIslandOpen((v) => !v);
+  }}
+>
+  {np.item && (islandCompact || islandOpen) && (
+    <>
+      <span className="np-isl-art">
+        {coverUrl(np.item.avatar) ? (
+          <img src={coverUrl(np.item.avatar)} alt="" />
+        ) : (
+          <IslandNote size={islandOpen ? 26 : 13} />
+        )}
+      </span>
+      {islandOpen ? (
+        <div className="np-isl-body">
+          <div className="np-isl-text">
+            <strong>{np.item.title}</strong>
+            <small>{np.item.sender}</small>
+          </div>
+          <div className="np-isl-ctrl">
+            <button
+              aria-label="上一首"
+              onClick={(e) => {
+                e.stopPropagation();
+                playerPrev();
+              }}
+            >
+              <IslandPrev size={20} fill="currentColor" />
+            </button>
+            <button
+              aria-label={np.playing ? "暫停" : "播放"}
+              onClick={(e) => {
+                e.stopPropagation();
+                playerToggle();
+              }}
+            >
+              {np.playing ? (
+                <IslandPause size={22} fill="currentColor" />
+              ) : (
+                <IslandPlay size={22} fill="currentColor" />
+              )}
+            </button>
+            <button
+              aria-label="下一首"
+              onClick={(e) => {
+                e.stopPropagation();
+                playerNext();
+              }}
+            >
+              <IslandNext size={20} fill="currentColor" />
+            </button>
+          </div>
+        </div>
+      ) : (
+        <span className="np-isl-bars">
+          <i />
+          <i />
+          <i />
+        </span>
+      )}
+    </>
+  )}
+</div>
             <button
               className="signals"
               onClick={() => setPanel(panel === "control" ? "" : "control")}
@@ -713,6 +809,7 @@ onClick={(e) => {
               <p>{s.endings[s.endings.length - 1]}</p>
               <button
                 onClick={() => {
+                  stopPlayer();
                   update(dispatch(work, initialRuntime(work), "start"));
                   setApp("");
                   setLocked(true);

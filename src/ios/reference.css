@@ -673,9 +673,9 @@
   align-items: flex-start;
 }
 .ios18 .cc-media-top > span {
-  width: 51px;
-  height: 51px;
-  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
   background: #ffffff22;
   display: grid;
   place-items: center;
@@ -684,12 +684,12 @@
   display: block;
 }
 .ios18 .cc-media-title strong {
-  font-size: 14px;
+  font-size: 13px;
   display: block;
   font-weight: 600;
 }
 .ios18 .device-control .cc-media-title small {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 400;
   opacity: 0.55;
   display: block;

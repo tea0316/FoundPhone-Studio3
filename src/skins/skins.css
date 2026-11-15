@@ -3110,11 +3110,11 @@
   min-width: 0;
 }
 .spotify-tracks strong {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
 }
 .spotify-tracks small {
-  font-size: 9px;
+  font-size: 12px;
   display: block;
   color: #999;
   margin-top: 5px;
@@ -4451,5 +4451,438 @@
   width: 40px;
   height: 40px;
   border-radius: 6px;
+}
+/* ===== 迷你播放條(膠囊) ===== */
+.track-player .audio-pill,
+.native-now-playing .audio-pill {
+  order: 4;
+  width: 100%;
+  box-sizing: border-box;
+  height: 40px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 999px;
+  background: #f1f3f4;
+  color: #202124;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.audio-pill button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  flex-shrink: 0;
+  color: #202124;
+  background: none;
+  border: 0;
+}
+.audio-pill .audio-time {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.audio-pill .audio-seek {
+  flex: 1;
+  min-width: 0;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.audio-pill .audio-seek::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    #202124 var(--pct, 0%),
+    #dadce0 var(--pct, 0%)
+  );
+}
+.audio-pill .audio-seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: #202124;
+}
+.audio-pill .audio-seek::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: #dadce0;
+}
+.audio-pill .audio-seek::-moz-range-progress {
+  height: 4px;
+  border-radius: 2px;
+  background: #202124;
+}
+.audio-pill .audio-seek::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 0;
+  border-radius: 50%;
+  background: #202124;
+}
+.track-player .catalog-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+}
+.spotify-tracks > button.playing strong {
+  color: #1ed760;
+}
+
+/* ===== Spotify 全螢幕播放頁 ===== */
+.spotify-ui {
+  position: relative;
+}
+.np-page {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 14px 22px 22px;
+  overflow: auto;
+  color: #fff;
+  background: linear-gradient(#35594a, #121212 75%);
+}
+.np-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.np-top > div {
+  min-width: 0;
+  text-align: center;
+}
+.np-top small {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  opacity: 0.7;
+}
+.np-top strong {
+  font-size: 14px;
+}
+.np-top button,
+.np-top span {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.np-cover {
+  width: 100%;
+  aspect-ratio: 1;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #2a2a2a;
+  color: #888;
+  box-shadow: 0 8px 24px #0008;
+}
+.np-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.np-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.np-info > div {
+  flex: 1;
+  min-width: 0;
+}
+.np-info strong {
+  display: block;
+  font-size: 19px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.np-info small {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #b3b3b3;
+}
+.np-info button {
+  display: flex;
+  color: #fff;
+}
+.np-seek {
+  width: 100%;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.np-seek::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    #fff var(--pct, 0%),
+    #5e5e5e var(--pct, 0%)
+  );
+}
+.np-seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: #fff;
+}
+.np-seek::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: #5e5e5e;
+}
+.np-seek::-moz-range-progress {
+  height: 4px;
+  border-radius: 2px;
+  background: #fff;
+}
+.np-seek::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+}
+.np-progress > div {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 10px;
+  color: #b3b3b3;
+}
+.np-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+.np-controls button {
+  display: flex;
+  padding: 4px;
+  color: #fff;
+}
+.np-controls button.on {
+  color: #1ed760;
+}
+.np-controls .np-play {
+  width: 58px;
+  height: 58px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff;
+  color: #000;
+}
+.np-queue h4 {
+  margin: 8px 0 10px;
+  font-size: 14px;
+  color: #b3b3b3;
+}
+.np-queue > button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 0;
+  text-align: left;
+  color: #fff;
+}
+.np-queue > button .catalog-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+}
+.np-queue > button span:not(.catalog-avatar) {
+  min-width: 0;
+}
+.np-queue b {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.np-queue small {
+  display: block;
+  margin-top: 3px;
+  font-size: 10px;
+  color: #b3b3b3;
+}
+.np-queue > button.on b {
+  color: #1ed760;
+}
+
+/* ===== 靈動島 ===== */
+.status-bar .dynamic-island.np-compact,
+.status-bar .dynamic-island.np-expanded {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  pointer-events: auto;
+  cursor: pointer;
+  color: #fff;
+  background: #000;
+  transition:
+    width 0.3s,
+    height 0.3s,
+    border-radius 0.3s;
+}
+.status-bar .dynamic-island.np-compact {
+  width: 150px;
+  height: 35px;
+  padding: 0 10px;
+  justify-content: space-between;
+  border-radius: 20px;
+}
+.status-bar .dynamic-island.np-expanded {
+  z-index: 30;
+  width: 330px;
+  max-width: calc(100% - 24px);
+  height: 92px;
+  padding: 12px 14px;
+  gap: 12px;
+  border-radius: 28px;
+}
+.np-isl-art {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 5px;
+  background: #333;
+}
+.np-isl-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.np-expanded .np-isl-art {
+  width: 62px;
+  height: 62px;
+  border-radius: 10px;
+}
+.np-isl-bars {
+  display: flex;
+  align-items: flex-end; /* 讓線條底部對齊 */
+  gap: 2px;              /* 線條間的縫隙 */
+  height: 14px;          /* 最大高度 */
+}
+.np-isl-bars i {
+  width: 3px;
+  border-radius: 2px;
+  background: #1ed760;   /* 綠色 */
+  animation: np-bar 0.8s ease-in-out infinite;
+}
+.np-isl-bars i:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.np-isl-bars i:nth-child(3) {
+  animation-delay: 0.4s;
+}
+@keyframes np-bar {
+  0%,
+  100% {
+    height: 4px;
+  }
+  50% {
+    height: 14px;
+  }
+}
+.np-isl-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.np-isl-text strong {
+  display: block;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.np-isl-text small {
+  display: block;
+  margin-top: 2px;
+  font-size: 10px;
+  color: #b3b3b3;
+}
+.np-isl-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.np-isl-ctrl button {
+  display: flex;
+  padding: 0;
+  color: #fff;
+}
+/* 去掉進度條最外圍的線條 */
+.np-seek,
+.audio-pill .audio-seek {
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.np-seek:focus,
+.np-seek:active,
+.np-seek:focus-visible,
+.audio-pill .audio-seek:focus,
+.audio-pill .audio-seek:active,
+.audio-pill .audio-seek:focus-visible {
+  outline: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+/* 1. 針對那個沒有標籤的「純文字歌名」與「<small>歌手」放大 */
+.track-player > button > span {
+  font-size: 15px !important; /* 這會讓「この空がトリガー」變大 */
+  font-weight: 600 !important;
+  color: #fff !important;
+  line-height: 1.3 !important;
+}
+
+.track-player > button > span > small {
+  font-size: 15px !important; /* 讓 =LOVE 變大 */
+  margin-top: 6px !important;
+  color: #999 !important;
+}
+
+/* 2. 把白色的膠囊加高 */
+.track-player .audio-pill {
+  height: 38px !important; /* 加高 */
+  padding: 0 18px !important;
+  margin-top: 10px !important; /* 讓膠囊跟上面的字有點距離,不會黏在一起 */
 }
 

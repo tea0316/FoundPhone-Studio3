@@ -6,6 +6,8 @@ export type PlayerState = {
   item: Item | null;
   queue: Item[];
   playing: boolean;
+  shuffle: boolean;
+  repeat: "off" | "all" | "one";
   pos: number;
   dur: number;
   muted: boolean;
@@ -19,6 +21,8 @@ let state: PlayerState = {
   pos: 0,
   dur: 0,
   muted: false,
+  shuffle: false,
+  repeat: "off",
 };
 const listeners = new Set<() => void>();
 const set = (patch: Partial<PlayerState>) => {
@@ -127,12 +131,33 @@ export function playerMute() {
 }
 function step(d: number) {
   const { queue, item } = state;
-  if (!item || queue.length < 2) return;
+  if (!item || !audio) return;
+  if (d === -1 && audio.currentTime > 3) {
+    audio.currentTime = 0;
+    return;
+  }
+  if (queue.length < 2) return;
   const i = queue.findIndex((q) => q.id === item.id);
-  playTrack(queue[(i + d + queue.length) % queue.length], queue);
+  let n = (i + d + queue.length) % queue.length;
+  if (state.shuffle && d === 1) {
+    do {
+      n = Math.floor(Math.random() * queue.length);
+    } while (n === i);
+  }
+  playTrack(queue[n], queue);
 }
 export const playerNext = () => step(1);
 export const playerPrev = () => step(-1);
+export const playerShuffle = () => set({ shuffle: !state.shuffle });
+export const playerRepeat = () =>
+  set({
+    repeat:
+      state.repeat === "off" ? "all" : state.repeat === "all" ? "one" : "off",
+  });
+export const fmtTime = (t: number) =>
+  Number.isFinite(t) && t > 0
+    ? Math.floor(t / 60) + ":" + String(Math.floor(t % 60)).padStart(2, "0")
+    : "0:00";
 export function stopPlayer() {
   if (!audio) return;
   savePos();
@@ -185,9 +210,19 @@ if (audio) {
     savePos();
   });
   audio.addEventListener("ended", () => {
-    set({ playing: false });
     savePos(true);
-    if (state.queue.length > 1) playerNext();
+    if (state.repeat === "one") {
+      audio.currentTime = 0;
+      void audio.play().catch(() => {});
+      return;
+    }
+    set({ playing: false });
+    const { queue, item } = state;
+    const last = item
+      ? queue.findIndex((q) => q.id === item.id) === queue.length - 1
+      : true;
+    if (queue.length > 1 && (state.shuffle || state.repeat === "all" || !last))
+      playerNext();
   });
   audio.addEventListener("volumechange", () => set({ muted: audio.muted }));
 }

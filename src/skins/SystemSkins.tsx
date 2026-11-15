@@ -1,5 +1,6 @@
 export { WeatherSkin, HealthSkin } from "./CalibratedSystemApps";
-import { AudioPlayer, useTrack } from "../audio";
+import { AudioPlayer } from "../audio";
+import { chooseTrack, playerNext, usePlayer } from "../player";
 import { useSkinState } from "../skinState";
 import {
     Calendar,
@@ -27,7 +28,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { download } from "../io";
-import { safeMedia, type Item } from "../schema";
+import type { Item } from "../schema";
 import {
     Add,
     Avatar,
@@ -725,83 +726,68 @@ export function FilesSkin(p: Props) {
     );
 }
 export function MusicSkin(p: Props) {
-    const { tab, setTab, items } = useContent(p, "資料庫");
-    const [song, setSong] = useTrack(p, items);
-    return (
-        <div className="catalog-skin native-music">
-            <Header p={p} />
-            <div className="catalog-scroll">
-                <h1>{tab}</h1>
-                {tab === "歌單" ? (
-                    <div className="music-albums">
-                        {groupItems(items, "我的音樂").map((g) => (
-                            <button
-                                key={g}
-                                onClick={() => {
-                                    const i = items.find((i) => (i.folder || "我的音樂") === g);
-                                    if (i) setSong(i);
-                                }}
-                            >
-                                <Music size={51} />
-                                <strong>{g}</strong>
-                            </button>
-                        ))}
-                    </div>
-                ) : (
-                    items.map((i, n) => (
-                        <button
-                            className="music-track"
-                            key={i.id}
-                            onClick={() => {
-                                setSong(i);
-                            }}
-                        >
-                            <small>{n + 1}</small>
-                            <span>
-                                <strong>{i.title}</strong>
-                                <small>
-                                    {i.sender} · {meta(i, "album")}
-                                </small>
-                            </span>
-                            <span>{meta(i, "duration")}</span>
-                        </button>
-                    ))
-                )}
-                <Empty items={items} />
-            </div>
-            {song && (
-                <div className="native-now-playing">
-                    <button onClick={() => p.onItem(song)}>
-                        <Music size={20} />
-                        {song.title}
-                    </button>
-                    {song.kind === "audio" && safeMedia(song.media) ? (
-                        <AudioPlayer p={p} item={song} />
-                    ) : (
-                        <button onClick={() => p.onItem(song)}>查看歌曲內容</button>
-                    )}
-                    <button
-                        aria-label="下一首"
-                        onClick={() =>
-                            setSong(
-                                items[
-                                    (items.findIndex((i) => i.id === song.id) + 1) % items.length
-                                ],
-                            )
-                        }
-                    >
-                        <SkipForward size={18} />
-                    </button>
-                </div>
-            )}
-            <Tabs
-                tabs={["資料庫", "歌單"]}
-                value={tab}
-                set={setTab}
-                icons={[<Music />, <Folder />]}
-            />
+  const { tab, setTab, items } = useContent(p, "資料庫");
+  const { item: song } = usePlayer();
+  return (
+    <div className="catalog-skin native-music">
+      <Header p={p} />
+      <div className="catalog-scroll">
+        <h1>{tab}</h1>
+        {tab === "歌單" ? (
+          <div className="music-albums">
+            {groupItems(items, "我的音樂").map((g) => (
+              <button
+                key={g}
+                onClick={() => {
+                  const i = items.find((i) => (i.folder || "我的音樂") === g);
+                  if (i) chooseTrack(p, i, items);
+                }}
+              >
+                <Music size={51} />
+                <strong>{g}</strong>
+              </button>
+            ))}
+          </div>
+        ) : (
+          items.map((i, n) => (
+            <button
+              className="music-track"
+              key={i.id}
+              onClick={() => chooseTrack(p, i, items)}
+            >
+              <small>{n + 1}</small>
+              <span>
+                <strong>{i.title}</strong>
+                <small>
+                  {i.sender} · {meta(i, "album")}
+                </small>
+              </span>
+              <span>{meta(i, "duration")}</span>
+            </button>
+          ))
+        )}
+        <Empty items={items} />
+      </div>
+      {song && (
+        <div className="native-now-playing">
+          <button onClick={() => p.onItem(song)}>
+            <Music size={20} />
+            {song.title}
+          </button>
+          <AudioPlayer />
+          <button aria-label="下一首" onClick={playerNext}>
+            <SkipForward size={18} />
+          </button>
         </div>
-    );
+      )}
+      <Tabs
+        tabs={["資料庫", "歌單"]}
+        value={tab}
+        set={setTab}
+        icons={[<Music />, <Folder />]}
+      />
+    </div>
+  );
 }
 function LocationMap({
     items,

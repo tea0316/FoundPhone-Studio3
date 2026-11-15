@@ -6,6 +6,8 @@ import {
 } from "./vendor/ios-web/ControlModules";
 import { UnlockHandle } from "./vendor/ios-web/UnlockHandle";
 import { useState, useEffect, createContext, useContext } from "react";
+import { useVolume } from "./volume";
+import { coverUrl, playerNext, playerPrev, playerToggle, usePlayer } from "./player";
 import {
   LockKeyhole,
   Flashlight,
@@ -13,6 +15,7 @@ import {
   Delete,
   ChevronDown,
   Play,
+  Pause,
   SkipForward,
   Moon,
   RotateCcw,
@@ -241,10 +244,10 @@ export function ControlCenter({
   close: () => void;
 }) {
   const [rotation, setRotation] = useState(true),
-    [focus, setFocus] = useState(false),
-    [playing, setPlaying] = useState(false);
-  const [brightness, setBrightness] = useState(50),
-    [volume, setVolume] = useState(25);
+    [focus, setFocus] = useState(false);
+  const [brightness, setBrightness] = useState(50);
+  const [sharedVolume, setSharedVolume] = useVolume();
+  const player = usePlayer();
   const [tool, setTool] = useState("");
   return (
     <motion.div
@@ -303,32 +306,36 @@ export function ControlCenter({
       </nav>
       <div className="cc-grid">
         <ConnectivityModule />
-        <div className="cc-music">
-          <div className="cc-media-top">
-            <span>
-              <Music2 size={28} />
-            </span>
-            <Airplay size={21} />
-          </div>
-          <div className="cc-media-title">
-            <strong>{playing ? "測試播放" : "未播放"}</strong>
-            <small>音樂</small>
-          </div>
-          <div>
-            <button aria-label="上一首">
-              <SkipForward style={{ transform: "rotate(180deg)" }} />
-            </button>
-            <button
-              aria-label={playing ? "暫停" : "播放"}
-              onClick={() => setPlaying(!playing)}
-            >
-              <Play fill="currentColor" />
-            </button>
-            <button aria-label="下一首">
-              <SkipForward />
-            </button>
-          </div>
-        </div>
+<div className="cc-music">
+  <div className="cc-media-top">
+  <span>
+    <Music2 size={28} />
+  </span>
+  <Airplay size={21} />
+</div>
+  <div className="cc-media-title">
+    <strong>{player.item ? player.item.title : "未播放"}</strong>
+    <small>{player.item ? player.item.sender : "音樂"}</small>
+  </div>
+  <div>
+    <button aria-label="上一首" onClick={playerPrev}>
+      <SkipForward style={{ transform: "rotate(180deg)" }} />
+    </button>
+    <button
+      aria-label={player.playing ? "暫停" : "播放"}
+      onClick={playerToggle}
+    >
+      {player.playing ? (
+        <Pause fill="currentColor" />
+      ) : (
+        <Play fill="currentColor" />
+      )}
+    </button>
+    <button aria-label="下一首" onClick={playerNext}>
+      <SkipForward />
+    </button>
+  </div>
+</div>
         <button
           className={"cc-square " + (rotation ? "cc-white" : "")}
           aria-label="螢幕鎖定"
@@ -352,7 +359,11 @@ export function ControlCenter({
           value={brightness}
           onChange={setBrightness}
         />
-        <SliderModule type="volume" value={volume} onChange={setVolume} />
+        <SliderModule
+  type="volume"
+  value={Math.round(sharedVolume * 100)}
+  onChange={(v) => setSharedVolume(v / 100)}
+/>
         <button
           className={"cc-focus " + (focus ? "cc-white" : "")}
           aria-pressed={focus}
@@ -482,3 +493,4 @@ export function DeviceKeyboard({ close }: { close: () => void }) {
   );
 }
 export { NativeSettings } from "./ios/Settings";
+

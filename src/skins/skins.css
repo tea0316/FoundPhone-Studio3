@@ -4756,7 +4756,7 @@
     border-radius 0.3s;
 }
 .status-bar .dynamic-island.np-compact {
-  width: 150px;
+  width: 100px;
   height: 35px;
   padding: 0 10px;
   justify-content: space-between;
@@ -4793,14 +4793,17 @@
 }
 .np-isl-bars {
   display: flex;
-  align-items: flex-end; /* 讓線條底部對齊 */
-  gap: 2px;              /* 線條間的縫隙 */
-  height: 14px;          /* 最大高度 */
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);  
 }
 .np-isl-bars i {
   width: 3px;
   border-radius: 2px;
-  background: #1ed760;   /* 綠色 */
+  background: #1ed760;
   animation: np-bar 0.8s ease-in-out infinite;
 }
 .np-isl-bars i:nth-child(2) {

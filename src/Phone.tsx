@@ -323,7 +323,7 @@ function PhoneRuntime({
   }, [np.item]);
   useEffect(() => {
     if (!islandOpen) return;
-    const timer = setTimeout(() => setIslandOpen(false), 5000);
+    const timer = setTimeout(() => setIslandOpen(false), 3000);
     return () => clearTimeout(timer);
   }, [islandOpen]);
 const [clock, setClock] = useState(() => new Date());
@@ -494,64 +494,68 @@ useEffect(() => {
     setIslandOpen((v) => !v);
   }}
 >
-  {np.item && (islandCompact || islandOpen) && (
-    <>
+{np.item && (islandCompact || islandOpen) && (
+  <>
+    {/* 只有展開時,才顯示專輯圖片 */}
+    {islandOpen && (
       <span className="np-isl-art">
         {coverUrl(np.item.avatar) ? (
           <img src={coverUrl(np.item.avatar)} alt="" />
         ) : (
-          <IslandNote size={islandOpen ? 26 : 13} />
+          <IslandNote size={26} />
         )}
       </span>
-      {islandOpen ? (
-        <div className="np-isl-body">
-          <div className="np-isl-text">
-            <strong>{np.item.title}</strong>
-            <small>{np.item.sender}</small>
-          </div>
-          <div className="np-isl-ctrl">
-            <button
-              aria-label="上一首"
-              onClick={(e) => {
-                e.stopPropagation();
-                playerPrev();
-              }}
-            >
-              <IslandPrev size={20} fill="currentColor" />
-            </button>
-            <button
-              aria-label={np.playing ? "暫停" : "播放"}
-              onClick={(e) => {
-                e.stopPropagation();
-                playerToggle();
-              }}
-            >
-              {np.playing ? (
-                <IslandPause size={22} fill="currentColor" />
-              ) : (
-                <IslandPlay size={22} fill="currentColor" />
-              )}
-            </button>
-            <button
-              aria-label="下一首"
-              onClick={(e) => {
-                e.stopPropagation();
-                playerNext();
-              }}
-            >
-              <IslandNext size={20} fill="currentColor" />
-            </button>
-          </div>
+    )}
+
+    {islandOpen ? (
+      <div className="np-isl-body">
+        <div className="np-isl-text">
+          <strong>{np.item.title}</strong>
+          <small>{np.item.sender}</small>
         </div>
-      ) : (
-        <span className="np-isl-bars">
-          <i />
-          <i />
-          <i />
-        </span>
-      )}
-    </>
-  )}
+        <div className="np-isl-ctrl">
+          <button
+            aria-label="上一首"
+            onClick={(e) => {
+              e.stopPropagation();
+              playerPrev();
+            }}
+          >
+            <IslandPrev size={20} fill="currentColor" />
+          </button>
+          <button
+            aria-label={np.playing ? "暫停" : "播放"}
+            onClick={(e) => {
+              e.stopPropagation();
+              playerToggle();
+            }}
+          >
+            {np.playing ? (
+              <IslandPause size={22} fill="currentColor" />
+            ) : (
+              <IslandPlay size={22} fill="currentColor" />
+            )}
+          </button>
+          <button
+            aria-label="下一首"
+            onClick={(e) => {
+              e.stopPropagation();
+              playerNext();
+            }}
+          >
+            <IslandNext size={20} fill="currentColor" />
+          </button>
+        </div>
+      </div>
+    ) : (
+      <span className="np-isl-bars">
+        <i />
+        <i />
+        <i />
+      </span>
+    )}
+  </>
+)}
 </div>
             <button
               className="signals"

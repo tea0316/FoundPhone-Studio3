@@ -249,16 +249,11 @@ export function SpotifySkin(p: Props) {
   const clock = p.virtualTime || "";
   const hourNow = Number(clock.slice(0, 2));
   const hour = clock.length && Number.isFinite(hourNow) ? hourNow : new Date().getHours();
-  const greeting =
-    hour >= 5 && hour < 12 ? "早安" : hour >= 12 && hour < 18 ? "午安" : "晚上好";
+
 
   const groups = groupItems(library, "我的音樂");
   const inPlaylist = (g: string) => library.filter((i) => spFolder(i) === g);
   const coverOf = (g: string) => inPlaylist(g).find((i) => i.avatar)?.avatar;
-  const goPlaylist = (g: string) => {
-    setTab("音樂庫");
-    setPlaylist(g);
-  };
    // 用一個狀態來記錄點擊過的歌(最多3首)
   const [recentIds, setRecentIds] = useState<string[]>([]);
 
@@ -277,11 +272,7 @@ export function SpotifySkin(p: Props) {
   const recent = recentIds
     .map((id) => items.find((i) => i.id === id))
     .filter((i): i is Item => i !== undefined); // 過濾掉找不到的
-  const head = (title: string) => (
-    <div className="sp-greet">
-      <Avatar name={p.owner ?? "我"} />
-    </div>
-  );
+
 
     return (
     <div className="catalog-skin spotify-ui">

@@ -246,10 +246,6 @@ export function SpotifySkin(p: Props) {
   const recommended = items.filter((i) => i.folder === RECO);
   const library = items.filter((i) => i.folder !== RECO);
 
-  const clock = p.virtualTime || "";
-  const hourNow = Number(clock.slice(0, 2));
-  const hour = clock.length && Number.isFinite(hourNow) ? hourNow : new Date().getHours();
-
 
   const groups = groupItems(library, "我的音樂");
   const inPlaylist = (g: string) => library.filter((i) => spFolder(i) === g);

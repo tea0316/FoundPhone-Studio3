@@ -65,7 +65,7 @@ test("device lock, automatic passcode, native settings, controls and keyboard wo
       .click();
   await expect(phone.locator(".home-screen")).toBeVisible();
   await phone.screenshot({ path: "outputs/v0.5/home.png" });
-  await phone.getByRole("button", { name: "打开设置", exact: true }).click();
+  await phone.getByRole("button", { name: "打開设置", exact: true }).click();
   await expect(phone.locator(".settings-account")).toBeVisible();
   await phone.screenshot({ path: "outputs/v0.5/settings.png" });
   await phone.getByRole("button", { name: "Wi-Fi", exact: false }).click();
@@ -85,7 +85,7 @@ test("device lock, automatic passcode, native settings, controls and keyboard wo
   await wifi.click();
   await expect(wifi).toHaveAttribute("aria-pressed", "false");
   await phone.getByRole("button", { name: "关闭控制中心" }).click();
-  await phone.getByRole("button", { name: "打开微信", exact: true }).click();
+  await phone.getByRole("button", { name: "打開微信", exact: true }).click();
   await phone.screenshot({ path: "outputs/v0.5/wechat-list.png" });
   await phone.locator(".wx-chat-row").first().click();
   await phone.getByRole("button", { name: "输入消息", exact: true }).click();
@@ -152,7 +152,7 @@ test("mobile device gestures and long press work at 390px without document overf
   );
   await expect(phone.locator(".device-control")).toBeVisible();
   await phone.getByRole("button", { name: "关闭控制中心" }).click();
-  const icon = phone.getByRole("button", { name: "打开相册", exact: true });
+  const icon = phone.getByRole("button", { name: "打開相册", exact: true });
   await icon.hover();
   await page.mouse.down();
   await page.waitForTimeout(650);
@@ -219,7 +219,7 @@ test("notification stack, authenticated camera return and recent apps preserve t
   await expect(phone.locator(".device-notice")).toHaveCount(1);
   await phone.screenshot({ path: "outputs/v0.5/notifications.png" });
   await phone.getByRole("button", { name: "返回桌面" }).click();
-  await phone.getByRole("button", { name: "打开备忘录", exact: true }).click();
+  await phone.getByRole("button", { name: "打開备忘录", exact: true }).click();
   await expect(phone.locator(".native-notes")).toBeVisible();
   await expect(phone.locator(".app-screen")).toHaveCSS("opacity", "1");
   const box = (await phone.locator(".phone-screen").boundingBox())!;

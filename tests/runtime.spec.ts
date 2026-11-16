@@ -15,11 +15,11 @@ import { test, expect, type Page } from "@playwright/test";
 async function home(page: Page) {
   await page.getByRole("button", { name: "返回桌面", exact: true }).click();
   await expect(
-    page.getByRole("button", { name: "打开设置", exact: true }),
+    page.getByRole("button", { name: "打開设置", exact: true }),
   ).toBeVisible();
 }
 async function open(page: Page, name: string) {
-  await page.getByRole("button", { name: "打开" + name, exact: true }).click();
+  await page.getByRole("button", { name: "打開" + name, exact: true }).click();
   await expect(page.locator(".app-screen:not([inert])")).toBeVisible();
   await expect(page.locator(".app-screen:not([inert])")).toHaveCSS(
     "transform",
@@ -39,7 +39,7 @@ test("direct player, settings stack and toggle, system screenshots", async ({
     .screenshot({ path: "outputs/v0.6/lock.png" });
   await page.getByRole("button", { name: "轻触解锁" }).click();
   await expect(
-    page.getByRole("button", { name: "打开设置", exact: true }),
+    page.getByRole("button", { name: "打開设置", exact: true }),
   ).toBeVisible();
   await page
     .locator(".phone-screen")
@@ -152,7 +152,7 @@ test("mobile viewport, no overflow", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "轻触解锁" }).click();
   await expect(
-    page.getByRole("button", { name: "打开设置", exact: true }),
+    page.getByRole("button", { name: "打開设置", exact: true }),
   ).toBeVisible();
   const rect = await page.locator(".phone-shell").boundingBox();
   expect(rect!.width).toBeLessThanOrEqual(390);
@@ -196,7 +196,7 @@ test("blank phone contains no story or author content", async ({
   await page.getByRole("button", { name: "轻触解锁" }).click();
   await expect(page.getByText("林知夏", { exact: true })).toHaveCount(0);
   await expect(
-    page.getByRole("button", { name: "打开设置", exact: true }),
+    page.getByRole("button", { name: "打開设置", exact: true }),
   ).toBeVisible();
   await expect(page.locator(".lock-screen")).toHaveCount(0);
   await page

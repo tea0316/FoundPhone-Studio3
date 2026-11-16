@@ -753,6 +753,8 @@ onClick={(e) => {
               battery={level}
               network={work.phone.network}
               close={() => setPanel("")}
+              open={open}
+              openPanel={(id) => setPanel(id)}
             />
           )}
           {panel && panel !== "control" && panel !== "switcher" && (
@@ -1199,7 +1201,7 @@ function AppContent({
     return (
       <>
         <div className="catalog-slot" hidden={!!detail}>
-          <Suspense fallback={<div className="catalog-loading">正在打开…</div>}>
+          <Suspense fallback={<div className="catalog-loading">正在打開…</div>}>
             <Skin
               appId={app.id}
               owner={work.phone.owner}

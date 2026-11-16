@@ -39,7 +39,7 @@ test("iOS18 canonical screen, native artwork and paged desktop stay aligned", as
     phone
       .locator(".home-app-grid")
       .first()
-      .getByRole("button", { name: "打开相册" })
+      .getByRole("button", { name: "打開相册" })
       .locator(".app-artwork"),
   ).toHaveCount(1);
   await expect(phone.locator(".home-pages")).toHaveJSProperty("scrollTop", 0);
@@ -126,7 +126,7 @@ test("WeChat avatars survive export and player menu returns to its conversation"
   await page.getByRole("button", { name: "预览", exact: true }).click();
   const player = page.locator(".preview-overlay");
   await player.getByRole("button", { name: "轻触解锁" }).click();
-  await player.getByRole("button", { name: "打开微信", exact: true }).click();
+  await player.getByRole("button", { name: "打開微信", exact: true }).click();
   await expect(player.locator(".wx-chat-avatar img").first()).toHaveAttribute(
     "src",
     avatar,

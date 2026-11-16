@@ -48,12 +48,12 @@ async function enter(page: Page) {
 }
 async function open(page: Page, name: string) {
   await page
-    .getByRole("button", { name: "打开App Store", exact: true })
+    .getByRole("button", { name: "打開App Store", exact: true })
     .click();
   await page.getByPlaceholder("搜索全部App").fill(name);
   await page
     .locator(".runtime-library-row")
-    .getByRole("button", { name: "打开", exact: true })
+    .getByRole("button", { name: "打開", exact: true })
     .click();
   await expect(page.locator(".app-screen:not([inert])")).toHaveCSS(
     "transform",
@@ -68,7 +68,7 @@ test("home has no permanent toolbar, long press edits, App Store installs apps",
     page.getByRole("button", { name: "编辑桌面", exact: true }),
   ).toHaveCount(0);
   await expect(
-    page.getByRole("button", { name: "打开App库", exact: true }),
+    page.getByRole("button", { name: "打開App库", exact: true }),
   ).toHaveCount(0);
   const home = page.locator(".interactive-home");
   const box = await home.boundingBox();
@@ -84,7 +84,7 @@ test("home has no permanent toolbar, long press edits, App Store installs apps",
     .locator(".phone-screen")
     .screenshot({ path: "outputs/reference-next/home.png" });
   await page
-    .getByRole("button", { name: "打开App Store", exact: true })
+    .getByRole("button", { name: "打開App Store", exact: true })
     .click();
   await expect(
     page.getByRole("heading", { name: "搜索", exact: true }),
@@ -92,7 +92,7 @@ test("home has no permanent toolbar, long press edits, App Store installs apps",
   await page.getByPlaceholder("搜索全部App").fill("抖音");
   await page.getByRole("button", { name: "获取", exact: true }).click();
   await expect(
-    page.getByRole("button", { name: "打开", exact: true }),
+    page.getByRole("button", { name: "打開", exact: true }),
   ).toBeVisible();
   await expect(page.locator(".interactive-home")).toHaveCSS("opacity", "1");
   await page
@@ -118,7 +118,7 @@ test("Threads reference messages activity menu and composer persist local posts"
     .locator(".phone-screen")
     .screenshot({ path: "outputs/reference-next/threads-activity.png" });
   await page.getByRole("button", { name: "Threads首页", exact: true }).click();
-  await page.getByRole("button", { name: "打开Threads菜单" }).click();
+  await page.getByRole("button", { name: "打開Threads菜单" }).click();
   await expect(page.locator(".tr-side")).toBeVisible();
   await page
     .locator(".phone-screen")

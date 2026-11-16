@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { RichText } from "../RichText";
 import { safeMedia, type Item } from "../schema";
+
+// 有「詳細頁」的 App 清單，外部可用來判斷是否走 NativeDetail
 export const nativeDetailApps = new Set([
   "notes",
   "photos",
@@ -23,6 +25,8 @@ export const nativeDetailApps = new Set([
   "files",
   "safari",
 ]);
+
+// 通用詳細頁：依 app 類型切換照片／聯絡人／備忘錄／行事曆／Safari／檔案預覽
 export function NativeDetail({
   app,
   item,
@@ -32,10 +36,13 @@ export function NativeDetail({
   item: Item;
   back: () => void;
 }) {
+  // 收藏狀態、是否顯示動作選單、是否在模擬通話
   const [favorite, setFavorite] = useState(item.favorite),
     [copied, setCopied] = useState(false),
     [call, setCall] = useState(false);
+
   const media = safeMedia(item.media),
+    // 依 app 決定導覽列左側返回按鈕要顯示的名稱
     name =
       app === "notes"
         ? "備忘錄"
@@ -46,10 +53,12 @@ export function NativeDetail({
             : app === "phone"
               ? "通話紀錄"
               : app === "calendar"
-                ? "日曆"
+                ? "行事曆"
                 : app === "files"
                   ? "瀏覽"
                   : "書籤";
+
+  // 複製內文到剪貼簿；成功後顯示「已複製」
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(item.body);
@@ -58,8 +67,10 @@ export function NativeDetail({
       setCopied(false);
     }
   };
+
   return (
     <div className={"native-detail native-detail-" + app}>
+      {/* 頂部導覽列：返回、標題（照片顯示日期）、更多動作 */}
       <header className="app-nav">
         <button aria-label="返回" onClick={back}>
           <ChevronLeft size={24} />
@@ -70,6 +81,8 @@ export function NativeDetail({
           <MoreHorizontal size={23} />
         </button>
       </header>
+
+      {/* 動作選單：複製文字／取消 */}
       {copied && (
         <div className="native-action-sheet">
           <button onClick={copy}>
@@ -79,7 +92,9 @@ export function NativeDetail({
           <button onClick={() => setCopied(false)}>取消</button>
         </div>
       )}
+
       {app === "photos" ? (
+        // ── 照片：黑底顯示圖片，無圖則顯示文字說明；底部工具列可分享／收藏 ──
         <>
           <div className="native-photo-stage">
             {media ? (
@@ -105,8 +120,10 @@ export function NativeDetail({
           </footer>
         </>
       ) : app === "contacts" || app === "phone" ? (
+        // ── 聯絡人／通話紀錄：大頭貼、名字、訊息／通話／視訊按鈕、手機與備註 ──
         <div className="native-detail-scroll">
           <div className="native-contact-hero">
+            {/* 取名字第一個字當大頭貼 */}
             <span>{item.title.slice(0, 1)}</span>
             <h1>{item.title}</h1>
           </div>
@@ -133,6 +150,7 @@ export function NativeDetail({
             <small>備註</small>
             <p>{item.body}</p>
           </div>
+          {/* 模擬通話中的提示區塊 */}
           {call && (
             <div className="native-detail-group">
               <p>作品內模擬 · {item.title}</p>
@@ -141,6 +159,7 @@ export function NativeDetail({
           )}
         </div>
       ) : app === "notes" ? (
+        // ── 備忘錄：米白紙張、時間、標題、富文本；底部工具列可返回資料夾／複製 ──
         <>
           <div className="native-detail-scroll native-note-paper">
             <time>{item.time}</time>
@@ -158,6 +177,7 @@ export function NativeDetail({
           </footer>
         </>
       ) : app === "calendar" ? (
+        // ── 行事曆：標題、時間、行程內容，並列出所有 meta 欄位 ──
         <div className="native-detail-scroll native-event-paper">
           <h1>{item.title}</h1>
           <p>{item.time}</p>
@@ -173,6 +193,7 @@ export function NativeDetail({
           ))}
         </div>
       ) : app === "safari" ? (
+        // ── Safari 閱讀器：襯線字體內容 + 底部網址列 ──
         <>
           <div className="native-detail-scroll native-reader">
             <h1>{item.title}</h1>
@@ -185,6 +206,7 @@ export function NativeDetail({
           </footer>
         </>
       ) : (
+        // ── 其他（檔案）：資料夾圖示、標題、內文、時間、複製按鈕 ──
         <div className="native-detail-scroll native-file-preview">
           <Folder size={64} color="#007aff" />
           <h2>{item.title}</h2>

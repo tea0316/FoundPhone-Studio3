@@ -18,11 +18,13 @@ import {
   Shuffle,
   SkipBack,
   SkipForward,
+  ChevronLeft,
+  Library,
   User,
   Users,
   Video,
 } from "lucide-react";
-import { useState, type CSSProperties } from "react";
+import { useState, useEffect, type CSSProperties } from "react";
 import type { Item } from "../schema";
 import {
   chooseTrack,
@@ -37,6 +39,7 @@ import {
   usePlayer,
 } from "../player";
 import {
+  Add,   
   Avatar,
   Empty,
   groupItems,
@@ -188,84 +191,258 @@ function NowPlaying({ p, close }: { p: Props; close: () => void }) {
   );
 }
 
+const spFolder = (i: Item) => i.folder || "我的音樂";
+
+function SpCover({ name, src }: { name: string; src?: string }) {
+  return (
+    <span className="sp-cover">
+      {src ? (
+        <Avatar name={name} src={src} round={false} />
+      ) : (
+        <span className="catalog-avatar">
+          <Music size={22} />
+        </span>
+      )}
+    </span>
+  );
+}
+
+function SpSong({
+  p,
+  item,
+  queue,
+  current,
+}: {
+  p: Props;
+  item: Item;
+  queue: Item[];
+  current?: string;
+}) {
+  const album = meta(item, "album", "");
+  return (
+    <button
+      className={"sp-song" + (current === item.id ? " playing" : "")}
+      onClick={() => chooseTrack(p, item, queue)}
+    >
+      <SpCover name={item.title} src={item.avatar} />
+      <div>
+        <strong>{item.title}</strong>
+        <small>
+          {item.sender}
+          {album ? " · " + album : ""}
+        </small>
+      </div>
+      <small>{meta(item, "duration", "")}</small>
+    </button>
+  );
+}
+
 export function SpotifySkin(p: Props) {
   const { tab, setTab, q, setQ, items } = useContent(p, "首頁");
   const [playlist, setPlaylist] = useState("");
   const [full, setFull] = useState(false);
   const { item: current } = usePlayer();
-  const list = playlist
-    ? items.filter((i) => (i.folder || "我的音樂") === playlist)
-    : items;
-  return (
+  const RECO = "為你推薦";
+  const recommended = items.filter((i) => i.folder === RECO);
+  const library = items.filter((i) => i.folder !== RECO);
+
+  const clock = p.virtualTime || "";
+  const hourNow = Number(clock.slice(0, 2));
+  const hour = clock.length && Number.isFinite(hourNow) ? hourNow : new Date().getHours();
+  const greeting =
+    hour >= 5 && hour < 12 ? "早安" : hour >= 12 && hour < 18 ? "午安" : "晚上好";
+
+  const groups = groupItems(library, "我的音樂");
+  const inPlaylist = (g: string) => library.filter((i) => spFolder(i) === g);
+  const coverOf = (g: string) => inPlaylist(g).find((i) => i.avatar)?.avatar;
+  const goPlaylist = (g: string) => {
+    setTab("音樂庫");
+    setPlaylist(g);
+  };
+   // 用一個狀態來記錄點擊過的歌(最多3首)
+  const [recentIds, setRecentIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (current?.id) {
+      setRecentIds((prev) => {
+        // 1. 先過濾掉已經存在的這首歌(不管它在哪)
+        const filtered = prev.filter((id) => id !== current.id);
+        // 2. 把新點的歌塞到陣列最後面
+        return [...filtered, current.id].slice(-3); // 3. 只保留最後 3 筆
+      });
+    }
+  }, [current?.id]);
+
+  // 把 ID 轉換成實際的歌曲資料
+  const recent = recentIds
+    .map((id) => items.find((i) => i.id === id))
+    .filter((i): i is Item => i !== undefined); // 過濾掉找不到的
+  const head = (title: string) => (
+    <div className="sp-greet">
+      <Avatar name={p.owner ?? "我"} />
+    </div>
+  );
+
+    return (
     <div className="catalog-skin spotify-ui">
       <Header p={p} />
       <div className="catalog-scroll">
-        <div className="spotify-heading">
+        
+        {/* 頂部:頭像 + 膠囊切換按鈕 */}
+        <div className="sp-greet">
           <Avatar name={p.owner ?? "我"} />
-          <button
-            className={tab === "首頁" ? "selected" : ""}
-            onClick={() => setTab("首頁")}
-          >
-            音樂
-          </button>
-          <button
-            className={tab === "音樂庫" ? "selected" : ""}
-            onClick={() => setTab("音樂庫")}
-          >
-            音樂庫
-          </button>
+          <div style={{ display: "flex", gap: "8px", marginLeft: "8px" }}>
+            <button
+              className={tab === "首頁" ? "selected" : ""}
+              onClick={() => { setTab("首頁"); setPlaylist(""); }}
+            >
+              首頁
+            </button>
+            <button
+              className={tab === "音樂庫" ? "selected" : ""}
+              onClick={() => { setTab("音樂庫"); setPlaylist(""); }}
+            >
+              音樂庫
+            </button>
+          </div>
         </div>
-        {tab === "搜尋" && <SearchBox value={q} set={setQ} />}
-        <h1>{playlist || (tab === "音樂庫" ? "音樂庫" : "為你收藏")}</h1>
-        {!playlist && (
-          <div className="spotify-playlists">
-            {groupItems(items, "我的音樂").map((g) => (
-              <button key={g} onClick={() => setPlaylist(g)}>
-                <Music size={29} />
-                <strong>{g}</strong>
-              </button>
+
+        {tab === "首頁" && (
+          <>
+            {recent.length > 0 && (
+              <section>
+                <h3 className="sp-section">近期播放</h3>
+                <div className="sp-shelf">
+                  {recent.map((i) => ( 
+                    <button key={i.id} onClick={() => chooseTrack(p, i, items)}>
+                      <SpCover name={i.title} src={i.avatar} />
+                      <strong>{i.title}</strong>
+                      <small>{i.sender}</small>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            )}
+            <section>
+              <h3 className="sp-section">為你推薦</h3>
+              {recommended.length > 0 ? (
+                recommended.map((i) => (
+                  <SpSong
+                    key={i.id}
+                    p={p}
+                    item={i}
+                    queue={recommended}
+                    current={current?.id}
+                  />
+                ))
+              ) : (
+   <div className="sp-empty-reco">
+              
+                  目前沒有推薦歌曲
+                </div>
+              )}
+            </section>
+            <Empty items={items} />
+          </>
+        )}
+
+        {tab === "搜尋" && (
+          <>
+            <h1>搜尋</h1>
+            <SearchBox value={q} set={setQ} placeholder="想聽什麼?" />
+            {items.map((i) => (
+              <SpSong
+                key={i.id}
+                p={p}
+                item={i}
+                queue={items}
+                current={current?.id}
+              />
             ))}
+            <Empty items={items} />
+          </>
+        )}
+
+        {tab === "音樂庫" && !playlist && (
+          <>
+            <div className="sp-library">
+              {groups.map((g) => (
+                <button key={g} onClick={() => setPlaylist(g)}>
+                  <SpCover name={g} src={coverOf(g)} />
+                  <div>
+                    <strong>{g}</strong>
+                    <small>播放清單 · {inPlaylist(g).length} 首歌曲</small>
+                  </div>
+                </button>
+              ))}
+            </div>
+            <Empty items={items} />
+          </>
+        )}
+
+        {tab === "音樂庫" && playlist && (
+          <>
+            <button className="playlist-back" onClick={() => setPlaylist("")}>
+              <ChevronLeft size={18} />
+              音樂庫
+            </button>
+            <div className="sp-playlist-head">
+              <SpCover name={playlist} src={coverOf(playlist)} />
+              <h1>{playlist}</h1>
+              <small>{inPlaylist(playlist).length} 首歌曲</small>
+            </div>
+            {inPlaylist(playlist).map((i) => (
+              <SpSong
+                key={i.id}
+                p={p}
+                item={i}
+                queue={inPlaylist(playlist)}
+                current={current?.id}
+              />
+            ))}
+          </>
+        )}
+
+        {tab === "建立" && (
+          <div className="sp-create">
+            <h1>建立</h1>
+            <button>
+              <span className="catalog-avatar">
+                <Music size={22} />
+              </span>
+              <div>
+                <strong>播放清單</strong>
+                <small>使用歌曲建立播放清單</small>
+              </div>
+            </button>
+            <button>
+              <span className="catalog-avatar">
+                <Users size={22} />
+              </span>
+              <div>
+                <strong>合輯</strong>
+                <small>和朋友一起建立播放清單</small>
+              </div>
+            </button>
+            <Add p={p} label="新增歌曲" />
           </div>
         )}
-        {playlist && (
-          <button className="playlist-back" onClick={() => setPlaylist("")}>
-            返回全部音樂
-          </button>
-        )}
-        <div className="spotify-tracks">
-          {list.map((i, n) => (
-            <button
-              key={i.id}
-              className={current?.id === i.id ? "playing" : ""}
-              onClick={() => chooseTrack(p, i, items)}
-            >
-              <span>{n + 1}</span>
-              <div>
-                <strong>{i.title}</strong>
-                <small>
-                  {i.sender} · {meta(i, "album")}
-                </small>
-              </div>
-              <small>{meta(i, "duration")}</small>
-            </button>
-          ))}
-        </div>
-        <Empty items={list} />
       </div>
       <TrackPlayer p={p} onOpen={() => setFull(true)} />
       {full && <NowPlaying p={p} close={() => setFull(false)} />}
       <Tabs
-        tabs={["首頁", "搜尋", "音樂庫"]}
+        tabs={["首頁", "搜尋", "音樂庫", "建立"]}
         value={tab}
         set={(t) => {
+          if (t === "搜尋") return;
           setTab(t);
           setPlaylist("");
         }}
-        icons={[<Home />, <Search />, <Music />]}
+        icons={[<Home />, <Search />, <Library />, <Plus />]}
       />
     </div>
   );
-}
+  }
 
 export function NeteaseSkin(p: Props) {
   const { tab, setTab, q, setQ, items } = useContent(p, "發現");

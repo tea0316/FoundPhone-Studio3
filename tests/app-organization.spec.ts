@@ -4,7 +4,7 @@ import { compileStory } from "../src/story-engine/compiler";
 import { defaultLayout } from "../src/launcher/layout";
 async function open(page: Page, name: string) {
   await page
-    .getByRole("button", { name: "打开App Store", exact: true })
+    .getByRole("button", { name: "打開App Store", exact: true })
     .click();
   await page.getByPlaceholder("搜索全部App").fill(name);
   await page
@@ -14,7 +14,7 @@ async function open(page: Page, name: string) {
         hasText: new RegExp("^" + name + "$"),
       }),
     })
-    .getByRole("button", { name: "打开", exact: true })
+    .getByRole("button", { name: "打開", exact: true })
     .click();
   await expect(page.locator(".app-screen:not([inert])")).toHaveCSS(
     "transform",
@@ -44,13 +44,13 @@ test("old preview folders migrate, WeChat and Douyin appear directly and store h
   await expect(page.locator('[data-home-key="wechat"]')).toBeInViewport();
   await expect(page.locator('[data-home-key="douyin"]')).toBeInViewport();
   await expect(
-    page.getByRole("button", { name: "打开文件夹国内", exact: true }),
+    page.getByRole("button", { name: "打開文件夹国内", exact: true }),
   ).toHaveCount(0);
   await expect(
-    page.getByRole("button", { name: "打开文件夹国际", exact: true }),
+    page.getByRole("button", { name: "打開文件夹国际", exact: true }),
   ).toHaveCount(0);
   await page
-    .getByRole("button", { name: "打开App Store", exact: true })
+    .getByRole("button", { name: "打開App Store", exact: true })
     .click();
   for (const name of ["中国", "国内", "国际", "海外"])
     await expect(page.getByRole("button", { name, exact: true })).toHaveCount(

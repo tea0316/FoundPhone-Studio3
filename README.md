@@ -2,7 +2,7 @@
 
 《捡手机》是一个可以通过 AI 添加剧情的交互式虚拟手机框架。你不需要重新制作手机界面，只需要准备人物设定、聊天记录和剧情要求，让 AI 填入故事数据。
 
-默认打开完整 App 测试预览：49 个 App 已安装，内页只有中性的测试文字，不含剧情或真实账号。桌面底部为四个 App。`/?preview=test` 也可进入相同测试版本；纯空白入口为 `/?template=blank`。
+默认打開完整 App 测试预览：49 个 App 已安装，内页只有中性的测试文字，不含剧情或真实账号。桌面底部为四个 App。`/?preview=test` 也可进入相同测试版本；纯空白入口为 `/?template=blank`。
 
 ## 可以做什么
 
@@ -18,8 +18,8 @@ App 库目前有 49 个注册入口。各 App 的页面覆盖不同，并非真�
 ## 零基础使用
 
 1. 登录 [GitHub](https://github.com/)。
-2. 打开本项目仓库，点击右上角 **Fork**，复制到自己的账号。若已启用模板，也可以选择 **Use this template**。
-3. 用支持读取和修改项目的 AI 编程工具打开自己的副本，例如 Codex、WorkBuddy 或 Claude Code。
+2. 打開本项目仓库，点击右上角 **Fork**，复制到自己的账号。若已启用模板，也可以选择 **Use this template**。
+3. 用支持读取和修改项目的 AI 编程工具打開自己的副本，例如 Codex、WorkBuddy 或 Claude Code。
 4. 复制下面的提示词，把故事发给 AI。让它先阅读 `AGENTS.md`，优先修改 `stories/template/story.json`。
 5. 请 AI 启动预览，亲自测试聊天、密码、电话和每个结局。
 6. 按[部署教程](docs/GITHUB_PAGES.md)发布网页。
@@ -42,7 +42,7 @@ npm run story:test
 npm run story:preview
 ```
 
-打开终端显示的本地网址。正式构建：
+打開终端显示的本地网址。正式构建：
 
 ```sh
 npm run build
@@ -65,7 +65,7 @@ npm run preview
 
 **不会写代码怎么办？** 把上面的提示词和故事发给能够修改项目文件的 AI。普通聊天工具若无法访问文件，需要你手动保存它生成的脚本。
 
-**为什么没有全部 App？** 新手机只安装少量 App。打开手机里的 App Store 获取其他 App；作者也可以在脚本的 `installedApps` 中配置。
+**为什么没有全部 App？** 新手机只安装少量 App。打開手机里的 App Store 获取其他 App；作者也可以在脚本的 `installedApps` 中配置。
 
 **为什么修改后还看到旧进度？** 玩家存档与故事分开保存。剧情有较大变化时，让 AI 增加脚本的 `revision`，再重新构建。
 

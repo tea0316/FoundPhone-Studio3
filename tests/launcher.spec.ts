@@ -14,7 +14,7 @@ async function unlock(page: Page) {
 }
 async function library(page: Page) {
   await page
-    .getByRole("button", { name: "打开App Store", exact: true })
+    .getByRole("button", { name: "打開App Store", exact: true })
     .click();
   await expect(page.getByPlaceholder("搜索全部App")).toBeVisible();
 }
@@ -25,14 +25,14 @@ async function add(page: Page, name: string) {
   });
   await row.getByRole("button", { name: "获取", exact: true }).click();
   await expect(
-    row.getByRole("button", { name: "打开", exact: true }),
+    row.getByRole("button", { name: "打開", exact: true }),
   ).toBeVisible();
 }
 async function close(page: Page) {
   await page.getByRole("button", { name: "关闭App管理" }).click();
 }
 async function open(page: Page, name: string) {
-  await page.getByRole("button", { name: "打开" + name, exact: true }).click();
+  await page.getByRole("button", { name: "打開" + name, exact: true }).click();
   await expect(page.locator(".app-screen:not([inert])")).toHaveCSS(
     "transform",
     "none",
@@ -53,14 +53,14 @@ test("all apps available, install, remove vs uninstall, refresh and reinstall", 
   await page.reload();
   await page.getByRole("button", { name: "轻触解锁" }).click();
   await expect(
-    page.getByRole("button", { name: "打开微信", exact: true }),
+    page.getByRole("button", { name: "打開微信", exact: true }),
   ).toBeVisible();
   await library(page);
   await page.getByPlaceholder("搜索全部App").fill("微信");
   await page.locator(".library-app-title").click();
   await page.getByRole("button", { name: "从桌面移除", exact: true }).click();
   await expect(
-    page.getByRole("button", { name: "打开微信", exact: true }),
+    page.getByRole("button", { name: "打開微信", exact: true }),
   ).toHaveCount(0);
   await library(page);
   await page.getByPlaceholder("搜索全部App").fill("微信");
@@ -118,7 +118,7 @@ test("pointer drag reorders apps, widgets pack and persist, folders and Dock", a
   await page.getByRole("textbox", { name: "文件夹名称" }).fill("工具");
   await close(page);
   await expect(
-    page.getByRole("button", { name: "打开文件夹工具" }),
+    page.getByRole("button", { name: "打開文件夹工具" }),
   ).toBeVisible();
   await expect(page.locator(".launcher-sheet")).toHaveCount(0);
   await expect(page.locator(".interactive-home")).toHaveCSS("opacity", "1");
@@ -256,7 +256,7 @@ test("mobile long press supports free cell placement and drag-created folder", a
     await page.waitForTimeout(720);
     await page.mouse.up();
     await expect(
-      page.getByRole("button", { name: "打开文件夹文件夹" }),
+      page.getByRole("button", { name: "打開文件夹文件夹" }),
     ).toBeVisible();
   } finally {
     await context.close();

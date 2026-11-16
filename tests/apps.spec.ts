@@ -11,7 +11,7 @@ async function snapshot(page: Page): Promise<Work> {
   return w;
 }
 async function library(page: Page) {
-  await page.getByRole("button", { name: "打开 App 库", exact: true }).click();
+  await page.getByRole("button", { name: "打開 App 库", exact: true }).click();
 }
 test("library distinguishes home removal, uninstall and reinstall after reload", async ({
   page,
@@ -32,7 +32,7 @@ test("library distinguishes home removal, uninstall and reinstall after reload",
   await page.getByRole("button", { name: "完成", exact: true }).click();
   const phone = page.locator(".phone-stage .phone-shell");
   await expect(
-    phone.getByRole("button", { name: "打开微信", exact: true }),
+    phone.getByRole("button", { name: "打開微信", exact: true }),
   ).toHaveCount(0);
   await phone.getByRole("button", { name: "搜索", exact: true }).click();
   await phone.getByPlaceholder("App 名称").fill("微信");
@@ -121,7 +121,7 @@ test("WeChat, WhatsApp and Instagram have distinct navigation and content intera
       .click();
   await page.getByRole("button", { name: "完成", exact: true }).click();
   const phone = page.locator(".phone-stage .phone-shell");
-  await phone.getByRole("button", { name: "打开微信", exact: true }).click();
+  await phone.getByRole("button", { name: "打開微信", exact: true }).click();
   await phone.getByRole("button", { name: "通讯录", exact: true }).click();
   await expect(phone.locator(".wx-contact")).not.toHaveCount(0);
   await phone.getByRole("button", { name: "发现", exact: true }).click();
@@ -130,7 +130,7 @@ test("WeChat, WhatsApp and Instagram have distinct navigation and content intera
   await page.screenshot({ path: "outputs/v0.5/wechat.png", fullPage: true });
   await phone.getByRole("button", { name: "返回桌面" }).click();
   await phone
-    .getByRole("button", { name: "打开WhatsApp", exact: true })
+    .getByRole("button", { name: "打開WhatsApp", exact: true })
     .click();
   await expect(phone.locator(".wa-filters")).toBeVisible();
   await phone.getByRole("button", { name: "通话", exact: true }).click();
@@ -145,7 +145,7 @@ test("WeChat, WhatsApp and Instagram have distinct navigation and content intera
   await page.screenshot({ path: "outputs/v0.5/whatsapp.png", fullPage: true });
   await phone.getByRole("button", { name: "返回桌面" }).click();
   await phone
-    .getByRole("button", { name: "打开Instagram", exact: true })
+    .getByRole("button", { name: "打開Instagram", exact: true })
     .click();
   await expect(phone.locator(".ig-stories")).toBeVisible();
   await phone
@@ -182,7 +182,7 @@ test("player respects hidden installed apps and uninstall state without changing
   const preview = page.locator(".preview-overlay");
   await preview.getByRole("button", { name: "轻触解锁" }).click();
   await expect(
-    preview.getByRole("button", { name: "打开微信", exact: true }),
+    preview.getByRole("button", { name: "打開微信", exact: true }),
   ).toHaveCount(0);
   await preview.getByRole("button", { name: "搜索", exact: true }).click();
   await preview.getByPlaceholder("App 名称").fill("Instagram");
@@ -224,6 +224,6 @@ test("new works start empty with six apps and the lock keypad unlocks them", asy
       .click();
 
   await expect(
-    preview.getByRole("button", { name: "打开备忘录", exact: true }),
+    preview.getByRole("button", { name: "打開备忘录", exact: true }),
   ).toBeVisible();
 });

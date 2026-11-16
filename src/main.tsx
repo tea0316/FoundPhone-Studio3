@@ -111,7 +111,7 @@ function Studio() {
       <div className="boot">
         <Smartphone size={40} />
         <h1>捡手机</h1>
-        <p>{store.error || "正在打开你的故事工作室…"}</p>
+        <p>{store.error || "正在打開你的故事工作室…"}</p>
       </div>
     );
   const count = Object.values(work.data).reduce(
@@ -401,7 +401,7 @@ function Studio() {
                 </div>
                 <button
                   className="secondary"
-                  aria-label="打开 App 库"
+                  aria-label="打開 App 库"
                   onClick={() => setModal("apps")}
                 >
                   <LayoutGrid size={15} />
@@ -720,7 +720,7 @@ function Studio() {
           <div className="guide-content">
             {modal === "guide" ? (
               <ol>
-                <li>打开手机中的 App，点击内容编辑；右上角 ＋ 新建。</li>
+                <li>打開手机中的 App，点击内容编辑；右上角 ＋ 新建。</li>
                 <li>在“素材与内容”管理会话、帖子和记录，批量导入聊天。</li>
                 <li>
                   使用“剧情编排”连接事件与动作，用内容 ID

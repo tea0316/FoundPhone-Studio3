@@ -56,7 +56,7 @@ test("published icons match source bytes and decode on desktop and App Store", a
     .locator(".phone-screen")
     .screenshot({ path: "outputs/original-icons/home-original.png" });
   await page
-    .getByRole("button", { name: "打开App Store", exact: true })
+    .getByRole("button", { name: "打開App Store", exact: true })
     .click();
   await page.getByPlaceholder("搜索全部App").fill("QQ");
   await expect(
@@ -77,8 +77,8 @@ test("missing original image safely falls back without losing app action", async
   await page.goto("/");
   await page.getByRole("button", { name: "轻触解锁" }).click();
   await expect(
-    page.getByRole("button", { name: "打开相册", exact: true }).locator("svg"),
+    page.getByRole("button", { name: "打開相册", exact: true }).locator("svg"),
   ).toBeVisible();
-  await page.getByRole("button", { name: "打开相册", exact: true }).click();
+  await page.getByRole("button", { name: "打開相册", exact: true }).click();
   await expect(page.locator(".app-screen")).toBeVisible();
 });

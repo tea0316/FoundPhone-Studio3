@@ -111,6 +111,7 @@ export function chooseTrack(
   queue: Item[],
 ) {
   if (item.kind === "audio" && safeMedia(item.media)) {
+    localStorage.removeItem(posKey(item.id)); 
     p.onRead(item.id);
     playTrack(item, queue);
   } else p.onItem(item);

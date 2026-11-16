@@ -39,7 +39,7 @@ test("published default matches full test preview, four dock apps and updated st
     .locator(".status-bar")
     .screenshot({ path: "outputs/release/status-bar.png" });
   await page
-    .getByRole("button", { name: "打开App Store", exact: true })
+    .getByRole("button", { name: "打開App Store", exact: true })
     .click();
   await page.getByPlaceholder("搜索全部App").fill("X");
   const x = page
@@ -51,19 +51,19 @@ test("published default matches full test preview, four dock apps and updated st
     "src",
     /twitter\.svg$/,
   );
-  await x.getByRole("button", { name: "打开", exact: true }).click();
+  await x.getByRole("button", { name: "打開", exact: true }).click();
   await expect(page.locator(".app-screen:not([inert])")).toHaveCSS(
     "transform",
     "none",
   );
   await page.getByRole("button", { name: "返回桌面", exact: true }).click();
   await page
-    .getByRole("button", { name: "打开App Store", exact: true })
+    .getByRole("button", { name: "打開App Store", exact: true })
     .click();
   await page.getByPlaceholder("搜索全部App").fill("设置");
   await page
     .locator(".runtime-library-row")
-    .getByRole("button", { name: "打开", exact: true })
+    .getByRole("button", { name: "打開", exact: true })
     .click();
   await expect(page.getByRole("switch", { name: "飞行模式" })).toBeVisible();
   await expect(page.locator(".app-screen:not([inert])")).toHaveCSS(

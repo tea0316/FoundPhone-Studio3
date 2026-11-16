@@ -4554,6 +4554,11 @@
   overflow: auto;
   color: #fff;
   background: linear-gradient(#35594a, #121212 75%);
+  -ms-overflow-style: none;  
+  scrollbar-width: none;     
+}
+.np-page::-webkit-scrollbar {
+  display: none;
 }
 .np-top {
   display: flex;
@@ -4889,3 +4894,387 @@
   margin-top: 10px !important; /* 讓膠囊跟上面的字有點距離,不會黏在一起 */
 }
 
+/* ===== Spotify 首頁 / 音樂庫 / 播放清單 ===== */
+.spotify-ui .sp-greet {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start !important; 
+  gap: 12px;
+  padding: 14px 15px 6px;
+}
+.spotify-ui .sp-greet h2 {
+  font-size: 22px;
+  font-weight: 700;
+}
+.sp-cover {
+  display: block;
+  flex-shrink: 0;
+}
+.sp-cover .catalog-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  background: #3a3a3a;
+  color: #b3b3b3;
+}
+.sp-shortcuts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 16px 16px 20px 16px;
+  margin-top: 8px; 
+}
+.sp-shortcuts > button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #2a2a2a; /* 改為實心深灰,消除色差 */
+  color: #fff;
+  text-align: left;
+  padding: 6px 10px; /* 加上內距,縮小整體高度 */
+  border: none;
+  max-width: 130px;
+}
+/* 處理左邊的圖標區塊 */
+.sp-shortcuts > button .catalog-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1); /* 半透明底色,不再突兀 */
+  color: #ccc;
+  flex-shrink: 0;
+}
+.sp-shortcuts > button strong {
+  font-size: 13px; /* 字體稍微放大一點點 */
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sp-section {
+  padding: 14px 15px 8px;
+  font-size: 17px;
+  font-weight: 700;
+}
+.sp-shelf {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important; 
+  gap: 12px; /* 卡片之間的間距 */
+  padding: 0 16px 12px;
+  width: 100%;
+}
+.sp-shelf > button {
+  width: 100% !important; 
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  color: inherit;
+  background: transparent;
+  border: none;
+  gap: 6px;
+}
+
+.sp-shelf .sp-cover {
+  width: 100% !important; /* 👈 圖片寬度跟著卡片 */
+  aspect-ratio: 1 / 1; /* 👈 保持正方形 */
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.sp-shelf .sp-cover .catalog-avatar {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+.sp-shelf strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sp-shelf small {
+  display: block;
+  margin-top: 2px;
+  font-size: 9px;
+  color: #b3b3b3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* 每一首歌的按鈕外框 */
+.sp-song {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 16px;
+  color: inherit;
+  text-align: left;
+  background: transparent;
+  border: none;
+}
+
+/* 左側專輯封面的大小 */
+.sp-song .sp-cover {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.sp-song .sp-cover .catalog-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+/* 中間文字區塊(防止文字過長把排版撐壞) */
+.sp-song > div {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 歌名 */
+.sp-song strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 歌手 */
+.sp-song > div small {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  color: #b3b3b3;
+}
+
+/* 右側時間長度 */
+.sp-song > small {
+  font-size: 11px;
+  color: #b3b3b3;
+}
+
+/* 正在播放時,歌名變 Spotify 綠 */
+.sp-song.playing strong {
+  color: #1ed760;
+}
+.sp-library {
+  padding: 8px 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.sp-library > button {
+  display: flex !important;
+  align-items: center !important; /* 垂直置中 */
+  justify-content: flex-start !important; /* 強制靠左對齊 */
+  gap: 14px !important; /* 圖片與文字的間距 */
+  width: 100% !important;
+  padding: 12px 16px !important; /* 左右留白 16px */
+  color: #fff !important;
+  text-align: left !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+/* 限制封面圖大小,並防止被壓縮 */
+.sp-library .sp-cover {
+  width: 72px !important;
+  height: 72px !important;
+  flex-shrink: 0 !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+.sp-library .sp-cover .catalog-avatar {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 6px !important;
+  object-fit: cover !important;
+}
+
+/* 文字區塊 */
+.sp-library > button > div {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+}
+
+/* 歌名 */
+.sp-library strong {
+  display: block !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  margin-bottom: 4px !important;
+}
+
+/* 副標題 */
+.sp-library small {
+  display: block !important;
+  font-size: 14px !important;
+  color: #b3b3b3 !important;
+}
+.spotify-ui .playlist-back {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 12px 0;
+  color: inherit;
+  font-size: 13px;
+}
+.sp-playlist-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 15px 12px;
+  text-align: center;
+}
+.sp-playlist-head .sp-cover .catalog-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 4px;
+}
+.sp-playlist-head h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+.sp-playlist-head small {
+  font-size: 11px;
+  color: #b3b3b3;
+}
+.sp-create > button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 15px;
+  color: inherit;
+  text-align: left;
+}
+.sp-create strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+}
+.sp-create small {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  color: #b3b3b3;
+}
+.sp-create .catalog-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #3a3a3a;
+  color: #fff;
+}
+.sp-greet > div > button {
+  background: #2a2a2a;
+  color: #fff;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  transition: all 0.2s;
+}
+.sp-greet > div > button.selected {
+  background: #1ed760;
+  color: #000;
+}
+
+.sp-empty-reco {
+  padding: 1px 20px 32px 16px !important; 
+  color: #b3b3b3 !important;
+  font-size: 12px !important;
+  text-align: left !important;
+  letter-spacing: 2px !important; 
+  line-height: 1 !important;
+}
+/* =========================================
+   隱藏整個 App 的系統滾動條(保留滑動功能)
+   ========================================= */
+
+/* 針對 Chrome, Safari, Edge 瀏覽器 */
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* 針對 Firefox 瀏覽器 */
+* {
+  scrollbar-width: none !important;
+}
+
+/* 針對 IE 和舊版 Edge */
+* {
+  -ms-overflow-style: none !important;
+}
+/* 強制全螢幕播放清單靠左對齊 */
+.np-queue > button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important; /* 👈 強制靠左 */
+  gap: 14px !important;
+  text-align: left !important;
+  padding: 10px 16px !important; /* 左右留白 */
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+/* 限制封面大小並置中 */
+.np-queue > button .catalog-avatar {
+  width: 48px !important;
+  height: 48px !important;       /* 👈 強制高度也是 48px */
+  min-width: 48px !important;    /* 👈 避免被 flex 壓縮 */
+  max-width: 48px !important;    /* 👈 避免被撐大 */
+  aspect-ratio: 1 / 1 !important; 
+  flex-shrink: 0 !important;      
+  border-radius: 6px !important;
+  object-fit: cover !important;   
+  margin: 0 !important;
+}
+/* 文字區塊強制靠左 */
+.np-queue > button > span {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important; /* 👈 文字靠左 */
+  justify-content: center !important;
+  text-align: left !important;
+  min-width: 0 !important;
+  flex: 1 !important;
+}
+
+/* 歌名 */
+.np-queue b {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: #fff !important;
+  margin: 0 !important;
+}
+
+/* 歌手 */
+.np-queue small {
+  font-size: 13px !important;
+  color: #b3b3b3 !important;
+  margin-top: 3px !important;
+}

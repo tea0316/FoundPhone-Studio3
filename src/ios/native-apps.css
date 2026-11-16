@@ -1,4 +1,11 @@
-/* Calculator, Health and Weather reference screens are separate component trees. */
+/* 計算機、健康、天氣參考畫面各自是獨立的元件樹。
+   以下樣式只在 .ios18 主題下生效。 */
+
+/* ============================================================
+   計算機（Calculator）
+   ============================================================ */
+
+/* 計算機外層：黑底白字，隱藏預設導覽列 */
 .ios18 .skin-calculator {
   background: #000;
   color: white;
@@ -6,6 +13,8 @@
 .ios18 .skin-calculator > .app-nav {
   display: none;
 }
+
+/* 計算機主體：直向 flex、撐滿高度 */
 .ios18 .native-calculator {
   padding: 0;
   margin: 0;
@@ -16,8 +25,10 @@
   height: 100%;
   background: #000;
   color: white;
-  position: relative;
+  position: relative;   /* 給歷史面板絕對定位 */
 }
+
+/* 頂部工具列：歷史／模式按鈕 */
 .ios18 .native-calculator .calc-toolbar {
   display: flex;
   align-items: center;
@@ -26,6 +37,7 @@
   min-height: 48px;
   padding: 0 16px;
 }
+/* 工具列圓形按鈕：深灰漸層 */
 .ios18 .calc-toolbar button {
   width: 44px;
   height: 44px;
@@ -37,6 +49,8 @@
   color: #fff;
   padding: 0;
 }
+
+/* 顯示區：靠右下對齊、字重細 */
 .ios18 .native-calculator > output {
   display: flex;
   flex: 1;
@@ -51,6 +65,8 @@
   line-height: 1.1;
   overflow: hidden;
 }
+
+/* 鍵盤：4 欄格線 */
 .ios18 .native-calculator .calc-keypad {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -59,6 +75,7 @@
   flex: none;
   box-sizing: border-box;
 }
+/* 數字鍵：圓形、深灰漸層 */
 .ios18 .calc-keypad > button {
   border: 0;
   border-radius: 50%;
@@ -75,21 +92,27 @@
   font-weight: 400;
   line-height: 1;
 }
+/* 功能鍵（⌫ AC %）：中灰 */
 .ios18 .calc-keypad > .calc-function {
   background: #5b5b5b;
 }
+/* 運算子鍵：橘色、字更大更細 */
 .ios18 .calc-keypad > .calc-operator {
   background: #ff9500;
   font-size: 49px;
   font-weight: 300;
 }
+/* 目前選中的運算子：白底橘字 */
 .ios18 .calc-keypad > .calc-selected {
   background: white;
   color: #ff9500;
 }
+/* 按下時提亮 */
 .ios18 .calc-keypad > button:active {
   filter: brightness(1.5);
 }
+
+/* 歷史／模式面板：覆蓋整個計算機 */
 .ios18 .native-calculator .calc-history {
   position: absolute;
   inset: 0;
@@ -100,6 +123,7 @@
   flex-direction: column;
   padding: 0;
 }
+/* 面板頂部：返回／標題／清除 */
 .ios18 .calc-history > header {
   display: flex;
   align-items: center;
@@ -116,10 +140,12 @@
   font-size: 16px;
   padding: 0;
 }
+/* 歷史清單：可捲動 */
 .ios18 .calc-history-list {
   padding: 16px;
   overflow: auto;
 }
+/* 每筆歷史：右對齊、底部細線 */
 .ios18 .calc-history-list > button {
   display: block;
   width: 100%;
@@ -131,11 +157,13 @@
   text-align: right;
   font-size: 22px;
 }
+/* 無歷史時的提示 */
 .ios18 .calc-history-list > p {
   color: #888;
   text-align: center;
   margin-top: 100px;
 }
+/* 模式選項按鈕 */
 .ios18 .calc-mode-option {
   background: #333;
   color: #ff9500;
@@ -145,6 +173,12 @@
   border-radius: 15px;
   font-size: 20px;
 }
+
+/* ============================================================
+   健康（Health）
+   ============================================================ */
+
+/* 健康主體：淺灰底、直向 flex */
 .ios18 .calibrated-health {
   background: #f2f1f7;
   display: flex;
@@ -153,6 +187,7 @@
   min-height: 0;
   color: #000;
 }
+/* 頂部導覽列：標題置中、右側圓形頭像 */
 .ios18 .health-native-nav {
   height: 44px;
   min-height: 44px;
@@ -180,6 +215,7 @@
   place-items: center;
   padding: 0;
 }
+/* 右側頭像按鈕：淺灰圓形 */
 .ios18 .health-native-nav > button:last-child {
   margin-left: auto;
   border-radius: 50%;
@@ -188,6 +224,7 @@
   height: 41px;
   color: #8b94b1;
 }
+/* 內容捲動區：底部留白給浮動分頁列 */
 .ios18 .health-native-scroll {
   flex: 1;
   min-height: 0;
@@ -196,6 +233,7 @@
   scrollbar-width: none;
   overscroll-behavior: contain;
 }
+/* 區塊標題：左標題、右「顯示全部」 */
 .ios18 .health-section-title {
   display: flex;
   align-items: center;
@@ -214,11 +252,13 @@
   font-size: 17px;
   padding: 0;
 }
+/* 卡片群組：直向排列 */
 .ios18 .health-cards {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+/* 健康卡片：白底圓角 26px */
 .ios18 .health-native-card {
   position: relative;
   height: 130px;
@@ -235,6 +275,7 @@
   justify-content: space-between;
   box-shadow: none;
 }
+/* 卡片標頭：圖示 + 名稱 + 時間 */
 .ios18 .health-native-card > header {
   display: flex;
   align-items: center;
@@ -258,6 +299,7 @@
 .ios18 .health-native-card header > svg:last-child {
   color: #c7c7cc;
 }
+/* 卡片底部：數值與單位 */
 .ios18 .health-card-bottom {
   display: flex;
   align-items: flex-end;
@@ -273,13 +315,14 @@
   color: #999;
   margin-left: 4px;
 }
+/* 活動量三數值 + 右側活動圈 */
 .ios18 .health-activity-values {
   display: flex;
   align-items: center;
   gap: 10px;
   padding-top: 20px;
   position: relative;
-  padding-right: 75px;
+  padding-right: 75px;   /* 留位給右側活動圈 */
 }
 .ios18 .health-activity-values > div:not(:last-child) {
   flex: 1;
@@ -300,6 +343,7 @@
   font-size: 11px;
   color: #999;
 }
+/* 活動圈：黑底、三層同心圓 */
 .ios18 .activity-rings {
   position: absolute;
   right: 0;
@@ -324,6 +368,7 @@
   border-color: #00606b;
   border-width: 5px;
 }
+/* 迷你長條圖（sparkline） */
 .ios18 .health-spark {
   height: 48px;
   display: flex;
@@ -335,6 +380,7 @@
   background: #e6e6ec;
   border-radius: 3px 3px 0 0;
 }
+/* 「顯示全部」列 */
 .ios18 .health-all-row {
   display: flex;
   align-items: center;
@@ -353,6 +399,7 @@
   margin-left: auto;
   color: #ccc;
 }
+/* 趨勢區標題與空狀態 */
 .ios18 .health-trends-title {
   font-size: 23px;
   margin: 30px 16px 14px;
@@ -363,6 +410,7 @@
   padding: 30px;
   color: #999;
 }
+/* 底部浮動分頁列：毛玻璃膠囊 */
 .ios18 .health-floating-tabs {
   display: flex;
   position: absolute;
@@ -392,6 +440,7 @@
   font-size: 11px;
   padding: 0;
 }
+/* 目前選取的分頁 */
 .ios18 .health-floating-tabs > .selected {
   background: #dedee6;
   color: #0087fa;
@@ -399,6 +448,7 @@
 .ios18 .health-floating-tabs > .selected svg {
   fill: currentColor;
 }
+/* 釘選編輯器：白底、可換行排列 */
 .ios18 .health-pin-editor {
   display: flex;
   flex-wrap: wrap;
@@ -415,6 +465,7 @@
   gap: 5px;
   font-size: 14px;
 }
+/* 瀏覽列：白底、底部細線 */
 .ios18 .health-browse-row {
   display: flex;
   align-items: center;
@@ -431,6 +482,7 @@
   margin-left: auto;
   color: #ccc;
 }
+/* 期間切換：分段控制項 */
 .ios18 .health-periods {
   display: flex;
   border-radius: 8px;
@@ -450,6 +502,7 @@
 .ios18 .health-periods button[data-selected="true"] {
   background: #fff;
 }
+/* 詳情頁數值與長條圖 */
 .ios18 .health-detail-value {
   font-size: 34px;
   font-weight: 600;
@@ -472,6 +525,7 @@
   background: #ff9500;
   border-radius: 4px;
 }
+/* 說明／個人檔案空狀態／分享 */
 .ios18 .health-detail-description,
 .ios18 .health-profile-empty,
 .ios18 .health-sharing {
@@ -489,18 +543,25 @@
   color: #007aff;
   margin: 10px auto;
 }
+
+/* ============================================================
+   天氣（Weather）
+   ============================================================ */
+
+/* 天氣外層：深藍夜空漸層 */
 .ios18 .skin-weather {
   background: #151c34;
 }
 .ios18 .calibrated-weather {
   background: linear-gradient(#080c24, #303f60);
   position: relative;
-  isolation: isolate;
+  isolation: isolate;   /* 讓星星 z-index:-1 不會跑到外層下面 */
   color: #fff;
   display: flex;
   flex: 1;
   min-height: 0;
 }
+/* 星空背景：多層 radial-gradient 點點 */
 .ios18 .weather-stars {
   position: absolute;
   inset: -60px 0 0;
@@ -516,6 +577,7 @@
   background-size: 130px 190px;
   opacity: 0.8;
 }
+/* 內容捲動區：底部留白給工具列 */
 .ios18 .weather-native-scroll {
   flex: 1;
   min-height: 0;
@@ -524,6 +586,7 @@
   scrollbar-width: none;
   overscroll-behavior: contain;
 }
+/* 目前天氣：地點、溫度、高低溫、天氣描述 */
 .ios18 .weather-native-current {
   height: 320px;
   box-sizing: border-box;
@@ -560,12 +623,14 @@
   font-size: 20px;
   margin: 4px 0;
 }
+/* 右上角月亮裝飾 */
 .ios18 .weather-moon-art {
   position: absolute;
   top: 55px;
   right: 10px;
   opacity: 0.4;
 }
+/* 天氣卡片：半透明深藍、毛玻璃 */
 .ios18 .weather-native-card {
   display: block;
   width: 100%;
@@ -580,6 +645,7 @@
   margin: 12px 0 0;
   box-shadow: none;
 }
+/* 空氣品質卡片 */
 .ios18 .weather-air-quality > strong {
   font-size: 20px;
   font-weight: 600;
@@ -588,6 +654,7 @@
   font-size: 13px;
   margin: 8px 0 0;
 }
+/* AQI 色階條 */
 .ios18 .weather-aqi-scale {
   height: 4px;
   background: linear-gradient(
@@ -612,6 +679,7 @@
   background: white;
   border: 1px solid #444;
 }
+/* 每小時預報：標頭 + 模式切換 */
 .ios18 .weather-hourly > header {
   display: flex;
   align-items: center;
@@ -648,6 +716,7 @@
 .ios18 .weather-mode-switch button[aria-pressed="true"] {
   background: #fff2;
 }
+/* 每小時格狀預報：6 欄 */
 .ios18 .weather-hour-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -676,6 +745,7 @@
   fill: #fff1;
   stroke-width: 2;
 }
+/* 每日預報：溫度範圍長條 */
 .ios18 .weather-days > button {
   display: flex;
   align-items: center;
@@ -699,6 +769,7 @@
 .ios18 .weather-days > button > span {
   opacity: 0.5;
 }
+/* 底部浮動工具列：左右按鈕 + 中間城市指示點 */
 .ios18 .weather-native-toolbar {
   position: absolute;
   bottom: -15px;
@@ -748,6 +819,7 @@
 .ios18 .weather-city-dots > button[aria-current="true"] {
   background: white;
 }
+/* 城市清單／搜尋面板：覆蓋整個畫面、毛玻璃 */
 .ios18 .weather-native-sheet {
   position: absolute;
   inset: 0;
@@ -776,6 +848,7 @@
   padding: 0;
   font-size: 16px;
 }
+/* 城市搜尋輸入框 */
 .ios18 .weather-city-search {
   display: flex;
   flex-direction: row;
@@ -794,6 +867,7 @@
   padding: 0;
   font-size: 17px;
 }
+/* 城市列 */
 .ios18 .weather-city-row {
   display: flex;
   width: 100%;
@@ -807,6 +881,7 @@
   padding: 25px;
   font-size: 22px;
 }
+/* 地圖空狀態 */
 .ios18 .weather-map-empty {
   display: flex;
   align-items: center;
@@ -814,14 +889,22 @@
   padding-top: 140px;
   color: #fffa;
 }
+/* 區段詳情文字 */
 .ios18 .weather-section-detail {
   padding: 25px 8px;
   font-size: 18px;
 }
+
+/* ============================================================
+   版面與狀態列配合
+   ============================================================ */
+
+/* 健康／天氣改為直向排列 */
 .ios18 .calibrated-health,
 .ios18 .calibrated-weather {
   flex-direction: column;
 }
+/* 計算機頁：狀態列改黑底白字、Home 指示條改白色 */
 .ios18 .phone-screen:has(.native-calculator) .status-bar {
   color: #fff;
   background: #000;
@@ -829,6 +912,7 @@
 .ios18 .phone-screen:has(.native-calculator) .home-indicator:after {
   background: #fff;
 }
+/* 計算機鍵盤：固定 4 欄、每列 84.25px、圓形鍵 */
 .ios18 .native-calculator .calc-keypad {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-auto-rows: 84.25px;
@@ -851,10 +935,12 @@
   background: linear-gradient(#292929, #191919);
   color: #fff;
 }
+/* 健康／天氣允許溢出（浮動列超出邊界） */
 .ios18 .calibrated-health,
 .ios18 .calibrated-weather {
   overflow: visible;
 }
+/* 健康卡片：內容撐滿寬度 */
 .ios18 .health-native-card {
   align-items: stretch;
 }
@@ -867,6 +953,7 @@
   align-items: flex-end;
   text-align: left;
 }
+/* 天氣頁：狀態列深藍底白字、Home 指示條加高 */
 .ios18 .phone-screen:has(.calibrated-weather) .status-bar {
   background: #080c24;
   color: white;
@@ -880,6 +967,7 @@
   .home-indicator {
   height: 18px;
 }
+/* 無資料時：隱藏 AQI 指示點、每日長條改半透明 */
 .ios18 .calibrated-weather[data-empty="true"] .weather-aqi-scale > i {
   display: none;
 }

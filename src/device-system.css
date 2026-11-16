@@ -1325,3 +1325,36 @@
   grid-template-rows: repeat(6, 99px);
   grid-auto-rows: 99px;
 }
+/* ===== 放大資料夾內容 ===== */
+
+/* 1. 加寬資料夾內的背景框,並調整間距 */
+.ios18 .folder-apps {
+  width: 100% !important;
+  padding: 30px 16px !important; /* 上下左右留白多一點 */
+  border-radius: 36px !important;
+  gap: 28px 0 !important; /* 讓裡面的 App 不要擠在一起 */
+}
+
+/* 2. 強制放大資料夾裡面的 App 圖示 */
+.ios18 .folder-apps .app-icon {
+  width: 72px !important;  /* 原本大約 62px,放大到 72px */
+  height: 72px !important;
+  border-radius: 16px !important;
+}
+
+/* 3. 放大資料夾裡面的 App 文字 */
+.ios18 .folder-apps .app-name {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  margin-top: 6px !important;
+}
+
+/* 4. 放大資料夾標題 (例如「工具」這兩個字) */
+.ios18 .folder-overlay > h2 {
+  font-size: 36px !important; /* 原本 30px 放大到 36px */
+  font-weight: 500 !important;
+}
+/* 隱藏「關閉資料夾」的文字按鈕 */
+.ios18 .folder-overlay .glass-btn {
+  display: none !important;
+}

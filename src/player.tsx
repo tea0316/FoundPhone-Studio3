@@ -34,7 +34,7 @@ function Player() {
           </p>
         </>
       ) : (
-        <p>{error || "正在打开故事…"}</p>
+        <p>{error || "正在打開故事…"}</p>
       )}
     </main>
   );

@@ -60,7 +60,7 @@ test("preview progresses through clues and an ending without editing draft", asy
   await page.getByRole("button", { name: "轻触解锁" }).click();
   const preview = page.locator(".preview-overlay");
   await preview
-    .getByRole("button", { name: "打开备忘录", exact: true })
+    .getByRole("button", { name: "打開备忘录", exact: true })
     .click();
   await preview.getByRole("button", { name: /如果我忘记了/ }).click();
   await expect(
@@ -112,7 +112,7 @@ test("static export contains player and can run from subdirectory", async ({
   });
   await page.goto("http://127.0.0.1:4180/exported/index.html");
   await page.getByRole("button", { name: "轻触解锁" }).click();
-  await page.getByRole("button", { name: "打开备忘录", exact: true }).click();
+  await page.getByRole("button", { name: "打開备忘录", exact: true }).click();
   await page.getByRole("button", { name: /如果我忘记了/ }).click();
   await expect(
     page.getByRole("heading", { name: "你会如何选择？" }),
@@ -156,7 +156,7 @@ test("all registered app templates open and expose editable saved content", asyn
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
   const phone = page.locator(".phone-stage .phone-shell");
-  await page.getByRole("button", { name: "打开 App 库", exact: true }).click();
+  await page.getByRole("button", { name: "打開 App 库", exact: true }).click();
   for (const app of registry) {
     const b = page.getByRole("button", {
       name: `安装${app.name}`,

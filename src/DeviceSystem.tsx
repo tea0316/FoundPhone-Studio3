@@ -238,11 +238,16 @@ export function ControlCenter({
   battery = 94,
   network,
   close,
+  open,
+  openPanel,
 }: {
   battery?: number;
   network: string;
   close: () => void;
+  open: (id: string) => void;
+  openPanel: (id: string) => void;
 }) {
+
   const [rotation, setRotation] = useState(true),
     [focus, setFocus] = useState(false);
   const [brightness, setBrightness] = useState(50);
@@ -377,16 +382,19 @@ export function ControlCenter({
           <House size={38} />
           <span>未設置家庭</span>
         </button>
-        {[Flashlight, Timer, Calculator, Camera].map((Icon, i) => (
+{[
+          { icon: Flashlight, label: "手電筒", run: () => openPanel("light") },
+          { icon: Timer, label: "計時器", run: () => open("clock") },
+          { icon: Calculator, label: "計算機", run: () => open("calculator") },
+          { icon: Camera, label: "相機", run: () => open("camera") },
+        ].map((t, i) => (
           <button
             className={"cc-square cc-tool-" + i}
-            aria-label={["手電筒", "計時器", "計算機", "相機"][i]}
+            aria-label={t.label}
             key={i}
-            onClick={() =>
-              setTool(tool ? "" : ["手電筒", "計時器", "計算機", "相機"][i])
-            }
+            onClick={t.run}
           >
-            <Icon />
+            <t.icon />
           </button>
         ))}
         {[ScanLine, Circle, Radio].map((Icon, i) => (
@@ -400,12 +408,10 @@ export function ControlCenter({
           </button>
         ))}
       </div>
-      {tool && (
+      {tool === "螢幕鏡像" && (
         <div className="cc-tool">
           <strong>{tool}</strong>
-          <p>
-            {tool === "螢幕鏡像" ? "正在搜索作品中的設備…" : "作品內快捷控制"}
-          </p>
+          <p>正在搜索設備…</p>
           <button onClick={() => setTool("")}>完成</button>
         </div>
       )}

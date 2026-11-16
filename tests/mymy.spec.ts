@@ -16,11 +16,11 @@ async function start(page: Page) {
   await page.getByRole("button", { name: "轻触解锁" }).click();
 }
 async function open(page: Page, name: string) {
-  await page.getByRole("button", { name: "打开App Store", exact: true }).click();
+  await page.getByRole("button", { name: "打開App Store", exact: true }).click();
   await page.getByPlaceholder("搜索全部App").fill(name);
   await page
     .locator(".runtime-library-row")
-    .getByRole("button", { name: "打开", exact: true })
+    .getByRole("button", { name: "打開", exact: true })
     .click();
   await expect(page.locator(".app-screen:not([inert])")).toHaveCSS(
     "transform",

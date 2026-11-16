@@ -76,7 +76,7 @@ function TrackPlayer({ p, onOpen }: { p: Props; onOpen?: () => void }) {
   );
 }
 
-function NowPlaying({ p, close }: { p: Props; close: () => void }) {
+export function NowPlaying({ p, close }: { p: Props; close: () => void }) {
   const { item, queue, playing, pos, dur, shuffle, repeat } = usePlayer();
   const [liked, setLiked] = useSkinState<string[]>(p, "likes", []);
   if (!item) return null;
@@ -109,12 +109,27 @@ function NowPlaying({ p, close }: { p: Props; close: () => void }) {
               isLiked ? liked.filter((x) => x !== item.id) : [...liked, item.id],
             )
           }
+          style={{ background: "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "center" }}
         >
-          <Heart
-            size={24}
-            fill={isLiked ? "#1ed760" : "none"}
-            color={isLiked ? "#1ed760" : "#fff"}
-          />
+          {item.id === "spotify-rec-7" ? (
+            <img
+              src="/giraffe.png"
+              alt="長頸鹿"
+              style={{
+                width: "32px",
+                height: "32px",
+                objectFit: "contain",
+                transform: isLiked ? "scale(1.15)" : "scale(1)",
+                transition: "transform 0.2s",
+              }}
+            />
+          ) : (
+            <Heart
+              size={24}
+              fill={isLiked ? "#1ed760" : "none"}
+              color={isLiked ? "#1ed760" : "#fff"}
+            />
+          )}
         </button>
       </div>
       <div className="np-progress">
@@ -245,6 +260,7 @@ export function SpotifySkin(p: Props) {
   const RECO = "為你推薦";
   const recommended = items.filter((i) => i.folder === RECO);
   const library = items.filter((i) => i.folder !== RECO);
+  const podcasts = items.filter((i) => i.folder === "Podcast");
 
 
   const groups = groupItems(library, "我的音樂");
@@ -297,19 +313,37 @@ export function SpotifySkin(p: Props) {
         {tab === "首頁" && (
           <>
             {recent.length > 0 && (
+            <section>
+              <h3 className="sp-section">近期播放</h3>
+              <div className="sp-shelf">
+                {recent.map((i) => ( 
+                  <button key={i.id} onClick={() => chooseTrack(p, i, items)}>
+                    <SpCover name={i.title} src={i.avatar} />
+                    <strong>{i.title}</strong>
+                    <small>{i.sender}</small>
+                  </button>
+                ))}
+              </div>
+            </section>
+            )}
+
+            {/* 👇 Podcast 專區移到這裡 👇 */}
+            {podcasts.length > 0 && (
               <section>
-                <h3 className="sp-section">近期播放</h3>
-                <div className="sp-shelf">
-                  {recent.map((i) => ( 
-                    <button key={i.id} onClick={() => chooseTrack(p, i, items)}>
-                      <SpCover name={i.title} src={i.avatar} />
-                      <strong>{i.title}</strong>
-                      <small>{i.sender}</small>
-                    </button>
-                  ))}
-                </div>
+                <h3 className="sp-section">Podcast</h3>
+                {podcasts.map((i) => (
+                  <SpSong
+                    key={i.id}
+                    p={p}
+                    item={i}
+                    queue={podcasts}
+                    current={current?.id}
+                  />
+                ))}
               </section>
             )}
+
+            {/* 👇 為你推薦在下面 👇 */}
             <section>
               <h3 className="sp-section">為你推薦</h3>
               {recommended.length > 0 ? (
@@ -323,12 +357,12 @@ export function SpotifySkin(p: Props) {
                   />
                 ))
               ) : (
-   <div className="sp-empty-reco">
-              
+                <div className="sp-empty-reco">
                   目前沒有推薦歌曲
                 </div>
               )}
             </section>
+
             <Empty items={items} />
           </>
         )}

@@ -3,7 +3,7 @@
   "id": "foundphone-demo",
   "title": "山下瞳月的IPHONE",
   "description": "僅用於介面測試，不含劇情",
-  "revision": 20,
+  "revision": 33,
   "phone": {
     "owner": "山下瞳月",
     "date": "2026-10-25",
@@ -42,6 +42,7 @@
     "line",
     "youtube",
     "spotify",
+    "music",
     "netflix",
     "threads"
   ],
@@ -180,16 +181,16 @@
         "meta": {}
       }
     ],
-  "  clock": [
+  "clock": [
       {
-        "id": "test-item-reminders",
+        "id": "test-item-clock",
         "title": "測試內容",
         "body": "這是一條測試內容。",
         "sender": "測試使用者",
         "kind": "text",
         "meta": {}
       }
-      ],
+    ],
     "reminders": [
       {
         "id": "test-item-reminders",
@@ -207,6 +208,28 @@
         "body": "這是一條測試內容。",
         "sender": "測試使用者",
         "kind": "text",
+        "meta": {}
+      }
+    ],
+     "music": [
+      {
+        "id": "test-item-music-2",
+        "title": "この空がトリガー",
+        "body": "=LOVE",
+        "sender": "=LOVE",
+        "avatar": "/MUSIC/CD-1.jpg",
+        "kind": "audio",
+        "media": "/MUSIC/=LOVE(この空がトリガー).mp3",
+        "meta": {}
+      },
+      {
+        "id": "test-item-music-3.",
+        "title": "I'm very proud of you",
+        "body": "沼之歌",
+        "sender": "沼之歌",
+        "avatar": "/MUSIC/TEN.jpg",
+        "kind": "audio",
+        "media": "/MUSIC/I'm very proud of you.mp3",
         "meta": {}
       }
     ],
@@ -399,26 +422,15 @@
       },
       {
         "id": "spotify-rec-7",
-        "title": "Midnight Girl",
+        "title": "井上梨名のおしゃべりな時間",
         "avatar": "/MUSIC/REC-7.jpg",
         "body": "",
-        "sender": "imase",
-        "folder": "為你推薦",
+        "sender": "井上梨名",
+        "folder": "Podcast",
         "kind": "audio",
-        "media": "/MUSIC/imase(Midnight Girl).mp3",
+        "media": "/MUSIC/井上梨名(からのお知らせ).mp3",
         "meta": {}
-      },
-      {
-        "id": "spotify-rec-8",
-        "title": "パレット",
-        "avatar": "/MUSIC/REC-8.jpg",
-        "body": "",
-        "sender": "はしメロ",
-        "folder": "為你推薦",
-        "kind": "audio",
-        "media": "/MUSIC/はしメロ(パレット).mp3",
-        "meta": {}
-      }
+        }
     ],
     "netflix": [
       {

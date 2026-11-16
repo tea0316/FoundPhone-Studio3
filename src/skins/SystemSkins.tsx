@@ -1,6 +1,13 @@
 export { WeatherSkin, HealthSkin } from "./CalibratedSystemApps";
-import { AudioPlayer } from "../audio";
-import { chooseTrack, playerNext, usePlayer } from "../player";
+import {
+  chooseTrack,
+  coverUrl,
+  playerNext,
+  playerPrev,
+  playerSeek,
+  playerToggle,
+  usePlayer,
+} from "../player";
 import { useSkinState } from "../skinState";
 import {
     Calendar,
@@ -25,6 +32,12 @@ import {
     Star,
     Users,
     Wallet,
+    Pause,    
+    Play,     
+    Radio,
+    ChevronDown,
+    SkipBack,    
+    Shuffle,  
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { download } from "../io";
@@ -725,66 +738,194 @@ export function FilesSkin(p: Props) {
         </div>
     );
 }
-export function MusicSkin(p: Props) {
-  const { tab, setTab, items } = useContent(p, "資料庫");
-  const { item: song } = usePlayer();
+function AMNowPlaying({ close }: { close: () => void }) {
+  const { item, playing, pos, dur } = usePlayer();
+  const isEnding = playing && dur > 0 && dur - pos <= 42 && dur - pos > 0;
+  const [liked, setLiked] = useState(false); 
+  
+  if (!item) return null;
+  const u = coverUrl(item.avatar || "");
+  const fmt = (s: number) =>
+    `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+  const pct = dur ? Math.min(100, (pos / dur) * 100) : 0;
+
   return (
-    <div className="catalog-skin native-music">
+    <div className="am-np">
+      {isEnding && item.id === "test-item-music-3." && (
+        <div className="fireworks-container">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className={`firework firework-${i}`} />
+          ))}
+        </div>
+      )}  
+      {u && <div className="am-np-bg" style={{ backgroundImage: `url(${u})` }} />}
+      <button className="am-np-grab" aria-label="收起" onClick={close}>
+        <ChevronDown size={26} />
+      </button>
+      <div
+        className={"am-np-cover" + (playing ? "" : " paused")}
+        style={u ? { backgroundImage: `url(${u})` } : undefined}
+      >
+        {!u && <Music size={64} />}
+      </div>
+
+      <div className="am-np-info-wrapper">
+        <div className="am-np-info">
+          <strong>{item.title}</strong>
+          <span>{item.sender}</span>
+        </div>
+                <button 
+          className="am-np-heart" 
+          onClick={() => setLiked(!liked)}
+          aria-label="喜歡"
+        >
+          {item.id === "test-item-music-3." ? ( 
+            <img 
+              src="/saxophone.png" // 👈 這裡換成你圖片的路徑
+              alt="薩克斯風" 
+              style={{ 
+                width: "32px", 
+                height: "32px", 
+                objectFit: "contain",
+                transform: liked ? "scale(1.15)" : "scale(1)", // 點擊時稍微放大
+                transition: "transform 0.2s"
+              }} 
+            />
+          ) : (
+            <Heart 
+              size={22} 
+              fill={liked ? "#fa2d48" : "none"} 
+              color={liked ? "#fa2d48" : "#111"} 
+            />
+          )}
+        </button>
+      </div>
+
+      <input
+        className="am-np-seek"
+        type="range"
+        min={0}
+        max={dur || 0}
+        step={1}
+        value={Math.min(pos, dur || 0)}
+        style={{ ["--pct" as string]: pct + "%" }}
+        onChange={(e) => playerSeek(Number(e.target.value))}
+      />
+      <div className="am-np-time">
+        <span>{fmt(pos)}</span>
+        <span>{fmt(dur)}</span>
+      </div>
+      <div className="am-np-ctl">
+        <button aria-label="上一首" onClick={playerPrev}>
+          <SkipBack size={38} fill="currentColor" />
+        </button>
+        <button aria-label="播放或暫停" onClick={playerToggle}>
+          {playing ? (
+            <Pause size={44} fill="currentColor" />
+          ) : (
+            <Play size={44} fill="currentColor" />
+          )}
+        </button>
+        <button aria-label="下一首" onClick={playerNext}>
+          <SkipForward size={38} fill="currentColor" />
+        </button>
+      </div>
+    </div>
+  );
+}
+export function MusicSkin(p: Props) {
+  const { items, q, setQ } = useContent(p, "資料庫");
+  const [tab, setTab] = useState("資料庫");
+  const [full, setFull] = useState(false);
+  const { item: song, playing } = usePlayer();
+  const art = (i: Item, cls = "am-art") => {
+    const u = coverUrl(i.avatar || "");
+    return (
+      <span className={cls} style={u ? { backgroundImage: `url(${u})` } : undefined}>
+        {!u && <Music size={18} />}
+      </span>
+    );
+  };
+  const play = (i: Item) => chooseTrack(p, i, items);
+  const shuffle = () => {
+    if (items.length) play(items[Math.floor(Math.random() * items.length)]);
+  };
+  const row = (i: Item) => (
+    <button className="am-row" key={i.id} onClick={() => play(i)}>
+      {art(i)}
+      <span className={"am-title" + (song?.id === i.id ? " on" : "")}>
+        {i.title}
+        <small>{i.sender}</small>
+      </span>
+      <span className="am-more">⋯</span>
+    </button>
+  );
+  const found = items.filter((i) =>
+    (i.title + i.sender).toLowerCase().includes(q.toLowerCase()),
+  );
+  return (
+    <div className="catalog-skin native-music am">
       <Header p={p} />
-      <div className="catalog-scroll">
-        <h1>{tab}</h1>
-        {tab === "歌單" ? (
-          <div className="music-albums">
-            {groupItems(items, "我的音樂").map((g) => (
-              <button
-                key={g}
-                onClick={() => {
-                  const i = items.find((i) => (i.folder || "我的音樂") === g);
-                  if (i) chooseTrack(p, i, items);
-                }}
-              >
-                <Music size={51} />
-                <strong>{g}</strong>
+      <div className="catalog-scroll am-scroll">
+        {tab === "資料庫" && (
+          <>
+            <h1>歌曲</h1>
+            <div className="am-actions">
+              <button onClick={() => items[0] && play(items[0])}>
+                <Play size={15} fill="currentColor" /> 播放
               </button>
-            ))}
-          </div>
-        ) : (
-          items.map((i, n) => (
-            <button
-              className="music-track"
-              key={i.id}
-              onClick={() => chooseTrack(p, i, items)}
-            >
-              <small>{n + 1}</small>
-              <span>
-                <strong>{i.title}</strong>
-                <small>
-                  {i.sender} · {meta(i, "album")}
-                </small>
-              </span>
-              <span>{meta(i, "duration")}</span>
-            </button>
-          ))
+              <button onClick={shuffle}>
+                <Shuffle size={15} /> 隨機播放
+              </button>
+            </div>
+            {items.map(row)}
+          </>
+        )}
+        {tab === "搜尋" && (
+          <>
+            <h1>搜尋</h1>
+            <SearchBox value={q} set={setQ} />
+            {found.map(row)}
+          </>
+        )}
+        {tab !== "資料庫" && tab !== "搜尋" && (
+          <>
+            <h1>{tab}</h1>
+            <p className="am-empty">這個分頁尚未提供內容</p>
+          </>
         )}
         <Empty items={items} />
       </div>
-      {song && (
-        <div className="native-now-playing">
-          <button onClick={() => p.onItem(song)}>
-            <Music size={20} />
-            {song.title}
+      {song && !full && (
+        <div className="am-mini" onClick={() => setFull(true)}>
+          {art(song)}
+          <b>{song.title}</b>
+          <button
+            aria-label="播放或暫停"
+            onClick={(e) => {
+              e.stopPropagation();
+              playerToggle();
+            }}
+          >
+            {playing ? <Pause size={22} fill="currentColor" /> : <Play size={22} fill="currentColor" />}
           </button>
-          <AudioPlayer />
-          <button aria-label="下一首" onClick={playerNext}>
-            <SkipForward size={18} />
+          <button
+            aria-label="下一首"
+            onClick={(e) => {
+              e.stopPropagation();
+              playerNext();
+            }}
+          >
+            <SkipForward size={22} fill="currentColor" />
           </button>
         </div>
       )}
+      {full && <AMNowPlaying close={() => setFull(false)} />}
       <Tabs
-        tabs={["資料庫", "歌單"]}
+        tabs={["立即聆聽", "瀏覽", "廣播", "資料庫", "搜尋"]}
         value={tab}
         set={setTab}
-        icons={[<Music />, <Folder />]}
+        icons={[<Play />, <Grid />, <Radio />, <Music />, <Search />]}
       />
     </div>
   );

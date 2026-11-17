@@ -742,6 +742,7 @@ function AMNowPlaying({ close }: { close: () => void }) {
   const { item, playing, pos, dur } = usePlayer();
   const isEnding = playing && dur > 0 && dur - pos <= 42 && dur - pos > 0;
   const [liked, setLiked] = useState(false); 
+  const [isPopped, setIsPopped] = useState(false);
   
   if (!item) return null;
   const u = coverUrl(item.avatar || "");
@@ -751,9 +752,9 @@ function AMNowPlaying({ close }: { close: () => void }) {
 
   return (
     <div className="am-np">
-      {isEnding && item.id === "test-item-music-3." && (
+      {isEnding && item.id === "test-item-music-3" && (
         <div className="fireworks-container">
-          {[...Array(6)].map((_, i) => (
+          {[...Array(7)].map((_, i) => (
             <div key={i} className={`firework firework-${i}`} />
           ))}
         </div>
@@ -779,16 +780,25 @@ function AMNowPlaying({ close }: { close: () => void }) {
           onClick={() => setLiked(!liked)}
           aria-label="喜歡"
         >
-          {item.id === "test-item-music-3." ? ( 
+         {item.id === "test-item-music-3" ? ( 
             <img 
-              src="/saxophone.png" // 👈 這裡換成你圖片的路徑
+              src="/saxophone.png"
               alt="薩克斯風" 
+              onClick={(e) => {
+                e.stopPropagation(); // 防止觸發外層的點擊事件
+                setIsPopped(true);   // 點擊時放大
+                setTimeout(() => {
+                  setIsPopped(false); // 1 秒鐘後縮小
+                }, 2000);
+              }}
               style={{ 
                 width: "32px", 
                 height: "32px", 
                 objectFit: "contain",
-                transform: liked ? "scale(1.15)" : "scale(1)", // 點擊時稍微放大
-                transition: "transform 0.2s"
+                // 👇 這裡改用我們剛剛加的 isPopped 狀態，並加上過渡動畫
+                transform: isPopped ? "scale(1.4)" : "scale(1)",
+                transition: "transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                cursor: "pointer",
               }} 
             />
           ) : (

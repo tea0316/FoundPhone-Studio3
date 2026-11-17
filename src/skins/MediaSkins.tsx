@@ -79,6 +79,7 @@ function TrackPlayer({ p, onOpen }: { p: Props; onOpen?: () => void }) {
 export function NowPlaying({ p, close }: { p: Props; close: () => void }) {
   const { item, queue, playing, pos, dur, shuffle, repeat } = usePlayer();
   const [liked, setLiked] = useSkinState<string[]>(p, "likes", []);
+  const [isPopped, setIsPopped] = useState(false);
   if (!item) return null;
   const isLiked = liked.includes(item.id);
   const cover = coverUrl(item.avatar);
@@ -115,12 +116,20 @@ export function NowPlaying({ p, close }: { p: Props; close: () => void }) {
             <img
               src="/giraffe.png"
               alt="長頸鹿"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsPopped(true);
+                setTimeout(() => {
+                  setIsPopped(false);
+                }, 2000);
+              }}
               style={{
-                width: "32px",
-                height: "32px",
+                width: "38px",
+                height: "38px",
                 objectFit: "contain",
-                transform: isLiked ? "scale(1.15)" : "scale(1)",
-                transition: "transform 0.2s",
+                transform: isPopped ? "scale(1.5)" : "scale(1)",
+                transition: "transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                cursor: "pointer",
               }}
             />
           ) : (

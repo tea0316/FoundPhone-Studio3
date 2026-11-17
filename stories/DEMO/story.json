@@ -213,20 +213,10 @@
     ],
      "music": [
       {
-        "id": "test-item-music-2",
-        "title": "この空がトリガー",
-        "body": "=LOVE",
-        "sender": "=LOVE",
-        "avatar": "/MUSIC/CD-1.jpg",
-        "kind": "audio",
-        "media": "/MUSIC/=LOVE(この空がトリガー).mp3",
-        "meta": {}
-      },
-      {
-        "id": "test-item-music-3.",
+        "id": "test-item-music-3",
         "title": "I'm very proud of you",
-        "body": "沼之歌",
-        "sender": "沼之歌",
+        "body": "天之歌",
+        "sender": "天之歌",
         "avatar": "/MUSIC/TEN.jpg",
         "kind": "audio",
         "media": "/MUSIC/I'm very proud of you.mp3",

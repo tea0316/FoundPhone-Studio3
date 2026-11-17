@@ -999,10 +999,10 @@
   margin-top: 5px;
 }
 .native-music {
-  --app-accent: #e54462;
+  --app-accent: #f19db5;
 }
 .native-music h1 {
-  color: #e54462;
+  color: #f19db5;
 }
 .music-albums {
   display: grid;
@@ -5569,6 +5569,7 @@
 .am-np-heart:active {
   transform: scale(0.9);
 }
+
 /* ===== 煙火特效（升空拖尾 → 雙層爆開 → 下墜淡出） ===== */
 .fireworks-container {
   position: absolute;
@@ -5586,7 +5587,8 @@
   margin-left: -1.5px;
   border-radius: 2px;
   background: linear-gradient(to top, transparent, currentColor);
-  filter: drop-shadow(0 0 4px currentColor);
+  filter: drop-shadow(0 0 6px currentColor);
+  mix-blend-mode: screen; /* 增強夜空發光與交疊亮度 */
   animation: fw-rise 2.6s cubic-bezier(0.25, 0.6, 0.35, 1) infinite backwards;
 }
 
@@ -5645,13 +5647,14 @@
   animation-name: fw-burst-outer;
 }
 
-/* 位置、顏色、時間錯開（4 個點，往中間靠攏） */
-.firework-0 { top: 28%; left: 32%; color: #ff2a6d; animation-delay: 0s; }
-.firework-1 { top: 24%; left: 70%; color: #00ffcc; animation-delay: 0.43s; }
-.firework-2 { top: 46%; left: 50%; color: #ffaa00; animation-delay: 0.87s; }
-.firework-3 { top: 40%; left: 20%; color: #9d4edd; animation-delay: 1.3s; }
-.firework-4 { top: 50%; left: 80%; color: #4cc9f0; animation-delay: 1.73s; }
-.firework-5 { top: 62%; left: 38%; color: #ffd166; animation-delay: 2.17s; }
+/* 位置、顏色、時間錯開（已將畫面空間均勻散布） */
+.firework-6 { top: 15%; left: 75%; color: #f19db5; animation-delay: 2.17s; } /* 粉紅（最右高空） */
+.firework-4 { top: 20%; left: 25%; color: #FFFFFF; animation-delay: 1.55s; } /* 白色（左側高空） */
+.firework-5 { top: 25%; left: 55%; color: #06B411; animation-delay: 1.73s; } /* 深綠（中高空） */
+.firework-1 { top: 30%; left: 40%; color: #FEF100; animation-delay: 0.43s; } /* 黃 （中空） */
+.firework-2 { top: 35%; left: 85%; color: #019E0D; animation-delay: 0.87s; } /* 綠 （右側中空） */
+.firework-3 { top: 40%; left: 18%; color: #0063AD; animation-delay: 1.3s; }  /* 藍 （左側中低空） */
+.firework-0 { top: 45%; left: 60%; color: #FC9A01; animation-delay: 0s; }    /* 橘 （中低空） */
 
 /* 升空：從下方飛上來，到頂點消失 */
 @keyframes fw-rise {

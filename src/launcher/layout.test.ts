@@ -101,6 +101,12 @@ it("migrates preview folders once while preserving custom folders and widgets", 
   const before = JSON.stringify(w);
   const old = defaultLayout(w);
   old.previewLayoutRevision = 0;
+  const dockApps = old.apps.filter(a => a.installed && a.visible && a.dock);
+    if (dockApps.length > 3) {
+      for (let i = 3; i < dockApps.length; i++) {
+        dockApps[i].dock = false;
+      }
+    }
   old.apps.find((a) => a.id === "wechat")!.folder = "聊天";
   old.apps.find((a) => a.id === "douyin")!.folder = "國內";
   old.apps.find((a) => a.id === "instagram")!.folder = "國際";

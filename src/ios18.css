@@ -101,24 +101,62 @@
   border-radius: 0 2px 2px 0;
   opacity: 0.6;
 }
-/* 電量填充條 */
+/* ===== 電池樣式（鎖定版） ===== */
+
+/* 電池外框 */
+.ios18 .ios-battery {
+  position: relative;
+  width: 26px;
+  height: 13px;
+  border-radius: 4px;
+  border: 0.8px solid #9b95958e !important; 
+  font-size: 9px;
+  line-height: 11px;
+  display: block;
+  background: rgba(255, 255, 255, 0.4) !important; /* 微透白底，可保留 */
+  color: #000 !important;
+}
+
+/* 電池右側正極凸點 */
+.ios18 .ios-battery:after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  top: 4px;
+  width: 2px;
+  height: 5px;
+  background: #000 !important;
+  border-radius: 0 2px 2px 0;
+  opacity: 0.6;
+}
+
+/* 電量填充條（綠色） */
 .ios18 .ios-battery > span {
   display: block;
   height: 100%;
   max-width: 100%;                  
   border-radius: 2px;
-  background: currentColor;
+  background: #34c759 !important; /* 固定綠色填充 */
   opacity: 0.9;
+  position: absolute; /* 絕對定位，墊在數字下面 */
+  left: 0;
+  top: 0;
+  z-index: 1; /* 圖層在數字下方 */
 }
-/* 電量百分比文字 */
+
+/* 電量百分比文字（永遠在最上層、永遠是黑色） */
 .ios18 .ios-battery > b {
   position: absolute;
   inset: 0;
   font-size: 9px;
   text-align: center;
-  line-height: 11px;
-  color: #000000;
-  mix-blend-mode: screen;
+  line-height: 13px; /* 讓字垂直置中 */
+  color: #000 !important; /* 固定黑色 */
+  mix-blend-mode: normal !important;
+  z-index: 2; /* 圖層在填充條上方，不會被蓋住 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ============================================================

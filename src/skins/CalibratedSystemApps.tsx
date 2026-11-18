@@ -9,21 +9,24 @@ import {
   ChevronRight,
   ChevronLeft,
   User,
-  Plus,
   MoonStar,
   Sunrise,
   CloudSun,
   Droplet,
   Wind,
-  Map,
-  List,
   Cloud,
   Activity,
-  Search,
+Sun,
+CloudRain,
+Snowflake,
+CloudLightning,
+Sunset,
+CloudMoon,
 } from "lucide-react";
 import { useSkinState } from "../skinState";
 import type { Item } from "../schema";
 import { meta, type Props } from "./shared";
+import { useLiveWeather } from "../liveWeather";
 import "../ios/native-apps.css";
 const healthTypes = [
   { id: "cycle", title: "經期追蹤", icon: Activity, color: "#7361ff" },
@@ -354,6 +357,9 @@ function listMeta(
   low?: string;
   high?: string;
   label?: string;
+  code?: number;
+  rain?: number;
+  wind?: number;
 }[] {
   try {
     const v = JSON.parse(meta(item, key, "[]"));
@@ -373,25 +379,128 @@ function listMeta(
     return [];
   }
 }
+function skyIcon(code: number | undefined, night = false) {
+  if (code === undefined) return night ? MoonStar : CloudSun;
+  if (code >= 95) return CloudLightning;
+  if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return CloudRain;
+  if ((code >= 71 && code <= 77) || code === 85 || code === 86) return Snowflake;
+  if (code === 3 || code === 45 || code === 48) return Cloud;
+  if (code === 2) return night ? CloudMoon : CloudSun;
+  return night ? MoonStar : Sun;
+}
+function hourIcon(h: { time?: string; code?: number } | undefined) {
+  const label = h?.time ?? "";
+  const hour = label.endsWith("時") ? parseInt(label) : new Date().getHours();
+  const Icon = skyIcon(h?.code, hour >= 18 || hour < 6);
+  return <Icon size={28} />;
+}
+function dayIcon(code: number | undefined) {
+  const Icon = skyIcon(code);
+  return <Icon size={23} />;
+}
 export function WeatherSkin(p: Props) {
-  const [index, setIndex] = useSkinState<number>(p, "city", 0),
+  const [index] = useSkinState<number>(p, "city", 0),
     [mode, setMode] = useState("temperature"),
-    [sheet, setSheet] = useState(""),
-    [query, setQuery] = useState("");
-  const item = p.items[index] || p.items[0],
-    hourly = listMeta(item, "hourly"),
+    [, setSheet] = useState("");
+     const base = p.items[index] || p.items[0];
+  const live = useLiveWeather(
+    meta(base, "latitude", ""),
+    meta(base, "longitude", ""),
+    meta(base, "timezone", "auto"),
+  );
+  const item =
+    live && base
+      ? {
+          ...base,
+          meta: {
+            ...base.meta,
+            temperature: live.temperature,
+            high: live.high,
+            low: live.low,
+            condition: live.condition,
+            aqi: live.aqi,
+            aqiLabel: live.aqiLabel,
+            rain: live.rain,
+            wind: live.wind,
+            sunrise: live.sunrise,
+            sunset: live.sunset,
+            uv: live.uv,
+            hourly: JSON.stringify(live.hourly),
+            daily: JSON.stringify(live.daily),
+          },
+        }
+      : base;
+  const hourly = listMeta(item, "hourly"),
     daily = listMeta(item, "daily");
+      const hourNow = new Date().getHours();
+  const day = live ? live.isDay : hourNow >= 6 && hourNow < 18;
+  const text = meta(item, "condition", "");
+  const code = live?.code;
+  const kind0 =
+    code !== undefined
+      ? code >= 95
+        ? "storm"
+        : (code >= 51 && code <= 67) || (code >= 80 && code <= 82)
+          ? "rain"
+          : (code >= 71 && code <= 77) || code === 85 || code === 86
+            ? "snow"
+            : code >= 2
+              ? "cloud"
+              : "clear"
+      : text.includes("雷")
+        ? "storm"
+        : text.includes("雨")
+          ? "rain"
+          : text.includes("雪")
+            ? "snow"
+            : text.includes("陰") || text.includes("雲") || text.includes("霧")
+              ? "cloud"
+              : "clear";
+                const waiting = !live && meta(base, "latitude", "") !== "";
+  const kind = waiting ? "clear" : kind0;
+  const sky = `${kind}-${day ? "day" : "night"}`;
+  const SkyArt =
+    kind === "clear"
+      ? day
+        ? Sun
+        : MoonStar
+      : kind === "cloud"
+        ? Cloud
+        : kind === "rain"
+          ? CloudRain
+          : kind === "snow"
+            ? Snowflake
+            : CloudLightning;
   const read = () => {
     if (item) {
       if (p.creator || item.password) p.onItem(item);
       else p.onRead(item.id);
     }
   };
+    const lows = daily.map((d) => Number(d.low)).filter(Number.isFinite);
+  const highs = daily.map((d) => Number(d.high)).filter(Number.isFinite);
+  const lo = lows.length ? Math.min(...lows) : 0;
+  const hi = highs.length ? Math.max(...highs) : 1;
+  const span = Math.max(1, hi - lo);
+  const uvNum = Number(meta(item, "uv", "—"));
+  const uvText = !Number.isFinite(uvNum)
+    ? "—"
+    : uvNum <= 2
+      ? "低"
+      : uvNum <= 5
+        ? "中等"
+        : uvNum <= 7
+          ? "高"
+          : uvNum <= 10
+            ? "很高"
+            : "極高";
   return (
     <div
       className="catalog-skin native-weather calibrated-weather"
       data-empty={!item}
+      data-sky={sky}
     >
+
       <div className="weather-stars" aria-hidden="true" />
       <div className="weather-native-scroll">
         <section className="weather-native-current">
@@ -403,7 +512,7 @@ export function WeatherSkin(p: Props) {
             <span>最低 {meta(item, "low", "—")}°</span>
           </div>
           <p>{meta(item, "condition", "暫無天氣資料")}</p>
-          <MoonStar className="weather-moon-art" size={55} />
+          <SkyArt className="weather-moon-art" size={55} />
         </section>
         <button
           className="weather-native-card weather-air-quality"
@@ -427,7 +536,7 @@ export function WeatherSkin(p: Props) {
           </div>
           <p>
             {item?.meta.aqi
-              ? `目前 AQI (CN) 為 ${item.meta.aqi}。`
+              ? `目前 AQI (US) 為 ${item.meta.aqi}。`
               : "暫無空氣品質資料"}
           </p>
         </button>
@@ -440,7 +549,7 @@ export function WeatherSkin(p: Props) {
                   ? "氣溫 (°C)"
                   : mode === "rain"
                     ? "降雨機率"
-                    : "風速"}
+                    : "風速 (公里/時)"}
               </small>
             </div>
             <div className="weather-mode-switch">
@@ -473,22 +582,33 @@ export function WeatherSkin(p: Props) {
                 }}
               >
                 <strong>
-                  {hourly[n]?.time ||
-                    ["現在", "—時", "—時", "—時", "—時", "日出"][n]}
+                  {n === 5
+                    ? day
+                      ? "日落"
+                      : "日出"
+                    : hourly[n]?.time || ["現在", "—時", "—時", "—時", "—時"][n]}
                 </strong>
                 {n === 5 ? (
-                  <Sunrise size={28} color="#ffd60a" />
+                  day ? (
+                    <Sunset size={28} color="#ffb340" />
+                  ) : (
+                    <Sunrise size={28} color="#ffd60a" />
+                  )
                 ) : (
-                  <MoonStar size={28} />
+                  hourIcon(hourly[n])
                 )}
                 <span>
                   {n === 5
-                    ? meta(item, "sunrise", "—")
+                    ? meta(item, day ? "sunset" : "sunrise", "—")
                     : mode === "temperature"
                       ? (hourly[n]?.temperature ?? "—") + "°"
                       : mode === "rain"
-                        ? meta(item, "rain", "—")
-                        : meta(item, "wind", "—")}
+                        ? hourly[n]?.rain !== undefined
+                          ? hourly[n].rain + "%"
+                          : meta(item, "rain", "—")
+                        : hourly[n]?.wind !== undefined
+                          ? String(hourly[n].wind)
+                          : meta(item, "wind", "—")}
                 </span>
               </button>
             ))}
@@ -513,99 +633,33 @@ export function WeatherSkin(p: Props) {
               }}
             >
               <strong>{d.label || d.time || "—"}</strong>
-              <CloudSun size={23} />
+              {dayIcon(n === 0 && live ? live.code : (d as { code?: number }).code)}
               <span>{d.low || "—"}°</span>
-              <i />
+              <i className="wk-range">
+                <u
+                  style={{
+                    left: ((Number(d.low) - lo) / span) * 100 + "%",
+                    right: ((hi - Number(d.high)) / span) * 100 + "%",
+                  }}
+                />
+              </i>
               <b>{d.high || "—"}°</b>
             </button>
           ))}
         </section>
+        <div className="wk-pair">
+          <section className="weather-native-card wk-card">
+            <small>紫外線指數</small>
+            <strong>{meta(item, "uv", "—")}</strong>
+            <span>{uvText}</span>
+          </section>
+          <section className="weather-native-card wk-card">
+            <small>日落</small>
+            <strong>{meta(item, "sunset", "—")}</strong>
+            <span>日出：{meta(item, "sunrise", "—")}</span>
+          </section>
+        </div>
       </div>
-      <nav className="weather-native-toolbar">
-        <button aria-label="天氣地圖" onClick={() => setSheet("天氣地圖")}>
-         <Map size={27} />
-        </button>
-        <div className="weather-city-dots">
-          {p.items.length ? (
-            p.items.map((i, n) => (
-              <button
-                aria-label={"切換城市" + i.title}
-                aria-current={n === index ? "true" : undefined}
-                key={i.id}
-                onClick={() => {
-                  setIndex(n);
-                  p.onRead(i.id);
-                }}
-              />
-            ))
-          ) : (
-            <span />
-          )}
-        </div>
-        <button aria-label="城市列表" onClick={() => setSheet("城市列表")}>
-          <List size={29} />
-        </button>
-      </nav>
-      {sheet && (
-        <div className="weather-native-sheet">
-          <header>
-            <button aria-label="返回天氣" onClick={() => setSheet("")}>
-              <ChevronLeft />
-              天氣
-            </button>
-            <strong>{sheet}</strong>
-          </header>
-          {sheet === "城市列表" ? (
-            <>
-              <label className="weather-city-search">
-                <Search size={18} />
-                <input
-                  placeholder="搜尋城市"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                />
-              </label>
-              {p.items
-                .filter((i) => i.title.includes(query))
-                .map((i) => (
-                  <button
-                    className="weather-city-row"
-                    key={i.id}
-                    onClick={() => {
-                      setIndex(p.items.indexOf(i));
-                      setSheet("");
-                      p.onRead(i.id);
-                    }}
-                  >
-                    <strong>{i.title}</strong>
-                    <span>{meta(i, "temperature", "—")}°</span>
-                  </button>
-                ))}
-              {!p.items.length && <p>暫無城市</p>}
-              {p.creator && (
-                <button onClick={p.onAdd}>
-                  <Plus />
-                  新增城市
-                </button>
-              )}
-            </>
-          ) : sheet === "天氣地圖" ? (
-            <div className="weather-map-empty">
-              <p>暫無地圖資料</p>
-            </div>
-          ) : (
-            <div className="weather-section-detail">
-              <h2>{item?.title || "暫無城市"}</h2>
-              <p>
-                {sheet === "空氣品質"
-                  ? meta(item, "aqi", "暫無空氣品質資料")
-                  : item?.body || "暫無天氣記錄"}
-              </p>
-              {item && <small>{item.time}</small>}
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 }

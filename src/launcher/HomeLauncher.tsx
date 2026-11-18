@@ -69,9 +69,9 @@ function WidgetFace({
       {widget.type === "calendar" ? (
         <>
           <span className="widget-red">
-            {new Intl.DateTimeFormat("zh-CN", {
+            {new Intl.DateTimeFormat("ja-JP", {
               weekday: "long",
-              timeZone: "UTC",
+              timeZone: "Asia/Tokyo"
             }).format(date)}
           </span>
           <b className="widget-day">{date.getUTCDate()}</b>
@@ -323,9 +323,9 @@ export function HomeLauncher(p: Props) {
     if (
       (target === "dock" || target.startsWith("dock:")) &&
       !apps.find((a) => a.id === d.entry.key)?.dock &&
-      apps.filter((a) => a.dock && a.visible && a.installed).length >= 4
+      apps.filter((a) => a.dock && a.visible && a.installed).length >= 3
     ) {
-      setError("Dock最多放4个App");
+      setError("Dock最多放3個App");
       return;
     }
     p.change((l) => {
@@ -363,7 +363,7 @@ export function HomeLauncher(p: Props) {
         const count = l.apps.filter(
           (x) => x.dock && x.visible && x.installed,
         ).length;
-        if (!a.dock && count >= 4) {
+        if (!a.dock && count >= 3) {
           return;
         }
         delete l.positions[d.entry.key];
@@ -959,9 +959,9 @@ export function HomeLauncher(p: Props) {
                         if (
                           !active.dock &&
                           apps.filter((a) => a.installed && a.visible && a.dock)
-                            .length >= 4
+                            .length >= 3
                         ) {
-                          setError("Dock 最多只能放 4 個 App");
+                          setError("Dock 最多只能放 3 個 App");
                           return;
                         }
                         patch(active.id, (a) => {

@@ -3,7 +3,7 @@
   "id": "foundphone-demo",
   "title": "山下瞳月的IPHONE",
   "description": "僅用於介面測試，不含劇情",
-  "revision": 33,
+  "revision": 43,
   "phone": {
     "owner": "山下瞳月",
     "date": "2026-10-25",
@@ -13,39 +13,45 @@
     "wallpaper": "custom"
   },
   "installedApps": [
-    "appstore",
-    "phone",
-    "messages",
-    "contacts",
-    "photos",
-    { "id": "camera", "name": "相機", "installed": true, "visible": true, "dock": true, "folder": "", "icon": "" },
-    "safari",
-    "notes",
-    "mail",
-    "reminders",
-    
-    { "id": "calendar", "name": "日曆", "installed": true, "visible": true, "dock": false, "folder": "生活", "icon": "" },
-    { "id": "weather", "name": "天氣", "installed": true, "visible": true, "dock": false, "folder": "生活", "icon": "" },
-    { "id": "maps", "name": "地圖", "installed": true, "visible": true, "dock": false, "folder": "生活", "icon": "" },
-    { "id": "wallet", "name": "錢包", "installed": true, "visible": true, "dock": false, "folder": "生活", "icon": "" },
-    { "id": "health", "name": "健康", "installed": true, "visible": true, "dock": false, "folder": "生活", "icon": "" },
 
-    { "id": "calculator", "name": "計算機", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
-    { "id": "clock", "name": "時鐘", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
-    { "id": "settings", "name": "設定", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
-    { "id": "find", "name": "尋找", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
-    { "id": "files", "name": "文件", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
-    
-    "instagram",
-    "tiktok",
-    "twitter",
-    "line",
-    "youtube",
-    "spotify",
-    "music",
-    "netflix",
-    "threads"
-  ],
+"appstore",
+"contacts",
+"photos",
+"notes",
+"mail",
+"reminders",
+{ "id": "phone", "name": "電話", "installed": true, "visible": true, "dock": true, "folder": "", "icon": "" },
+{ "id": "camera", "name": "相機", "installed": true, "visible": true, "dock": true, "folder": "", "icon": "" },
+{ "id": "line", "name": "LINE", "installed": true, "visible": true, "dock": true, "folder": "", "icon": "" },
+
+{ "id": "messages", "name": "訊息", "installed": true, "visible": true, "dock": false, "folder": "", "icon": "" },
+{ "id": "safari", "name": "Safari", "installed": true, "visible": true, "dock": false, "folder": "", "icon": "" },
+
+{ "id": "calendar", "name": "日曆", "installed": true, "visible": true, "dock": false, "folder": "生活", "icon": "" },
+{ "id": "weather", "name": "天氣", "installed": true, "visible": true, "dock": false, "folder": "生活", "icon": "" },
+{ "id": "maps", "name": "地圖", "installed": true, "visible": true, "dock": false, "folder": "生活", "icon": "" },
+{ "id": "wallet", "name": "錢包", "installed": true, "visible": true, "dock": false, "folder": "生活", "icon": "" },
+{ "id": "health", "name": "健康", "installed": true, "visible": true, "dock": false, "folder": "生活", "icon": "" },
+
+
+
+{ "id": "calculator", "name": "計算機", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
+{ "id": "clock", "name": "時鐘", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
+{ "id": "settings", "name": "設定", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
+{ "id": "find", "name": "尋找", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
+{ "id": "files", "name": "文件", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
+
+
+"instagram",
+"tiktok",
+"twitter",
+"youtube",
+"spotify",
+"music",
+"netflix",
+"threads"
+
+],
   "contacts": [
     {
       "id": "test-contact",
@@ -220,7 +226,9 @@
         "avatar": "/MUSIC/TEN.jpg",
         "kind": "audio",
         "media": "/MUSIC/I'm very proud of you.mp3",
-        "meta": {}
+        "meta": {
+          "folder": "收藏庫"
+        }
       }
     ],
     "maps": [
@@ -233,16 +241,35 @@
         "meta": {}
       }
     ],
-    "weather": [
-      {
-        "id": "test-item-weather",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
-        "kind": "text",
-        "meta": {}
-      }
+"weather": [
+  {
+    "id": "weather-tokyo",
+    "title": "東京",
+    "body": "即時天氣資料。",
+    "sender": "天氣",
+    "kind": "text",
+    "meta": {
+      "latitude": "35.6895",
+      "longitude": "139.6917",
+      "timezone": "Asia/Tokyo",
+      "locationLabel": "日本",
+      "temperature": "18",
+      "high": "21",
+      "low": "12",
+      "condition": "晴時多雲",
+      "aqi": "45",
+      "aqiLabel": "良好",
+      "rain": "10%",
+      "wind": "12 公里/時",
+      "sunrise": "06:12",
+      "sunset": "16:35",
+      "uv": "3",
+      "hourly": "[{\"time\":\"現在\",\"temperature\":18},{\"time\":\"20時\",\"temperature\":17},{\"time\":\"21時\",\"temperature\":16},{\"time\":\"22時\",\"temperature\":15},{\"time\":\"23時\",\"temperature\":14}]",
+      "daily": "[{\"label\":\"今天\",\"low\":12,\"high\":21},{\"label\":\"週四\",\"low\":11,\"high\":20},{\"label\":\"週五\",\"low\":10,\"high\":18},{\"label\":\"週六\",\"low\":9,\"high\":19},{\"label\":\"週日\",\"low\":10,\"high\":20},{\"label\":\"週一\",\"low\":11,\"high\":19},{\"label\":\"週二\",\"low\":8,\"high\":15}]"
+    }
+  }
     ],
+
     "wallet": [
       {
         "id": "test-item-wallet",
@@ -304,14 +331,16 @@
       }
     ],
     "tiktok": [
-      {
-        "id": "test-item-tiktok",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
-        "kind": "text",
+     { 
+        "id": "tiktok-1",
+        "title": "原聲 - 歌名",
+        "body": "這是影片說明 #標籤",
+        "sender": "A",
+        "kind": "video",
+        "media": "/video/Usagineko1.mp4",
+        "likes": 62500,
         "meta": {}
-      }
+     }
     ],
     "twitter": [
       {
@@ -340,6 +369,7 @@
         "avatar": "/MUSIC/CD-1.jpg",
         "body": "",
         "sender": "=LOVE",
+        "folder": "我的音樂",
         "kind": "audio",
         "media": "/MUSIC/=LOVE(この空がトリガー).mp3",
         "meta": {}

@@ -394,9 +394,9 @@ export function AppManager({
                           e.target.checked &&
                           work.apps.filter(
                             (a) => a.installed && a.visible && a.dock,
-                          ).length >= 4
+                          ).length >= 3
                         ) {
-                          setError("Dock 最多放置 4 個 App");
+                          setError("Dock 最多放置 3 個 App");
                           return;
                         }
                         update({

@@ -1,5 +1,6 @@
 import { AudioPlayer } from "../audio";
 import { useSkinState } from "../skinState";
+import { useVolume } from "../volume";
 import {
   Bookmark,
   Check,
@@ -23,9 +24,10 @@ import {
   User,
   Users,
   Video,
+  Share2,
 } from "lucide-react";
-import { useState, useEffect, type CSSProperties } from "react";
-import type { Item } from "../schema";
+import { useState, useEffect, useRef, type CSSProperties } from "react";
+import { safeMedia, type Item } from "../schema";
 import {
   chooseTrack,
   coverUrl,
@@ -745,45 +747,155 @@ export function DouyinSkin(p: Props) {
    );
 }
 
-export function TikTokSkin(p: Props) {
-   const { tab, setTab, items } = useContent(p, "For You");
-   const list =
-      tab === "For You"
-         ? items
-         : tab === "Following"
-            ? items.filter((i) => i.folder === "關注" || i.folder === "Following")
-            : items.filter((i) => i.folder === "個人主頁");
-   return (
-      <div className="catalog-skin tiktok-ui">
-         <Header p={p} />
-         <div className="tiktok-top">
-            <button
-               className={tab === "Following" ? "selected" : ""}
-               onClick={() => setTab("Following")}
-            >
-               Following
-            </button>
-            <button
-               className={tab === "For You" ? "selected" : ""}
-               onClick={() => setTab("For You")}
-            >
-               For You
-            </button>
-         </div>
-         <div className="vertical-feed">
-            {list.map((i) => (
-               <VerticalVideo key={i.id} p={p} item={i} />
-            ))}
-            <Empty items={list} />
-         </div>
-         <Tabs
-            tabs={["For You", "Following", "Profile"]}
-            value={tab}
-            set={setTab}
-            icons={[<Home />, <Users />, <User />]}
-         />
+const fmtCount = (n: number) =>
+  n >= 10000 ? (n / 10000).toFixed(1) + "萬" : String(n);
+
+function TikVideo({ p, item }: { p: Props; item: Item }) {
+  const box = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLVideoElement>(null);
+  const [vol] = useVolume();
+  const [paused, setPaused] = useState(false);
+  const [liked, setLiked] = useSkinState<boolean>(p, `liked-${item.id}`, false);
+  const [saved, setSaved] = useSkinState<boolean>(p, `saved-${item.id}`, false);
+  const src = safeMedia(item.media);
+  const isVideo = item.kind === "video" && !!src;
+
+  useEffect(() => {
+    if (ref.current) ref.current.volume = vol;
+  }, [vol]);
+
+  // 滑到這支影片超過 60% 才播放，滑走就暫停
+  useEffect(() => {
+    const v = ref.current,
+      el = box.current;
+    if (!v || !el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && e.intersectionRatio > 0.6) {
+          v.currentTime = 0;
+          v.play().catch(() => {
+            v.muted = true;
+            v.play().catch(() => {});
+          });
+          setPaused(false);
+        } else {
+          v.pause();
+        }
+      },
+      { threshold: [0, 0.6, 1] },
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      v.pause();
+    };
+  }, [src]);
+
+  const toggle = () => {
+    const v = ref.current;
+    if (!v) return;
+    if (v.paused) {
+      v.play().catch(() => {});
+      setPaused(false);
+    } else {
+      v.pause();
+      setPaused(true);
+    }
+  };
+
+  return (
+    <article className="tt-item" ref={box}>
+      {isVideo ? (
+        <video
+          ref={ref}
+          className="tt-video"
+          src={src}
+          loop
+          playsInline
+          preload="metadata"
+          onClick={toggle}
+        />
+      ) : (
+        <Media item={item} className="tt-video" />
+      )}
+      {paused && (
+        <div className="tt-paused">
+          <Play size={54} fill="currentColor" />
+        </div>
+      )}
+      <div className="tt-actions">
+<button className="tt-avatar" aria-label={`作者${item.sender}`}>
+          <Avatar name={item.sender} />
+          <i>
+            <Plus size={11} strokeWidth={3} />
+          </i>
+        </button>
+        <button aria-label="喜歡" onClick={() => setLiked(!liked)}>
+          <Heart size={32} fill={liked ? "#fe2c55" : "white"} stroke="none" />
+          <small>{fmtCount(item.likes + (liked ? 1 : 0))}</small>
+        </button>
+        <button aria-label="留言">
+          <MessageCircle size={31} fill="white" stroke="none" />
+          <small>{fmtCount(item.comments.length)}</small>
+        </button>
+        <button aria-label="收藏" onClick={() => setSaved(!saved)}>
+          <Bookmark size={30} fill={saved ? "#ffc933" : "white"} stroke="none" />
+          <small>{saved ? "已收藏" : "收藏"}</small>
+        </button>
+        <button aria-label="分享">
+          <Share2 size={29} fill="white" stroke="none" />
+          <small>分享</small>
+        </button>
       </div>
-   );
+      <div className="tt-caption">
+        <strong>@{item.sender}</strong>
+        <p>{item.body}</p>
+        <small>
+          <Music size={12} />
+          {item.title}
+        </small>
+      </div>
+    </article>
+  );
+}
+
+export function TikTokSkin(p: Props) {
+  const { items } = useContent(p, "為你推薦");
+  const [tab, setTab] = useState("為你推薦");
+  const list =
+    tab === "為你推薦"
+      ? items
+      : items.filter((i) => i.folder === "關注" || i.folder === "Following");
+  return (
+    <div className="catalog-skin tiktok-ui tt">
+      <div className="tt-top">
+        {["追蹤中", "為你推薦"].map((t) => (
+          <button
+            key={t}
+            className={tab === t ? "selected" : ""}
+            onClick={() => setTab(t)}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+      <div className="tt-feed" key={tab}>
+        {list.map((i) => (
+          <TikVideo key={i.id} p={p} item={i} />
+        ))}
+        <Empty items={list} label="還沒有追蹤的內容" />
+      </div>
+      <div className="tt-nav" aria-hidden="true">
+        <span className="on">首頁</span>
+        <span>朋友</span>
+        <span className="tt-plus">
+          <b />
+        </span>
+        <span>收件匣</span>
+        <span>個人檔案</span>
+      </div>
+    </div>
+  );
 }
 
 export function NetflixSkin(p: Props) {

@@ -199,6 +199,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/* ===== iOS 系統 App｜電話與聯絡人 ===== */
 .native-phone {
   --app-accent: #0cbe58;
 }
@@ -333,6 +334,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
 }
+/* ===== iOS 系統 App｜照片與相機 ===== */
 .photo-mosaic {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -505,6 +507,7 @@
   text-align: center;
   padding-bottom: 10px;
 }
+/* ===== iOS 系統 App｜Safari 瀏覽器 ===== */
 .native-safari {
   background: #eef0f3;
 }
@@ -565,6 +568,7 @@
   padding: 11px 0;
   min-width: 0;
 }
+/* ===== iOS 系統 App｜備忘錄 ===== */
 .native-notes {
   --app-accent: #cfa525;
   background: #f4f3ee;
@@ -650,6 +654,7 @@
   color: #aaa;
   flex-shrink: 0;
 }
+/* ===== iOS 系統 App｜行事曆與郵件 ===== */
 .month-title {
   display: flex;
   align-items: center;
@@ -791,6 +796,7 @@
   border-color: #ddd;
   color: #999;
 }
+/* ===== iOS 系統 App｜時鐘 ===== */
 .native-clock {
   background: #050505;
   color: #eee;
@@ -874,6 +880,7 @@
   background: #123a20;
   color: #58da7b;
 }
+/* ===== iOS 系統 App｜提醒事項 ===== */
 .native-reminders {
   background: #f2f2f7;
   --app-accent: #2e84e6;
@@ -934,6 +941,7 @@
   font-size: 9px;
   color: #999;
 }
+/* ===== iOS 系統 App｜檔案 ===== */
 .native-files {
   --app-accent: #2386e7;
 }
@@ -998,6 +1006,7 @@
   width: 100%;
   margin-top: 5px;
 }
+/* ===== iOS 系統 App｜音樂 ===== */
 .native-music {
   --app-accent: #f19db5;
 }
@@ -1078,6 +1087,7 @@
   order: 4;
 }
 
+/* ===== iOS 系統 App｜地圖 ===== */
 .fiction-map {
   flex: 1;
   min-height: 160px;
@@ -1124,6 +1134,7 @@
 .map-places .catalog-row > svg {
   color: #5696ba;
 }
+/* ===== iOS 系統 App｜天氣 ===== */
 .native-weather {
   background: linear-gradient(#637c92, #a2b6bd);
   color: #fff;
@@ -1207,6 +1218,7 @@
 .weather-cities > .selected {
   background: #ffffff40;
 }
+/* ===== iOS 系統 App｜錢包 ===== */
 .native-wallet {
   background: #f2f2f7;
 }
@@ -1243,6 +1255,7 @@
   font-size: 10px;
   color: #eee;
 }
+/* ===== iOS 系統 App｜健康 ===== */
 .native-health {
   background: #f2f2f7;
   --app-accent: #e8697d;
@@ -1312,9 +1325,11 @@
 .native-find .catalog-row > span:last-child {
   font-size: 9px;
 }
+/* ===== iOS 系統 App｜尋找 ===== */
 .native-find {
   --app-accent: #4787cd;
 }
+/* ===== 訊息共用元件｜聊天列表與對話 ===== */
 .catalog-chat {
   display: flex;
   align-items: center;
@@ -1455,6 +1470,7 @@
 .native-messages .catalog-avatar {
   background: #acb3ba;
 }
+/* ===== 通訊 App｜QQ ===== */
 .qq-ui {
   --app-accent: #358ed7;
 }
@@ -1540,6 +1556,7 @@
   color: #aaa;
   font-size: 9px;
 }
+/* ===== 通訊 App｜Telegram ===== */
 .telegram-ui {
   --app-accent: #268dd0;
 }
@@ -1618,6 +1635,7 @@
   color: #779eb9;
   font-size: 10px;
 }
+/* ===== 通訊 App｜Discord ===== */
 .discord-ui {
   background: #313338;
   color: #e7e8ec;
@@ -1774,6 +1792,7 @@
   white-space: nowrap;
   overflow: hidden;
 }
+/* ===== 通訊 App｜LINE ===== */
 .line-ui {
   --app-accent: #08b851;
 }
@@ -2139,6 +2158,7 @@
   cursor: pointer;
 }
 
+/* ===== 通訊 App｜Messenger ===== */
 .messenger-ui {
   --app-accent: #6262d8;
 }
@@ -2268,6 +2288,7 @@
 .social-actions button:last-child {
   margin-left: auto;
 }
+/* ===== 社群 App｜微博 ===== */
 .weibo-ui {
   --app-accent: #e88a38;
 }
@@ -2335,6 +2356,7 @@
   color: #999;
   margin-left: auto;
 }
+/* ===== 社群 App｜X ===== */
 .x-ui {
   --app-accent: #111;
 }
@@ -2405,6 +2427,7 @@
   font-size: 11px;
   margin-top: 6px;
 }
+/* ===== 社群 App｜Threads ===== */
 .threads-ui {
   --app-accent: #111;
 }
@@ -2472,6 +2495,7 @@
   color: #aaa;
   padding: 12px 0 0;
 }
+/* ===== 社群 App｜Facebook ===== */
 .facebook-ui {
   --app-accent: #2378d6;
 }
@@ -2606,6 +2630,7 @@
   color: #888;
   line-height: 1.8;
 }
+/* ===== 社群 App｜小紅書 ===== */
 .redbook-ui {
   --app-accent: #df354a;
 }
@@ -2682,6 +2707,7 @@
   margin-left: auto;
   color: #999;
 }
+/* ===== 社群 App｜Pinterest ===== */
 .pinterest-ui {
   --app-accent: #bd3545;
 }
@@ -2749,6 +2775,7 @@
   font-size: 13px;
   font-weight: 500;
 }
+/* ===== 社群 App｜Reddit ===== */
 .reddit-ui {
   --app-accent: #d96e37;
 }
@@ -2837,6 +2864,7 @@
   font-size: 9px;
   margin-left: auto;
 }
+/* ===== 社群 App｜論壇 ===== */
 .forum-ui {
   --app-accent: #4f759d;
 }
@@ -2918,6 +2946,7 @@
   color: #9ba7b7;
   margin-top: 6px;
 }
+/* ===== 社群 App｜Snapchat ===== */
 .snapchat-ui {
   --app-accent: #ad9d13;
   background: #191919;
@@ -3016,6 +3045,7 @@
   background: #fff;
   color: #222;
 }
+/* ===== 音樂串流 App｜Spotify ===== */
 .spotify-ui {
   background: #111;
   color: #f2f2f2;
@@ -3176,6 +3206,7 @@
   height: 30px;
   order: 4;
 }
+/* ===== 音樂串流 App｜網易雲音樂 ===== */
 .netease-ui {
   --app-accent: #cf3d42;
   background: #fafafa;
@@ -3284,6 +3315,7 @@
   font-size: 13px;
   padding: 0 15px 12px;
 }
+/* ===== 影音 App｜YouTube ===== */
 .youtube-ui {
   --app-accent: #151515;
 }
@@ -3391,6 +3423,7 @@
 .youtube-shorts .youtube-byline {
   padding: 8px 3px;
 }
+/* ===== 影音 App｜哔哩哔哩 ===== */
 .bilibili-ui {
   --app-accent: #d7779c;
 }
@@ -3490,6 +3523,7 @@
   margin-top: 5px;
 }
 .douyin-ui,
+/* ===== 影音 App｜TikTok ===== */
 .tiktok-ui {
   background: #0c0c0e;
   color: #fff;
@@ -3524,6 +3558,7 @@
   border-color: #fff;
   font-weight: 600;
 }
+/* ===== 影音共用元件｜直向影片與資訊 ===== */
 .vertical-feed {
   flex: 1;
   min-height: 0;
@@ -3623,6 +3658,7 @@
 .tiktok-ui .vertical-actions > button:nth-child(2) {
   color: #f4f4f4;
 }
+/* ===== 影音 App｜Netflix ===== */
 .netflix-ui {
   background: #111;
   color: #f4f4f4;
@@ -3731,6 +3767,7 @@
   background: #181818;
   border-color: #292929;
 }
+/* ===== 生活服務 App｜支付寶 ===== */
 .alipay-ui {
   --app-accent: #268bd5;
   background: #f4f5f8;
@@ -3836,6 +3873,7 @@
   font-size: 8px;
   color: #aab9c4;
 }
+/* ===== 生活服務 App｜淘寶 ===== */
 .taobao-ui {
   --app-accent: #e98c3b;
   background: #f4f4f4;
@@ -3984,6 +4022,7 @@
   font-size: 8px;
   color: #aaa;
 }
+/* ===== 生活服務 App｜外送 ===== */
 .delivery-ui {
   --app-accent: #b79a30;
   background: #f7f7f7;
@@ -4156,6 +4195,7 @@
   margin-top: 14px;
   padding-top: 9px;
 }
+/* ===== 手機外框｜狀態列、底部指示條與深色模式 ===== */
 .phone-shell .phone-screen:has(.catalog-skin) .status-bar {
   background: #fff;
   color: #171717;
@@ -4228,8 +4268,10 @@
   background: #111;
 }
 .app-screen:has(.native-weather) {
-  background: #a2b6bd;
+    padding-bottom: 0;
+  background: transparent;
 }
+
 .dark-phone
   .catalog-skin:not(.native-camera):not(.native-clock):not(.discord-ui):not(
     .spotify-ui
@@ -4455,6 +4497,7 @@
 }
 /* ===== 迷你播放條(膠囊) ===== */
 .track-player .audio-pill,
+/* ===== 音樂共用元件｜音訊播放條 ===== */
 .native-now-playing .audio-pill {
   order: 4;
   width: 100%;
@@ -4544,6 +4587,7 @@
 .spotify-ui {
   position: relative;
 }
+/* ===== 音樂播放介面｜全螢幕播放器與動態島 ===== */
 .np-page {
   position: absolute;
   inset: 0;
@@ -4907,6 +4951,7 @@
   font-size: 22px;
   font-weight: 700;
 }
+/* ===== Spotify｜首頁、音樂庫與播放清單 ===== */
 .sp-cover {
   display: block;
   flex-shrink: 0;
@@ -5291,6 +5336,7 @@
   font-weight: 700;
   margin: 6px 16px 10px;
 }
+/* ===== Apple Music 風格｜音樂列表與播放頁 ===== */
 .am-scroll {
   padding-bottom: 12px;
 }
@@ -5323,13 +5369,23 @@
   gap: 12px;
   padding: 8px 16px;
   text-align: left;
+  position: relative; 
+}
+.am-row::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 16px; /* 右邊留白 16px */
+  left: 92px;  /* 左邊留白  */
+  height: 0.5px; /* 線條粗細 */
+  background: #e5e5ea; /* 線條顏色，可以改成 #ccc 會更明顯 */
 }
 .am-art {
   flex: none;
-  width: 46px;
-  height: 46px;
+  width: 64px;
+  height: 64px;
   border-radius: 6px;
-  background: #e9e9ec center / cover no-repeat;
+  background: #8e8e93 center / cover no-repeat;
   display: grid;
   place-items: center;
   color: #b3b3ba;
@@ -5337,7 +5393,7 @@
 .am-title {
   flex: 1;
   min-width: 0;
-  font-size: 14px;
+  font-size: 16px;
   color: #111;
   white-space: nowrap;
   overflow: hidden;
@@ -5349,7 +5405,7 @@
 .am-title small {
   display: block;
   margin-top: 3px;
-  font-size: 12px;
+  font-size: 14px;
   color: #8e8e93;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -5430,7 +5486,7 @@
   aspect-ratio: 1;
   margin-top: 26px;
   border-radius: 12px;
-  background: #e9e9ec center / cover no-repeat;
+  background: #8e8e93 center / cover no-repeat;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
   display: grid;
   place-items: center;
@@ -5467,7 +5523,12 @@
   height: 4px; /* 整體高度 */
   background: transparent; /* 背景交給軌道處理 */
   outline: none;
+  border: none;
   cursor: pointer;
+}
+.am-np-seek:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 /* Chrome / Safari 的軌道 (進度條本體) */
@@ -5571,6 +5632,7 @@
 }
 
 /* ===== 煙火特效（升空拖尾 → 雙層爆開 → 下墜淡出） ===== */
+/* ===== 特效｜煙火動畫 ===== */
 .fireworks-container {
   position: absolute;
   inset: 0;
@@ -5680,3 +5742,448 @@
   47%     { transform: scale(1); opacity: 0.95; animation-timing-function: ease-in; }
   100%    { transform: translateY(42px) scale(1.08); opacity: 0; }
 }
+
+/* ===== TikTok 仿真 ===== */
+/* ===== TikTok 仿真介面 ===== */
+.tiktok-ui.tt {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  color: #fff;
+}
+.tt-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  padding: 14px 10px 8px;
+  background: linear-gradient(rgba(0, 0, 0, 0.45), transparent);
+}
+.tt-top > button {
+  padding: 0 0 5px;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.62);
+  border-bottom: 2px solid transparent;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+.tt-top > .selected {
+  color: #fff;
+  border-color: #fff;
+}
+.tt-feed {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+}
+.tt-feed::-webkit-scrollbar {
+  display: none;
+}
+.tt-item {
+  position: relative;
+  height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  background: #111;
+  overflow: hidden;
+}
+.tt-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.tt-item > .catalog-art {
+  background: #2a2d2c;
+}
+.tt-paused {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.75);
+  pointer-events: none;
+}
+.tt-actions {
+  position: absolute;
+  right: 8px;
+  bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  z-index: 3;
+}
+.tt-actions > button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 0;
+  color: #fff;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
+}
+.tt-actions small {
+  font-size: 11px;
+  font-weight: 600;
+}
+.tt-avatar {
+  position: relative;
+  margin-bottom: 8px;
+}
+.tt-avatar .catalog-avatar {
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid #fff;
+}
+.tt-avatar > i {
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  border-radius: 50%;
+  background: #fe2c55;
+  color: #fff;
+  display: grid;
+  place-items: center;
+}
+.tt-caption {
+  position: absolute;
+  left: 12px;
+  right: 76px;
+  bottom: 14px;
+  z-index: 3;
+  text-align: left;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+.tt-caption > strong {
+  font-size: 15px;
+  font-weight: 700;
+}
+.tt-caption p {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  max-height: 60px;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+.tt-caption small {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  font-size: 12px;
+}
+/* 底部假分頁：只是擺設，不能點 */
+.tt-nav {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 8px 6px 10px;
+  background: #000;
+  border-top: 1px solid #1d1d1d;
+  pointer-events: none;
+}
+.tt-nav > span {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+}
+.tt-nav > .on {
+  color: #fff;
+}
+.tt-plus b {
+  display: block;
+  position: relative;
+  width: 42px;
+  height: 28px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: -3px 0 0 #25f4ee, 3px 0 0 #fe2c55;
+}
+.tt-plus b::before,
+.tt-plus b::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: #000;
+  transform: translate(-50%, -50%);
+}
+.tt-plus b::before {
+  width: 14px;
+  height: 2.5px;
+}
+.tt-plus b::after {
+  width: 2.5px;
+  height: 14px;
+}
+.tt-item .tt-video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  background: #000;
+}
+
+/* 修改音樂 App 頂部導航列的背景色 */
+.native-music.am .app-nav {
+  background: #fff !important; 
+  border-bottom: none !important;
+}
+
+/* ===== 收藏庫解鎖畫面 ===== */
+/* ===== 音樂 App｜鎖定／解鎖畫面 ===== */
+.am-lock-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  /* 👇 絕對定位，強制佔滿整個畫面並置中 */
+  position: absolute;
+  inset: 0;
+  padding: 20px;
+  background: #fff; /* 確保背景是白的 */
+  z-index: 10; /* 確保蓋在內容上 */
+}
+
+.am-lock-screen h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #111;
+  margin: 0 0 12px 0; /* 👈 增加下方的距離 */
+}
+
+/* 提示文字 */
+.am-lock-hint {
+  font-size: 14px;
+  color: #8e8e93;
+  margin-bottom: 24px; /* 👈 增加跟輸入框的距離 */
+  display: block;
+}
+
+/* 輸入框 */
+.am-lock-screen input {
+  width: 100%;
+  max-width: 280px;
+  padding: 14px 16px;
+  border: 1px solid #e5e5ea;
+  border-radius: 12px;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 4px;
+  outline: none;
+  background: #f9f9fb;
+  margin-bottom: 16px; /* 👈 增加跟錯誤訊息的距離 */
+}
+
+.am-lock-screen input:focus {
+  border-color: #F19DB5;
+  background: #fff;
+}
+
+/* 錯誤訊息容器 */
+.am-lock-error {
+  height: 24px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.am-lock-error span {
+  color: #fa2d48;
+  font-size: 13px;
+}
+
+/* 解鎖按鈕 */
+.am-lock-screen button {
+  width: 100%;
+  max-width: 280px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #F19DB5 !important;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+/* ===== 天氣：背景隨天氣變化 ===== */
+.native-weather.calibrated-weather[data-sky] {
+  transition: background 0.6s ease;
+}
+/* 白天 */
+.native-weather.calibrated-weather[data-sky="clear-day"] {
+  background: linear-gradient(180deg, #2f80d8 0%, #5fa9ee 55%, #9fd2f7 100%);
+}
+.native-weather.calibrated-weather[data-sky="cloud-day"] {
+  background: linear-gradient(180deg, #5d7b9c 0%, #8ea6bf 60%, #b4c4d4 100%);
+}
+.native-weather.calibrated-weather[data-sky="rain-day"] {
+  background: linear-gradient(180deg, #3f4f63 0%, #5d6f84 60%, #7e8fa2 100%);
+}
+.native-weather.calibrated-weather[data-sky="storm-day"] {
+  background: linear-gradient(180deg, #262d3a 0%, #3e4859 60%, #596576 100%);
+}
+.native-weather.calibrated-weather[data-sky="snow-day"] {
+  background: linear-gradient(180deg, #7389a0 0%, #a3b6c8 60%, #cbd8e4 100%);
+}
+/* 夜晚 */
+.native-weather.calibrated-weather[data-sky="clear-night"] {
+  background: linear-gradient(180deg, #080f26 0%, #14244f 60%, #223a72 100%);
+}
+.native-weather.calibrated-weather[data-sky="cloud-night"] {
+  background: linear-gradient(180deg, #131a2b 0%, #232e46 60%, #37445e 100%);
+}
+.native-weather.calibrated-weather[data-sky="rain-night"] {
+  background: linear-gradient(180deg, #0e141f 0%, #1c2636 60%, #2c3a4e 100%);
+}
+.native-weather.calibrated-weather[data-sky="storm-night"] {
+  background: linear-gradient(180deg, #090c13 0%, #151b27 60%, #232d3d 100%);
+}
+.native-weather.calibrated-weather[data-sky="snow-night"] {
+  background: linear-gradient(180deg, #1d2738 0%, #33425b 60%, #51627c 100%);
+}
+/* 星空只在晴朗的夜晚顯示 */
+.native-weather.calibrated-weather:not([data-sky="clear-night"]) .weather-stars {
+  display: none;
+}
+/* 天氣主圖示 */
+.native-weather .weather-moon-art {
+  color: #fff;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.25));
+}
+.native-weather.calibrated-weather[data-sky="clear-day"] .weather-moon-art {
+  color: #ffd60a;
+}
+/* ===== 天氣：溫度條與資訊卡 ===== */
+.native-weather .weather-days i.wk-range {
+  position: relative;
+  display: block;
+  height: 5px;
+  min-width: 56px;
+  border-radius: 3px;
+    background: rgba(0, 25, 70, 0.3) !important;          
+  box-shadow: none !important;
+  overflow: hidden;
+}
+.native-weather .weather-days i.wk-range::before,
+.native-weather .weather-days i.wk-range::after {
+  content: none !important;
+}
+.native-weather .weather-days i.wk-range > u {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 3px;
+  text-decoration: none;
+  background: linear-gradient(90deg, #7be495, #ffd60a 55%, #ff9f0a) !important; 
+}
+.wk-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+.weather-native-card.wk-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 6px;
+  margin: 0;
+  padding: 14px;
+  text-align: left;
+}
+.weather-native-card.wk-card > small {
+  font-size: 12px;
+  opacity: 0.75;
+}
+.weather-native-card.wk-card > strong {
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+.weather-native-card.wk-card > span {
+  font-size: 13px;
+  opacity: 0.9;
+}
+.native-weather .weather-moon-art {
+  opacity: 1 !important;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.25));
+}
+.app-screen:has(.native-weather) {
+  padding-bottom: 0;
+  background: #9fd2f7;
+}
+.app-screen:has([data-sky="clear-day"])  { background: #9fd2f7; }
+.app-screen:has([data-sky="cloud-day"])  { background: #b4c4d4; }
+.app-screen:has([data-sky="rain-day"])   { background: #7e8fa2; }
+.app-screen:has([data-sky="storm-day"])  { background: #596576; }
+.app-screen:has([data-sky="snow-day"])   { background: #cbd8e4; }
+.app-screen:has([data-sky="clear-night"]) { background: #223a72; }
+.app-screen:has([data-sky="cloud-night"]) { background: #37445e; }
+.app-screen:has([data-sky="rain-night"])  { background: #2c3a4e; }
+.app-screen:has([data-sky="storm-night"]) { background: #232d3d; }
+.app-screen:has([data-sky="snow-night"])  { background: #51627c; }
+
+/* ===== 天氣：毛玻璃卡片 ===== */
+.native-weather .weather-native-card {
+  background: rgba(255, 255, 255, 0.16);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 20px;
+  box-shadow:
+    0 6px 20px rgba(0, 20, 60, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+/* 夜晚：底色偏深、邊框淡一點 */
+.native-weather[data-sky$="night"] .weather-native-card {
+  background: rgba(20, 32, 70, 0.34);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+/* 陰雨天：灰色調，不要太亮 */
+.native-weather[data-sky^="rain"] .weather-native-card,
+.native-weather[data-sky^="storm"] .weather-native-card {
+  background: rgba(40, 52, 70, 0.3);
+}
+/* 逐時預報裡的小格子不要再各自有底色 */
+.native-weather .weather-hour-grid > button,
+.native-weather .weather-days > button {
+  background: transparent;
+  box-shadow: none;
+  border: 0;
+}
+/* 亮天空上的字更清楚 */
+.native-weather .weather-native-current,
+.native-weather .weather-native-card {
+  text-shadow: 0 1px 6px rgba(0, 30, 80, 0.22);
+}
+
+/* ===== 天氣：狀態列顏色接上天空漸層頂端 ===== */
+.phone-shell .phone-screen:has([data-sky="clear-day"])   .status-bar { background: #2f80d8 !important; }
+.phone-shell .phone-screen:has([data-sky="cloud-day"])   .status-bar { background: #5d7b9c !important; }
+.phone-shell .phone-screen:has([data-sky="rain-day"])    .status-bar { background: #3f4f63 !important; }
+.phone-shell .phone-screen:has([data-sky="storm-day"])   .status-bar { background: #262d3a !important; }
+.phone-shell .phone-screen:has([data-sky="snow-day"])    .status-bar { background: #7389a0 !important; }
+.phone-shell .phone-screen:has([data-sky="clear-night"]) .status-bar { background: #080f26 !important; }
+.phone-shell .phone-screen:has([data-sky="cloud-night"]) .status-bar { background: #131a2b !important; }
+.phone-shell .phone-screen:has([data-sky="rain-night"])  .status-bar { background: #0e141f !important; }
+.phone-shell .phone-screen:has([data-sky="storm-night"]) .status-bar { background: #090c13 !important; }
+.phone-shell .phone-screen:has([data-sky="snow-night"])  .status-bar { background: #1d2738 !important; }

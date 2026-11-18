@@ -155,11 +155,11 @@ function DrawnArtwork({ id, date }: { id: string; date?: string }) {
       <>
         <text x="32" y="18" fill="#ee404b" textAnchor="middle" fontSize="12">
           {date
-            ? new Intl.DateTimeFormat("zh-CN", {
+            ? new Intl.DateTimeFormat("ja-JP", {
                 weekday: "long",
-                timeZone: "UTC",
+                timeZone: "Asia/Tokyo",
               }).format(new Date(date + "T12:00:00Z"))
-            : "星期二"}
+            : "火曜日"}
         </text>
         <text
           x="32"
@@ -871,9 +871,9 @@ export function AppArtwork({
       {id === "calendar" && (
         <span className="original-calendar">
           <small>
-            {new Intl.DateTimeFormat("zh-CN", {
+            {new Intl.DateTimeFormat("ja-JP", {
               weekday: "short",
-              timeZone: "UTC",
+              timeZone: "Asia/Tokyo",
             }).format(d)}
           </small>
           <b>{d.getUTCDate()}</b>

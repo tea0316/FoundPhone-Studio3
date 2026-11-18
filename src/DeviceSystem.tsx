@@ -117,11 +117,11 @@ export function DeviceLock({
           <div className="lock-clock-block">
             <LockKeyhole size={18} />
             <p>
-              {new Intl.DateTimeFormat("zh-TW", {
+              {new Intl.DateTimeFormat("ja-JP", {
                 month: "long",
                 day: "numeric",
                 weekday: "long",
-                timeZone: "Asia/Taipei",
+                timeZone: "Asia/Tokyo",
               }).format(
                 new Date((work.phone.date || "2026-09-01") + "T12:00:00Z"),
               )}

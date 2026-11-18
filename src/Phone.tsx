@@ -55,14 +55,27 @@ import {
   SkipBack as IslandPrev,
   SkipForward as IslandNext,
 } from "lucide-react";
-const realNow = () => {
-  const d = new Date();
-  const pad = (n: number) => String(n).padStart(2, "0");
+const PHONE_TZ = "Asia/Tokyo";
+const phoneNow = (d: Date = new Date()) => {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-CA", {
+      timeZone: PHONE_TZ,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+    })
+      .formatToParts(d)
+      .map((x) => [x.type, x.value]),
+  );
   return {
-    time: pad(d.getHours()) + ":" + pad(d.getMinutes()),
-    date: d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()),
+    time: `${parts.hour}:${parts.minute}`,
+    date: `${parts.year}-${parts.month}-${parts.day}`,
   };
 };
+const realNow = () => phoneNow();
 import { AnimatePresence } from "motion/react";
 import {
   ChevronLeft,
@@ -331,10 +344,7 @@ useEffect(() => {
   const timer = setInterval(() => setClock(new Date()), 1000);
   return () => clearInterval(timer);
 }, []);
-const pad = (n: number) => String(n).padStart(2, "0");
-const realTime = pad(clock.getHours()) + ":" + pad(clock.getMinutes());
-const realDate =
-  clock.getFullYear() + "-" + pad(clock.getMonth() + 1) + "-" + pad(clock.getDate());
+const { time: realTime, date: realDate } = phoneNow(clock);
 const displayTime = creator ? work.phone.time : realTime;
 const displayDate = creator ? work.phone.date : realDate;
 
@@ -591,11 +601,7 @@ onClick={(e) => {
     />
 <b
   style={{
-    color: charging
-      ? "#34c759"
-      : level <= 10
-        ? "#ff3b30"
-        : undefined,
+    color: charging ? "#34c759" : undefined,
   }}
 >
   {level}
@@ -611,7 +617,7 @@ onClick={(e) => {
       ⚡
     </i>
   )}
-  {level === 46 && !charging && (
+{level === 46 && !charging && (
     <i
       style={{
         fontSize: 9,
@@ -715,7 +721,7 @@ onClick={(e) => {
                     small={small}
                     custom={a.icon}
                     date={displayDate}
-                    time={s.time}
+                    time={displayTime}
                   />
                 )}
                 clearApp={(id) =>

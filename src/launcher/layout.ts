@@ -87,8 +87,8 @@ export function validateLayout(raw: unknown, input: Work) {
     throw Error("App ID 重複");
   if (new Set(layout.widgets.map((a) => a.id)).size !== layout.widgets.length)
     throw Error("小工具 ID 重複");
-  if (layout.apps.filter((a) => a.installed && a.visible && a.dock).length > 4)
-    throw Error("Dock 最多只能放 4 個 App");
+  if (layout.apps.filter((a) => a.installed && a.visible && a.dock).length > 3)
+    throw Error("Dock 最多只能放 3 個 App");
   if (layout.widgets.some((w) => known.has(w.id)))
     throw Error("小工具與 App ID 衝突");
   layout.apps.push(
@@ -140,7 +140,7 @@ export function validateLayout(raw: unknown, input: Work) {
 
 export function useDeviceLayout(authored: Work, creator = false) {
   const base = useMemo(() => ensureAppStore(authored), [authored]);
-  const key = "foundphone-layout-v1:" + base.id;
+  const key = "foundphone-layout-v1:" + base.id + ":" + base.updatedAt;
   const [stored, setStored] = useState(() => {
       try {
         const text = localStorage.getItem(key);

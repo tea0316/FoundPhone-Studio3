@@ -454,7 +454,7 @@ export function CalendarSkin(p: Props) {
                     </button>
                 </div>
                 <div className="calendar-grid">
-                    {["日", "一", "二", "三", "四", "五", "六"].map((t) => (
+                    {["日", "月", "火", "水", "木", "金", "土"].map((t) => (
                         <small key={t}>{t}</small>
                     ))}
                     {Array.from({ length: first }, (_, i) => (
@@ -844,10 +844,24 @@ function AMNowPlaying({ close }: { close: () => void }) {
   );
 }
 export function MusicSkin(p: Props) {
-  const { items, q, setQ } = useContent(p, "資料庫");
-  const [tab, setTab] = useState("資料庫");
+  const { items, q, setQ } = useContent(p, "收藏庫");
+  const [tab, setTab] = useState("立即聆聽");
   const [full, setFull] = useState(false);
   const { item: song, playing } = usePlayer();
+  const [unlocked, setUnlocked] = useState(false);
+  const [pw, setPw] = useState("");
+  const [pwError, setPwError] = useState("");
+  const SECRET_PASSWORD = "1116"; // 這裡設定密碼
+
+  useEffect(() => {
+    if (pwError) {
+      const timer = setTimeout(() => {
+        setPwError("");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [pwError]);
+
   const art = (i: Item, cls = "am-art") => {
     const u = coverUrl(i.avatar || "");
     return (
@@ -856,10 +870,24 @@ export function MusicSkin(p: Props) {
       </span>
     );
   };
-  const play = (i: Item) => chooseTrack(p, i, items);
+
+  // 1. 先宣告過濾邏輯（把 meta.folder 考慮進去）
+  const currentTabItems = items.filter((i) => {
+    if (tab === "搜尋") {
+      return (i.title + i.sender).toLowerCase().includes(q.toLowerCase());
+    }
+    return i.meta?.folder === tab;
+  });
+
+  // 2. 接著才宣告 play 與 shuffle，此時抓得到 currentTabItems
+  const play = (i: Item) => chooseTrack(p, i, currentTabItems);
+  
   const shuffle = () => {
-    if (items.length) play(items[Math.floor(Math.random() * items.length)]);
+    if (currentTabItems.length) {
+      play(currentTabItems[Math.floor(Math.random() * currentTabItems.length)]);
+    }
   };
+
   const row = (i: Item) => (
     <button className="am-row" key={i.id} onClick={() => play(i)}>
       {art(i)}
@@ -870,42 +898,93 @@ export function MusicSkin(p: Props) {
       <span className="am-more">⋯</span>
     </button>
   );
-  const found = items.filter((i) =>
-    (i.title + i.sender).toLowerCase().includes(q.toLowerCase()),
-  );
+
   return (
-    <div className="catalog-skin native-music am">
-      <Header p={p} />
-      <div className="catalog-scroll am-scroll">
-        {tab === "資料庫" && (
-          <>
-            <h1>歌曲</h1>
-            <div className="am-actions">
-              <button onClick={() => items[0] && play(items[0])}>
-                <Play size={15} fill="currentColor" /> 播放
-              </button>
-              <button onClick={shuffle}>
-                <Shuffle size={15} /> 隨機播放
-              </button>
+    <div className="catalog-skin native-music am" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+            
+      {tab === "收藏庫" && !unlocked ? (
+        <div className="am-nav-only-back">
+          <button onClick={() => p.onBack()} aria-label="返回">
+            <ChevronLeft size={26} />
+          </button>
+        </div>
+      ) : (
+        <Header p={p} />
+      )}
+
+      {/* 中間內容區 */}
+      <div style={{ flex: 1, position: "relative" }}>
+        
+        {/* 如果選中收藏庫且未解鎖，顯示解鎖畫面 */}
+        {tab === "收藏庫" && !unlocked ? (
+          <div className="am-lock-screen">
+            <h2>請輸入密碼</h2>
+            <span className="am-lock-hint">提示：Captain</span>
+            <input
+              type="password"
+              value={pw}
+              onChange={(e) => setPw(e.target.value)}
+              placeholder="輸入 4 位數密碼"
+              maxLength={4}
+            />
+            <div className="am-lock-error">
+              {pwError && <span>{pwError}</span>}
             </div>
-            {items.map(row)}
-          </>
+            <button
+              onClick={() => {
+                if (!pw) return;
+                if (pw === SECRET_PASSWORD) {
+                  setUnlocked(true);
+                  setPwError("");
+                  setPw("");
+                } else {
+                  setPwError("密碼錯誤，請再試一次");
+                }
+              }}
+            >
+              解鎖
+            </button>
+          </div>
+        ) : (
+          
+          <div className="catalog-scroll am-scroll" style={{ height: "100%" }}>
+            
+            {/* 收藏庫分頁 (需解鎖) */}
+            {tab === "收藏庫" && unlocked && (
+              <>
+                {currentTabItems.map(row)}
+              </>
+            )}
+
+            {/* 立即聆聽分頁 */}
+            {tab === "立即聆聽" && (
+              <>            
+                <div className="am-actions">
+                  <button onClick={() => currentTabItems[0] && play(currentTabItems[0])}>
+                    <Play size={15} fill="currentColor" /> 播放
+                  </button>
+                  <button onClick={shuffle}>
+                    <Shuffle size={15} /> 隨機播放
+                  </button>
+                </div>
+                {currentTabItems.map(row)}
+              </>
+            )}
+
+            {/* 搜尋分頁 */}
+            {tab === "搜尋" && (
+              <>          
+                <SearchBox value={q} set={setQ} />
+                {currentTabItems.map(row)}
+              </>
+            )}
+            
+            <Empty items={currentTabItems} />
+          </div>
         )}
-        {tab === "搜尋" && (
-          <>
-            <h1>搜尋</h1>
-            <SearchBox value={q} set={setQ} />
-            {found.map(row)}
-          </>
-        )}
-        {tab !== "資料庫" && tab !== "搜尋" && (
-          <>
-            <h1>{tab}</h1>
-            <p className="am-empty">這個分頁尚未提供內容</p>
-          </>
-        )}
-        <Empty items={items} />
       </div>
+
+      {/* 迷你播放條 */}
       {song && !full && (
         <div className="am-mini" onClick={() => setFull(true)}>
           {art(song)}
@@ -931,14 +1010,21 @@ export function MusicSkin(p: Props) {
         </div>
       )}
       {full && <AMNowPlaying close={() => setFull(false)} />}
+      
+      {/* 底部 Tabs：維持原本點擊限制 */}
       <Tabs
-        tabs={["立即聆聽", "瀏覽", "廣播", "資料庫", "搜尋"]}
+        tabs={["立即聆聽", "瀏覽", "廣播", "收藏庫", "搜尋"]}
         value={tab}
-        set={setTab}
+        set={(t) => {
+          if (t === "立即聆聽" || t === "收藏庫") {
+            setTab(t);
+          }
+        }}
         icons={[<Play />, <Grid />, <Radio />, <Music />, <Search />]}
       />
     </div>
   );
+
 }
 function LocationMap({
     items,

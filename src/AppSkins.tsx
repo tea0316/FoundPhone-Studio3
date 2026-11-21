@@ -19,7 +19,6 @@ import {
   Settings,
   Heart,
   Send,
-  Home,
   Repeat2,
   Play,
   Bookmark,
@@ -28,7 +27,6 @@ import {
   Smile,
   Grid,
   CheckCheck,
-  AtSign,
   Star,
   Music,
   Volume2, 
@@ -1150,7 +1148,6 @@ export function InstagramSkin(p: SkinProps) {
   const [query, setQuery] = useState("");
   const [pTab, setPTab] = useState("grid");
 const [unliked, setUnliked] = useSkinState<string[]>(p, "unliked", []);
-const [saved] = useSkinState<string[]>(p, "saved", []);
 const isLiked = (id: string) => !unliked.includes(id);
   const [followList, setFollowList] = useState<"followers" | "following" | null>(null);
   const [chatLog, setChatLog] = useSkinState<string[]>(p, "chats", []);
@@ -1227,13 +1224,6 @@ const myPosts = posts.filter((i) => i.sender === handle);
     () => [...followingList].sort(() => Math.random() - 0.5),
     [followingList.length],
   );
-
-// 追蹤中的帳號發布的貼文
-const followingPosts = posts.filter((i) =>
-  followingList.some(
-    (f) => f.sender === i.sender || f.title === i.sender
-  )
-);
 
   const toggle = (list: string[], set: (v: string[]) => void, id: string) =>
     set(list.includes(id) ? list.filter((x) => x !== id) : [...list, id]);

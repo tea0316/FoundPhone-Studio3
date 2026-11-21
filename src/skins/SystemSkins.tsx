@@ -652,7 +652,7 @@ export function ClockSkin(p: Props) {
 
     {/* 下方：圓角城市卡片列表 */}
     <div className="ckx-cards">
-      {cities.map((c: any) => {
+      {cities.map((c) => {
         const tz = c.meta?.timezone || CLOCK_HOME_TZ;
         const w = ckWall(tz);
         const d = new Date(w);

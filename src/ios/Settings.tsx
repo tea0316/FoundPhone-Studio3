@@ -49,8 +49,6 @@ export function NativeSettings({
   work,
   items,
   onItem,
-creator,
-onSettings,
 }: {
   work: Work;
   items: Item[];

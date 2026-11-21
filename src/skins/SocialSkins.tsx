@@ -9,6 +9,7 @@ import {
   Grid,
   Hash,
   Heart,
+  Menu,
   Home,
   MessageCircle,
   Repeat2,
@@ -19,6 +20,11 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import type { Item } from "../schema";
+import {
+   Search, Plus, Star, House, Send,
+   MoreHorizontal,  VolumeX, Music2,
+} from "lucide-react";
+import { coverUrl } from "../player"; 
 import {
   Avatar,
   Empty,
@@ -193,56 +199,195 @@ export function XSkin(p: Props) {
     </div>
   );
 }
-export function ThreadsSkin(p: Props) {
-  const { tab, setTab, items } = useContent(p, "為你推薦");
+
+const thCount = (n: number) =>
+  n >= 10000 ? (n / 10000).toFixed(1).replace(/\.0$/, "") + "萬" : String(n);
+
+function ThAvatar({
+  name,
+  src = "",
+  size = 40,
+}: {
+  name: string;
+  src?: string;
+  size?: number;
+}) {
+  const u = coverUrl(src);
   return (
-    <div className="catalog-skin threads-ui">
-      <Header p={p} />
-      <div className="threads-title">
-        <AtSign size={30} />
-        <button
-          onClick={() => setTab(tab === "為你推薦" ? "正在關注" : "為你推薦")}
-        >
-          {tab} ⌄
-        </button>
-      </div>
-      <div className="catalog-scroll">
-        {(tab === "個人主頁"
-          ? items
-          : items.filter((i) => tab !== "正在關注" || i.folder === "正在關注")
-        ).map((i) => (
-          <article className="threads-post" key={i.id}>
-            <div className="thread-avatar">
-              <Avatar name={i.sender} />
-              <i />
-            </div>
-            <div>
-              <div className="threads-byline">
-                <strong>{i.sender}</strong>
-                <small>{i.time.slice(5, 10)}</small>
-              </div>
-              <button className="social-body" onClick={() => p.onItem(i)}>
-                <p>{i.body}</p>
-                {i.media && <Media item={i} />}
-              </button>
-              <Actions p={p} item={i} />
-              <button className="thread-replies" onClick={() => p.onItem(i)}>
-                {i.comments.length} 條回覆
-              </button>
-            </div>
-          </article>
+    <span
+      className="thx-avatar"
+      style={{ width: size, height: size, fontSize: size * 0.42 }}
+    >
+      {u ? <img src={u} alt="" /> : name.slice(0, 1).toUpperCase()}
+    </span>
+  );
+}
+
+function ThMedia({ list }: { list: string[] }) {
+  const [n, setN] = useState(0);
+  return (
+    <div className="thx-media">
+      {list.length > 1 && (
+        <span className="thx-count">
+          {n + 1}/{list.length}
+        </span>
+      )}
+      <div
+        className="thx-track"
+        onScroll={(e) => {
+          const el = e.currentTarget;
+          const first = el.firstElementChild as HTMLElement | null;
+          const w = (first?.offsetWidth ?? el.clientWidth) + 8;
+          setN(Math.min(list.length - 1, Math.round(el.scrollLeft / w)));
+        }}
+      >
+        {list.map((src, k) => (
+          <img
+            key={k}
+            className={list.length > 1 ? "multi" : ""}
+            src={src}
+            alt=""
+            draggable={false}
+          />
         ))}
-        <Empty items={items} />
       </div>
-      <Tabs
-        tabs={["為你推薦", "正在關注", "個人主頁"]}
-        value={tab}
-        set={setTab}
-        icons={[<Home />, <Users />, <User />]}
-      />
     </div>
   );
 }
+
+export function ThreadsSkin(p: Props) {
+  const [liked, setLiked] = useState<string[]>([]);
+  const profile = p.items.find((i) => i.folder === "個人主頁");
+  const handle = profile?.sender || p.owner || "我";
+  const me = profile?.avatar || "";
+  const posts = p.items.filter((i) => i.folder !== "個人主頁");
+
+  const toggle = (id: string) =>
+    setLiked(liked.includes(id) ? liked.filter((x) => x !== id) : [...liked, id]);
+
+  return (
+    <div className="catalog-skin threads-ui thx">
+      <header className="thx-top">
+        {/* 👇 左邊換成 Menu 圖示 */}
+        <button aria-label="選單" className="thx-menu">
+          <Menu size={28} />
+        </button>
+        
+        {/* 👇 中間換成你的圖片，請確保 public 資料夾有這張圖 */}
+        <img 
+          src="/threads-logo.png" 
+          alt="Threads" 
+          style={{ height: "50px", objectFit: "contain", marginLeft: "34px" }} 
+          
+        />
+        
+        {/* 右邊搜尋保持不變 */}
+        <button aria-label="搜尋" className="thx-gray">
+          <Search size={28} />
+        </button>
+      </header>
+
+      <div className="thx-scroll">
+        <div className="thx-compose">
+          <ThAvatar name={handle} src={me} size={44} />
+          <div>
+            <strong>{handle}</strong>
+            <span>有什麼新鮮事？</span>
+          </div>
+        </div>
+
+
+{posts.map((i) => {
+  const images = i.meta?.images
+    ? i.meta.images.split(",").map((s) => s.trim()).filter(Boolean)
+    : i.media
+      ? [i.media]
+      : [];
+
+  const isLiked = liked.includes(i.id);
+  const comments = Number(i.meta?.commentCount ?? i.comments.length);
+
+  return (
+    <div key={i.id}>
+      <article className="thx-post">
+        <span className="thx-av">
+          <ThAvatar name={i.sender} src={i.avatar} size={44} />
+          <i>
+            <Plus size={11} strokeWidth={3.5} />
+          </i>
+        </span>
+
+        <div className="thx-main">
+          <div className="thx-by">
+            <strong>{i.sender}</strong>
+            <small>{i.meta?.ago || i.time.slice(5, 10)}</small>
+            <MoreHorizontal
+              size={20}
+              className="thx-more"
+              style={{ marginLeft: "auto" }}
+            />
+          </div>
+
+          {i.body && <p className="thx-text">{i.body}</p>}
+
+          {images.length > 0 && <ThMedia list={images} />}
+
+          <div className="thx-actions">
+            <button aria-label="喜歡" onClick={() => toggle(i.id)}>
+              <Heart
+                size={24}
+                fill={isLiked ? "#ff3040" : "none"}
+                color={isLiked ? "#ff3040" : "currentColor"}
+              />
+              {thCount(i.likes + (isLiked ? 1 : 0))}
+            </button>
+
+            <button aria-label="留言">
+              <MessageCircle size={24} />
+              {thCount(comments)}
+            </button>
+
+            <button aria-label="轉發">
+              <Repeat2 size={24} />
+              {thCount(Number(i.meta?.reposts ?? 0))}
+            </button>
+
+            <button aria-label="傳送">
+              <Send size={23} />
+              {thCount(Number(i.meta?.shares ?? 0))}
+            </button>
+          </div>
+        </div>
+      </article>
+    </div>
+  );
+})}
+
+{!posts.length && <p className="thx-empty">還沒有串文</p>}
+
+      </div>
+
+      <nav className="thx-nav">
+        <button aria-label="首頁" className="on">
+          <House size={28} fill="currentColor" />
+        </button>
+        <button aria-label="訊息">
+          <Send size={27} />
+        </button>
+        <button aria-label="發文" className="thx-plus">
+          <Plus size={28} />
+        </button>
+        <button aria-label="活動">
+          <Heart size={27} />
+        </button>
+        <button aria-label="個人">
+          <ThAvatar name={handle} src={me} size={32} />
+        </button>
+      </nav>
+    </div>
+  );
+}
+
 export function FacebookSkin(p: Props) {
   const { tab, setTab, q, setQ, items } = useContent(p, "動態");
   const stories = items.filter((i) => i.folder === "Story");

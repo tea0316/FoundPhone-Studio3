@@ -3,7 +3,7 @@
   "id": "foundphone-demo",
   "title": "山下瞳月的IPHONE",
   "description": "僅用於介面測試，不含劇情",
-  "revision": 43,
+  "revision": 60,
   "phone": {
     "owner": "山下瞳月",
     "date": "2026-10-25",
@@ -31,8 +31,6 @@
 { "id": "weather", "name": "天氣", "installed": true, "visible": true, "dock": false, "folder": "生活", "icon": "" },
 { "id": "maps", "name": "地圖", "installed": true, "visible": true, "dock": false, "folder": "生活", "icon": "" },
 { "id": "wallet", "name": "錢包", "installed": true, "visible": true, "dock": false, "folder": "生活", "icon": "" },
-{ "id": "health", "name": "健康", "installed": true, "visible": true, "dock": false, "folder": "生活", "icon": "" },
-
 
 
 { "id": "calculator", "name": "計算機", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
@@ -188,14 +186,12 @@
       }
     ],
   "clock": [
-      {
-        "id": "test-item-clock",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
-        "kind": "text",
-        "meta": {}
-      }
+{ "id": "ck-city-1", "title": "首爾", "sender": "", "avatar": "", "body": "", "kind": "text", "media": "", "folder": "世界時鐘", "meta": { "timezone": "Asia/Seoul" }, "likes": 0, "comments": [], "time": "", "read": true, "favorite": false },
+{ "id": "ck-city-2", "title": "香港", "sender": "", "avatar": "", "body": "", "kind": "text", "media": "", "folder": "世界時鐘", "meta": { "timezone": "Asia/Hong_Kong" }, "likes": 0, "comments": [], "time": "", "read": true, "favorite": false },
+{ "id": "ck-city-3", "title": "馬來西亞", "sender": "", "avatar": "", "body": "", "kind": "text", "media": "", "folder": "世界時鐘", "meta": { "timezone": "Asia/Kuala_Lumpur" }, "likes": 0, "comments": [], "time": "", "read": true, "favorite": false },
+{ "id": "ck-city-4", "title": "台北", "sender": "", "avatar": "", "body": "", "kind": "text", "media": "", "folder": "世界時鐘", "meta": { "timezone": "Asia/Taipei" }, "likes": 0, "comments": [], "time": "", "read": true, "favorite": false },
+{ "id": "ck-alarm-1", "title": "起床", "sender": "", "avatar": "", "body": "", "kind": "text", "media": "", "folder": "鬧鐘", "meta": { "time": "07:30", "repeat": "平日", "on": "true" }, "likes": 0, "comments": [], "time": "", "read": true, "favorite": false }
+
     ],
     "reminders": [
       {
@@ -280,16 +276,6 @@
         "meta": {}
       }
     ],
-    "health": [
-      {
-        "id": "test-item-health",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
-        "kind": "text",
-        "meta": {}
-      }
-    ],
     "find": [
       {
         "id": "test-item-find",
@@ -320,14 +306,167 @@
         "meta": {}
       }
     ],
-    "instagram": [
+"instagram": [
       {
-        "id": "test-item-instagram",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
-        "kind": "text",
+        "id": "ig-profile",
+        "title": "しらたまさん ",
+        "sender": "yama2ki_0m0",
+        "avatar": "/avatar/ig.jpg",
+        "folder": "個人主頁",
+        "body": "",
+        "meta": {
+          "followers": "0",
+          "following": "8"
+        }
+      },
+      {
+        "id": "ig-following-1",
+        "title": "yu.murai_official",
+        "sender": "村井優",
+        "avatar": "/ig/yu.jpg",
+        "folder": "追蹤中",
+        "body": "",
         "meta": {}
+      },
+      {
+        "id": "ig-following-2",
+        "title": "rika.ishimori.official",
+        "sender": "石森璃花",
+        "avatar": "/ig/rika.jpg",
+        "folder": "追蹤中",
+        "body": "",
+        "meta": {}
+      },
+      {
+        "id": "ig-following-3",
+        "title": "yuzuki_nakashima_official",
+        "sender": "中嶋優月",
+        "avatar": "/ig/yuzu.jpg",
+        "folder": "追蹤中",
+        "body": "",
+        "meta": {}
+      },
+            {
+        "id": "ig-following-4",
+        "title": "miumurayama_official",
+        "sender": "村山美羽",
+        "avatar": "/ig/miu.jpg",
+        "folder": "追蹤中",
+        "body": "",
+        "meta": {}
+      },
+            {
+        "id": "ig-following-5",
+        "title": "airi.taniguchi.official",
+        "sender": "谷口愛季",
+        "avatar": "/ig/airi.jpg",
+        "folder": "追蹤中",
+        "body": "",
+        "meta": {}
+      },
+            {
+        "id": "ig-following-6",
+        "title": "reinaodakura_official",
+        "sender": "小田倉麗奈",
+        "avatar": "/ig/odkr.jpg",
+        "folder": "追蹤中",
+        "body": "",
+        "meta": {}
+      },
+            {
+        "id": "ig-following-7",
+        "title": "riko.endo_official",
+        "sender": "遠藤理子",
+        "avatar": "/ig/riko.jpg",
+        "folder": "追蹤中",
+        "body": "",
+        "meta": {}
+      },
+            {
+        "id": "ig-following-8",
+        "title": "matonomio.official",
+        "sender": "的野美青",
+        "avatar": "/ig/mio.jpg",
+        "folder": "追蹤中",
+        "body": "",
+        "meta": {}
+      },
+
+      {
+        "id": "ig-post-1",
+        "title": "貼文1",
+        "sender": "yu.murai_official",
+        "avatar": "/ig/yu.jpg",
+        "body": "今天天氣很好 ☀️",
+        "kind": "image",
+        "media": "/ig/post/yu.jpg",
+        "meta":{
+         "images": "/ig/post/yu.jpg,/ig/post/yu2.jpg,/ig/post/yu3.jpg"
+         },
+        "likes": 128,
+        "read": true,
+        "folder": "",
+        "favorite": false
+      },
+      {
+        "id": "ig-saved-1",
+        "title": "珍藏1",
+        "sender": "",
+        "avatar": "",
+        "body": "",
+        "kind": "image",
+        "media": "/ig/post/saved.yu.jpg",
+        "folder": "珍藏",
+        "meta": {},
+        "likes": 0,
+        "comments": [],
+        "read": true,
+        "favorite": false
+      },
+      {
+         "id": "ig-saved-2",
+        "title": "珍藏2",
+        "sender": "",
+        "avatar": "",
+        "body": "",
+        "kind": "image",
+        "media": "/ig/post/saved.yu2.jpg",
+        "folder": "珍藏",
+        "meta": {},
+        "likes": 0,
+        "comments": [],
+        "read": true,
+        "favorite": false
+      },
+      {
+       "id": "ig-reel-1",
+       "title": "Reels1",
+       "sender": "yu.murai_official",
+       "avatar": "/ig/yu.jpg",
+       "body": "今天的練習 🎵",
+       "kind": "video",
+       "media": "/ig/reels.mp4",
+       "folder": "Reels",
+       "meta": { "audio": "原創音訊", "commentCount": "320" },
+       "likes": 12800,
+       "comments": [],
+       "read": true,
+       "favorite": false
+      },
+      {
+       "id": "ig-reel-2",
+       "title": "Reels2",
+       "sender": "yu.murai_official",
+       "avatar": "/ig/yu.jpg",
+       "body": "今天的練習 🎵",
+       "kind": "video",
+       "media": "/ig/reels2.mp4",
+       "folder": "Reels",
+       "meta": { "audio": "原創音訊", "commentCount": "320" },
+       "likes": 18000,
+       "comments": [],
+       "read": true,
+       "favorite": false
       }
     ],
     "tiktok": [
@@ -464,29 +603,28 @@
     ],
     "threads": [
       {
-        "id": "test-item-threads",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
+        "id": "threads-profile",
+        "title": "yama2ki",
+        "sender": "yama2ki_0m0",
+        "avatar": "/avatar/threads.jpg",
+        "folder": "個人主頁",
+        "body": "這是一段個人簡介",
         "kind": "text",
         "meta": {}
       },
       {
-        "id": "test-threads-message-1",
-        "title": "測試對話1",
-        "body": "這是一條測試訊息。",
-        "sender": "測試聯絡人1",
-        "folder": "私訊",
-        "meta": {}
-      },
-      {
-        "id": "test-threads-activity-1",
-        "title": "測試動態1",
-        "body": "這是一條測試回覆動態。",
-        "sender": "測試使用者1",
+        "id": "threads-post-1",
+        "title": "今天天氣真好",
+        "sender": "otinevflkd",
+        "avatar": "",
+        "body": "今天天氣真好，適合出門走走！",
         "kind": "text",
+        "time": "2026-06-07 10:00",
         "meta": {
-          "activityType": "reply"
+          "topic": "日常",
+          "ago": "2小時",
+          "reposts": "5",
+          "shares": "2"
         }
       }
     ],

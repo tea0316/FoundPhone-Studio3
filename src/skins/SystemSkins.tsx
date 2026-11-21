@@ -15,8 +15,12 @@ import {
     CheckCircle,
     ChevronLeft,
     ChevronRight,
+    CirclePlus,
     Clock,
     Download,
+    AlarmClock, 
+    Timer, 
+    Plus,
     FileText,
     Folder,
     Globe,
@@ -547,82 +551,223 @@ export function MailSkin(p: Props) {
         </div>
     );
 }
-export function ClockSkin(p: Props) {
-    const { tab, setTab, items } = useContent(p, "鬧鐘");
-    const [enabled, setEnabled] = useSkinState<string[]>(p, "alarms", []),
-        [seconds, setSeconds] = useState(0),
-        [running, setRunning] = useState(false);
-    useEffect(() => {
-        if (!running) return;
-        const timer = setInterval(() => setSeconds((s) => s + 1), 1000);
-        return () => clearInterval(timer);
-    }, [running]);
-    return (
-        <div className="catalog-skin native-clock">
-            <Header p={p} />
-            <div className="catalog-scroll">
-                <h1>{tab}</h1>
-                {tab === "碼表" ? (
-                    <div className="stopwatch">
-                        <output>
-                            {String(Math.floor(seconds / 60)).padStart(2, "0")}:
-                            {String(seconds % 60).padStart(2, "0")}
-                        </output>
-                        <div>
-                            <button
-                                onClick={() => {
-                                    setSeconds(0);
-                                    setRunning(false);
-                                }}
-                            >
-                                歸零
-                            </button>
-                            <button onClick={() => setRunning(!running)}>
-                                {running ? "暫停" : "開始"}
-                            </button>
-                        </div>
-                    </div>
-                ) : (
-                    items.map((i) => (
-                        <div className="alarm-row" key={i.id}>
-                            <button onClick={() => p.onItem(i)}>
-                                <time>{meta(i, "clock", i.time.slice(-5))}</time>
-                                <small>
-                                    {tab === "世界時鐘" ? meta(i, "city", i.title) : i.title}
-                                </small>
-                            </button>
-                            {tab === "鬧鐘" ? (
-                                <button
-                                    role="switch"
-                                    aria-label={`鬧鐘${i.title}`}
-                                    aria-checked={enabled.includes(i.id)}
-                                    className={`native-switch ${enabled.includes(i.id) ? "on" : ""}`}
-                                    onClick={() =>
-                                        setEnabled(
-                                            enabled.includes(i.id)
-                                                ? enabled.filter((x) => x !== i.id)
-                                                : [...enabled, i.id],
-                                        )
-                                    }
-                                >
-                                    <span />
-                                </button>
-                            ) : (
-                                <Clock size={35} />
-                            )}
-                        </div>
-                    ))
-                )}
-            </div>
-            <Tabs
-                tabs={["世界時鐘", "鬧鐘", "碼表"]}
-                value={tab}
-                set={setTab}
-                icons={[<Globe />, <Clock />, <Clock />]}
-            />
-        </div>
-    );
+/* ===== 時鐘 ===== */
+const CLOCK_HOME_TZ = "Asia/Tokyo"; // 手機本機時區，世界時鐘的時差以它為基準
+
+const ckPad = (n: number) => String(n).padStart(2, "0");
+
+// 取得某時區「牆上時間」（當成 UTC 毫秒數，方便比較）
+function ckWall(tz: string, d = new Date()) {
+  try {
+    const p: Record<string, number> = {};
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: tz,
+      hourCycle: "h23",
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    })
+      .formatToParts(d)
+      .forEach((x) => {
+        if (x.type !== "literal") p[x.type] = +x.value;
+      });
+    return Date.UTC(p.year, p.month - 1, p.day, p.hour % 24, p.minute, p.second);
+  } catch {
+    return ckWall(CLOCK_HOME_TZ, d);
+  }
 }
+
+const ckSwFmt = (ms: number) => {
+  const c = Math.floor(ms / 10) % 100;
+  const s = Math.floor(ms / 1000) % 60;
+  const m = Math.floor(ms / 60000);
+  return ckPad(m) + ":" + ckPad(s) + "." + ckPad(c);
+};
+
+export function ClockSkin(p: Props) {
+  const [tab, setTab] = useState<"world" | "alarm" | "sw">("world");
+  const [flipped, setFlipped] = useSkinState<string[]>(p, "alarmFlip", []);
+  const [sw, setSw] = useState({ run: false, t0: 0, acc: 0 });
+  const [laps, setLaps] = useState<number[]>([]);
+  const [, force] = useState(0);
+
+  // 世界時鐘每秒更新；碼表每 40 毫秒更新
+  useEffect(() => {
+    const id = window.setInterval(
+      () => force((n) => n + 1),
+      tab === "sw" ? 40 : 1000,
+    );
+    return () => window.clearInterval(id);
+  }, [tab]);
+
+  const inFolder = (i: Item, names: string[]) => names.includes(i.folder);
+  const cities = p.items.filter((i) => inFolder(i, ["世界時鐘"]));
+  const alarms = p.items.filter((i) => inFolder(i, ["鬧鐘"]));
+
+  const elapsed = sw.acc + (sw.run ? Date.now() - sw.t0 : 0);
+  const lapSum = laps.reduce((a, b) => a + b, 0);
+
+  const toggleAlarm = (id: string) =>
+    setFlipped(
+      flipped.includes(id) ? flipped.filter((x) => x !== id) : [...flipped, id],
+    );
+
+  const me = ckWall(CLOCK_HOME_TZ);
+
+  const tabs = [
+    { key: "world" as const, label: "世界時鐘", icon: Globe },
+    { key: "alarm" as const, label: "鬧鐘", icon: AlarmClock },
+    { key: "sw" as const, label: "碼表", icon: Timer },
+  ];
+
+  return (
+    <div className="clock-ui independent-skin ckx">
+      <div className="skin-scroll ckx-scroll">
+        <div className="ckx-head">
+          <h1>{tabs.find((t) => t.key === tab)?.label}</h1>
+          {p.creator && tab !== "sw" && (
+            <button aria-label="新增" onClick={p.onAdd}>
+              <Plus size={26} />
+            </button>
+          )}
+        </div>
+
+{tab === "world" && (
+  <>
+    {/* 最上方：本機時區（東京標準時間）即時時鐘 */}
+    {(() => {
+      const homeNow = new Date(ckWall(CLOCK_HOME_TZ, new Date()));
+      return (
+        <div className="ckx-hero">
+          <div className="ckx-hero-time">
+            {ckPad(homeNow.getUTCHours())}:{ckPad(homeNow.getUTCMinutes())}:
+            {ckPad(homeNow.getUTCSeconds())}
+          </div>
+          <div className="ckx-hero-tz">東京標準時間</div>
+        </div>
+      );
+    })()}
+
+    {/* 下方：圓角城市卡片列表 */}
+    <div className="ckx-cards">
+      {cities.map((c: any) => {
+        const tz = c.meta?.timezone || CLOCK_HOME_TZ;
+        const w = ckWall(tz);
+        const d = new Date(w);
+        const rawDiff = Math.round(((w - me) / 36e5) * 10) / 10;
+        const day = Math.floor(w / 864e5) - Math.floor(me / 864e5);
+        const dayText = day > 0 ? "明天" : day < 0 ? "昨天" : "今天";
+        const diffText =
+          rawDiff === 0
+            ? "與當地時間相同"
+            : `${rawDiff > 0 ? "快" : "慢"}${Math.abs(rawDiff)}小時，${dayText}`;
+
+        return (
+          <div className="ckx-card" key={c.id}>
+            <div className="ckx-card-left">
+              <b>{c.title}</b>
+              <span>{diffText}</span>
+            </div>
+            <div className="ckx-card-time">
+              {ckPad(d.getUTCHours())}:{ckPad(d.getUTCMinutes())}
+            </div>
+          </div>
+        );
+      })}
+      {!cities.length && <p className="ckx-empty">沒有城市</p>}
+    </div>
+  </>
+)}
+        {tab === "alarm" && (
+          <>
+            {alarms.map((a) => {
+              const base = a.meta?.on !== "false";
+              const on = base !== flipped.includes(a.id);
+              const time = a.meta?.time || a.body;
+              return (
+                <div className="ckx-row" key={a.id}>
+                  <div>
+                    <div className={"ckx-big" + (on ? "" : " off")}>{time}</div>
+                    <span className="ckx-sub">
+                      {a.title || "鬧鐘"}
+                      {a.meta?.repeat ? "，" + a.meta.repeat : ""}
+                    </span>
+                  </div>
+                  <button
+                    className={"ckx-switch" + (on ? " on" : "")}
+                    aria-label={on ? "關閉鬧鐘" : "開啟鬧鐘"}
+                    onClick={() => toggleAlarm(a.id)}
+                  >
+                    <i />
+                  </button>
+                </div>
+              );
+            })}
+            {!alarms.length && <p className="ckx-empty">沒有鬧鐘</p>}
+          </>
+        )}
+
+        {tab === "sw" && (
+          <div className="ckx-sw">
+            <div className="ckx-sw-d">{ckSwFmt(elapsed)}</div>
+            <div className="ckx-sw-b">
+              <button
+                className="g"
+                onClick={() => {
+                  if (sw.run) setLaps([...laps, elapsed - lapSum]);
+                  else {
+                    setSw({ run: false, t0: 0, acc: 0 });
+                    setLaps([]);
+                  }
+                }}
+              >
+                {sw.run ? "計圈" : "重置"}
+              </button>
+              <button
+                className={sw.run ? "r" : "gr"}
+                onClick={() =>
+                  sw.run
+                    ? setSw({ run: false, t0: 0, acc: elapsed })
+                    : setSw({ run: true, t0: Date.now(), acc: sw.acc })
+                }
+              >
+                {sw.run ? "停止" : "開始"}
+              </button>
+            </div>
+            <div className="ckx-sw-l">
+              {[...laps]
+                .map((l, i) => ({ l, n: i + 1 }))
+                .reverse()
+                .map(({ l, n }) => (
+                  <div key={n}>
+                    <span>第 {n} 圈</span>
+                    <span>{ckSwFmt(l)}</span>
+                  </div>
+                ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <nav className="ckx-nav">
+        {tabs.map((t) => (
+          <button
+            key={t.key}
+            className={tab === t.key ? "on" : ""}
+            onClick={() => setTab(t.key)}
+          >
+            <t.icon size={24} />
+            <small>{t.label}</small>
+          </button>
+        ))}
+      </nav>
+    </div>
+  );
+}
+
 export function RemindersSkin(p: Props) {
     const { tab, setTab, q, setQ, items } = useContent(p, "全部");
     const [checked, setChecked] = useSkinState<string[]>(p, "checked", []);
@@ -848,6 +993,13 @@ export function MusicSkin(p: Props) {
   const [tab, setTab] = useState("立即聆聽");
   const [full, setFull] = useState(false);
   const { item: song, playing } = usePlayer();
+   const isMusicAppSong = items.some((i) => i.id === song?.id);
+    // 👇 如果當前播放的歌不是 Apple Music 的，而且正在播放，就自動暫停
+  useEffect(() => {
+    if (song && !isMusicAppSong && playing) {
+      playerToggle(); // 暫停音樂
+    }
+  }, [song?.id, isMusicAppSong, playing]);
   const [unlocked, setUnlocked] = useState(false);
   const [pw, setPw] = useState("");
   const [pwError, setPwError] = useState("");
@@ -985,7 +1137,8 @@ export function MusicSkin(p: Props) {
       </div>
 
       {/* 迷你播放條 */}
-      {song && !full && (
+      {/* 👇 加上 isMusicAppSong 判斷，不是 Apple Music 的歌就不顯示 */}
+      {song && isMusicAppSong && !full && (
         <div className="am-mini" onClick={() => setFull(true)}>
           {art(song)}
           <b>{song.title}</b>
@@ -1009,7 +1162,9 @@ export function MusicSkin(p: Props) {
           </button>
         </div>
       )}
-      {full && <AMNowPlaying close={() => setFull(false)} />}
+      
+      {/* 👇 全螢幕播放頁也要加上判斷 */}
+      {full && isMusicAppSong && <AMNowPlaying close={() => setFull(false)} />}
       
       {/* 底部 Tabs：維持原本點擊限制 */}
       <Tabs
@@ -1089,45 +1244,32 @@ export function MapsSkin(p: Props) {
         </div>
     );
 }
+
 export function WalletSkin(p: Props) {
-    const [selected, setSelected] = useState("");
-    const cards = p.items.filter((i) => i.folder !== "交易"),
-        transactions = p.items.filter((i) => i.folder === "交易");
     return (
         <div className="catalog-skin native-wallet">
             <Header p={p} />
             <div className="catalog-scroll">
-                <h1>錢包</h1>
-                <div className="wallet-stack">
-                    {cards.map((i, n) => (
-                        <button
-                            key={i.id}
-                            className={selected === i.id ? "selected" : ""}
-                            style={{
-                                background: ["#252d38", "#716456", "#4a655d", "#735e6b"][n % 4],
-                            }}
-                            onClick={() => {
-                                setSelected(i.id);
-                                p.onItem(i);
-                            }}
-                        >
-                            <strong>{i.title}</strong>
-                            <span>{meta(i, "number", "••••")}</span>
-                            <small>{meta(i, "amount", i.sender)}</small>
-                        </button>
-                    ))}
+                <div className="wallet-title">
+                    <h1>錢包</h1>
+                    <button aria-label="新增卡片">
+                        <CirclePlus size={30} strokeWidth={1.6} />
+                    </button>
                 </div>
-                <h4 className="native-section">交易紀錄</h4>
-                {transactions.map((i) => (
-                    <Row key={i.id} item={i} onItem={p.onItem} leading={<Wallet />}>
-                        <strong>{meta(i, "amount")}</strong>
-                    </Row>
-                ))}
-                <Empty items={p.items} />
+
+                <div className="wallet-stack">
+                    <div className="wallet-card">
+                        <img
+                            src="/wallet.png"
+                            alt="銀行卡"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );
 }
+
 export function FindSkin(p: Props) {
     const { tab, setTab, items } = useContent(p, "設備");
     const list = items.filter((i) =>

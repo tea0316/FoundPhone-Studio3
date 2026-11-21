@@ -248,10 +248,10 @@ export function ControlCenter({
   openPanel: (id: string) => void;
 }) {
 
-  const [rotation, setRotation] = useState(true),
+   const [rotation, setRotation] = useState(true),
     [focus, setFocus] = useState(false);
   const [brightness, setBrightness] = useState(50);
-  const [sharedVolume, setSharedVolume] = useVolume();
+const [sharedVolume, setSharedVolume] = useVolume();
   const player = usePlayer();
   const [tool, setTool] = useState("");
   return (

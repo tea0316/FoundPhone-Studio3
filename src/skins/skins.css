@@ -796,89 +796,287 @@
   border-color: #ddd;
   color: #999;
 }
-/* ===== iOS 系統 App｜時鐘 ===== */
-.native-clock {
-  background: #050505;
-  color: #eee;
-  --app-accent: #ff9c21;
+/* ===== 純白背景 + 半透明圓角卡片｜時鐘（.ckx） ===== */
+.ckx.clock-ui {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #ffffff;
+  color: #1c1e21;
+  --app-accent: #ff9500;
 }
-.native-clock .catalog-nav {
-  background: #0b0b0b;
-  border-color: #262626;
+
+.ckx-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 20px;
 }
-.native-clock .catalog-tabs {
-  background: #0b0b0b;
-  border-color: #333;
-}
-.alarm-row {
+
+/* 頂部標題列 */
+.ckx-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 16px;
-  border-bottom: 1px solid #242424;
+  padding: 16px 18px 26px;
 }
-.alarm-row > button:first-child {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0;
-  gap: 6px;
+
+.ckx-head h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1c1e21;
 }
-.alarm-row time {
-  font-size: 43px;
-  line-height: 1;
-  font-weight: 200;
+
+.ckx-head button {
+  background: none;
+  border: none;
+  color: #1c1e21;
+  padding: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
-.alarm-row small {
-  font-size: 11px;
-  color: #999;
-}
-.native-switch {
-  width: 43px;
-  height: 26px;
-  border-radius: 14px;
-  background: #444;
-  padding: 3px;
-  justify-content: flex-start;
-  flex-shrink: 0;
-}
-.native-switch > span {
-  width: 20px;
-  height: 20px;
-  background: #fff;
-  border-radius: 50%;
-}
-.native-switch.on {
-  background: #3acb60;
-  justify-content: flex-end;
-}
-.stopwatch {
+
+/* ===== 世界時鐘：上方主時鐘 + 圓角半透明卡片 ===== */
+.ckx-hero {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px 20px;
+  padding: 20px 16px 26px;
+  gap: 6px;
 }
-.stopwatch output {
-  font-size: 60px;
-  font-weight: 200;
+
+.ckx-hero-time {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: #111111;
+  letter-spacing: 0.5px;
   font-variant-numeric: tabular-nums;
 }
-.stopwatch > div {
-  display: flex;
-  gap: 70px;
-  margin-top: 50px;
+
+.ckx-hero-tz {
+  font-size: 15px;
+  font-weight: 500;
+  color: #4a4f55;
 }
-.stopwatch button {
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  background: #303030;
-  color: #ddd;
+
+.ckx-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0 16px 24px;
+}
+
+/* 純白底上的半透明灰霧圓角卡片 */
+.ckx-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px;
+  border-radius: 22px;
+  background: rgba(165, 170, 178, 0.5);
+  color: #ffffff;
+}
+
+.ckx-card-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ckx-card-left b {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #454141c8;
+}
+
+.ckx-card-left span {
+  font-size: 13px;
+  color: #454141c8;
+}
+
+.ckx-card-time {
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1;
+  color: #454141c8;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== 鬧鐘分頁 ===== */
+.ckx-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 16px 12px;
+  padding: 18px 20px;
+  border-radius: 20px;
+  background: rgba(242, 244, 247, 0.959);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  gap: 12px;
+}
+
+.ckx-row > div:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ckx-big {
+  font-size: 38px;
+  line-height: 1;
+  font-weight: 300;
+  color: #111111;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.ckx-big.off {
+  color: #9aa0a6;
+}
+
+.ckx-sub {
+  font-size: 13px;
+  color: #666666;
+}
+
+.ckx-empty {
+  text-align: center;
+  color: #888888;
+  padding: 48px 16px;
   font-size: 14px;
 }
-.stopwatch button:last-child {
-  background: #123a20;
-  color: #58da7b;
+
+/* 開關按鈕 */
+.ckx-switch {
+  width: 50px;
+  height: 30px;
+  border-radius: 15px;
+  background: #d1d5db;
+  border: none;
+  padding: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+}
+
+.ckx-switch > i {
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.ckx-switch.on {
+  background: #34c759;
+}
+
+.ckx-switch.on > i {
+  transform: translateX(20px);
+}
+
+/* ===== 碼表區塊 ===== */
+.ckx-sw {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 16px 24px;
+}
+
+.ckx-sw-d {
+  font-size: 54px;
+  line-height: 1.1;
+  font-weight: 300;
+  color: #111111;
+  font-variant-numeric: tabular-nums;
+}
+
+.ckx-sw-b {
+  display: flex;
+  justify-content: center;
+  gap: 64px;
+  margin-top: 38px;
+}
+
+.ckx-sw-b button {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.08);
+  color: #333333;
+}
+
+.ckx-sw-b button.gr {
+  background: rgba(52, 199, 89, 0.18);
+  color: #1f8b3d;
+}
+
+.ckx-sw-b button.r {
+  background: rgba(255, 59, 48, 0.16);
+  color: #d93025;
+}
+
+.ckx-sw-l {
+  width: 100%;
+  margin-top: 28px;
+  padding: 0 4px;
+}
+
+.ckx-sw-l > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  background: rgba(242, 244, 247, 0.85);
+  font-size: 14px;
+  color: #333333;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== 底部導覽列 ===== */
+.ckx-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.92);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 8px 0 10px;
+  flex-shrink: 0;
+}
+
+.ckx-nav button {
+  background: none;
+  border: none;
+  color: #7c828a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  font-size: 11px;
+  padding: 2px 12px;
+}
+
+.ckx-nav button.on {
+  color: var(--app-accent);
+  font-weight: 600;
 }
 /* ===== iOS 系統 App｜提醒事項 ===== */
 .native-reminders {
@@ -1218,43 +1416,88 @@
 .weather-cities > .selected {
   background: #ffffff40;
 }
+
 /* ===== iOS 系統 App｜錢包 ===== */
+
 .native-wallet {
   background: #f2f2f7;
 }
+
 .wallet-stack {
-  padding: 0 15px 15px;
-}
-.wallet-stack > button {
+  padding: 0 15px 20px;
   display: flex;
-  align-items: flex-start;
   flex-direction: column;
-  gap: 19px;
+  align-items: center;
+  gap: 12px;
+}
+
+.wallet-card {
+  width: calc(100% - 24px);
+  margin: 0 auto;
+  aspect-ratio: 1.586 / 1;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 3px 10px #0002;
+  flex-shrink: 0;
+}
+
+.wallet-card img {
+  display: block;
   width: 100%;
-  height: 150px;
-  border-radius: 12px;
-  padding: 21px;
-  color: #fff;
-  box-shadow: 0 3px 8px #0002;
-  margin-top: -65px;
-  position: relative;
+  height: 100%;
+  object-fit: contain;
+  border-radius: inherit;
 }
-.wallet-stack > button:first-child {
-  margin-top: 0;
+/* 上方導覽列 */
+.native-wallet header {
+  background: #f2f2f7 !important;
 }
-.wallet-stack strong {
-  font-size: 15px;
-  font-weight: 500;
+
+/* 隱藏中間的 App 名稱 */
+.native-wallet .catalog-nav strong {
+  display: none;
 }
-.wallet-stack span {
-  font-size: 15px;
-  letter-spacing: 3px;
-  margin-top: auto;
+
+/* 移除底部分隔線 */
+.native-wallet .catalog-nav {
+  border-bottom: none !important;
+  background: #f2f2f7 !important;
 }
-.wallet-stack small {
-  font-size: 10px;
-  color: #eee;
+/* 錢包：標題列（右邊加號） */
+.wallet-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  margin-top: 6 px;
+  margin-bottom: 18px;
 }
+.wallet-title h1 {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+}
+.wallet-title button {
+  padding: 0;
+  color: #111;
+}
+
+/* 錢包：背景統一成同一種灰 */
+.native-wallet,
+.native-wallet .catalog-scroll {
+  background: #f2f2f7;
+}
+.app-screen:has(.native-wallet) {
+  background: #f2f2f7 !important;
+}
+.phone-screen:has(.native-wallet) {
+  background: #f2f2f7 !important;
+}
+.phone-screen:has(.native-wallet) .status-bar,
+.phone-screen:has(.native-wallet) .home-indicator {
+  background: #f2f2f7 !important;
+}
+
 /* ===== iOS 系統 App｜健康 ===== */
 .native-health {
   background: #f2f2f7;
@@ -2494,6 +2737,269 @@
   font-size: 9px;
   color: #aaa;
   padding: 12px 0 0;
+}
+/* ===== Threads ===== */
+.thx {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: #fff;
+  color: #111;
+}
+.thx button {
+  color: inherit;
+}
+.thx-gray {
+  color: #aaa !important;
+}
+.thx-top {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 22px;
+}
+.thx-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0;
+}
+.thx-menu i {
+  display: block;
+  height: 3px;
+  border-radius: 2px;
+  background: #aaa;
+}
+.thx-menu i:first-child {
+  width: 22px;
+}
+.thx-menu i:last-child {
+  width: 14px;
+}
+.thx-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.thx-scroll::-webkit-scrollbar {
+  display: none;
+}
+.thx-empty {
+  margin: 40px 16px;
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+}
+.thx-avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #dbdbdb;
+  color: #666;
+  font-weight: 600;
+}
+.thx-avatar > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* 發文列 */
+.thx-compose {
+  display: flex;
+  gap: 12px;
+  padding: 8px 22px 18px;
+  border-bottom: 1px solid #e6e6e6;
+}
+.thx-compose strong {
+  display: block;
+  font-size: 17px;
+  font-weight: 700;
+}
+.thx-compose span {
+  color: #999;
+  font-size: 16px;
+}
+/* 貼文 */
+.thx-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px 0 40px;
+  color: #999;
+  font-size: 14px;
+}
+.thx-post {
+  display: flex;
+  gap: 12px;
+  padding: 12px 22px 16px;
+  border-bottom: 1px solid #e6e6e6;
+}
+.thx-av {
+  position: relative;
+  flex: none;
+  align-self: flex-start;
+}
+.thx-av > i {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #111;
+  color: #fff;
+}
+.thx-main {
+  flex: 1;
+  min-width: 0;
+}
+.thx-by {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  width: 100%;
+}
+.thx-by strong {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1; 
+}
+
+/* 時間 (2小時) */
+.thx-by small {
+  color: #999;
+  font-size: 14px;
+  line-height: 1;
+  margin-left: 4px;
+  transform: translateY(-1px); /* 👈 往上提 1px */
+}
+.thx-more {
+  margin-left: auto;
+  margin-left: auto;
+  color: #999;
+  flex: none;
+}
+.thx-text {
+  margin: 8px 0 12px;
+  font-size: 16px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.thx-count {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 5px 12px;
+  border-radius: 14px;
+  background: #efefef;
+  color: #888;
+  font-size: 15px;
+}
+.thx-audio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 2px 0 10px;
+  font-size: 14px;
+}
+.thx-audio > span {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #efefef;
+}
+.thx-audio > b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.thx-track {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.thx-track::-webkit-scrollbar {
+  display: none;
+}
+.thx-track > img {
+  flex: 0 0 100%;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 16px;
+  scroll-snap-align: start;
+}
+.thx-track > img.multi {
+  flex-basis: 92%;
+}
+.thx-try {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  color: #999;
+  font-size: 16px;
+}
+.thx-try b {
+  color: #666;
+}
+.thx-actions {
+  display: flex;
+  gap: 22px;
+  margin-top: 16px;
+}
+.thx-actions button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  font-size: 15px;
+  color: #444;
+}
+/* 底部導覽列 */
+.thx-nav {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 8px 0 10px;
+  background: #fff;
+}
+.thx-nav > button {
+  position: relative;
+  padding: 8px 14px;
+  color: #aaa;
+}
+.thx-nav > button.on {
+  color: #111;
+}
+.thx-nav > .thx-plus {
+  padding: 12px 24px;
+  border-radius: 16px;
+  background: #efefef;
+  color: #999;
+}
+.thx-dot {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ff3040;
 }
 /* ===== 社群 App｜Facebook ===== */
 .facebook-ui {
@@ -5744,7 +6250,7 @@
 }
 
 /* ===== TikTok 仿真 ===== */
-/* ===== TikTok 仿真介面 ===== */
+
 .tiktok-ui.tt {
   position: relative;
   display: flex;
@@ -5893,16 +6399,98 @@
   padding: 8px 6px 10px;
   background: #000;
   border-top: 1px solid #1d1d1d;
-  pointer-events: none;
+  /* 👇 把 pointer-events: none; 刪掉，不然點不到 */
 }
+
 .tt-nav > span {
   font-size: 11px;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.55);
+  /* 👇 加上固定高度，確保與 + 按鈕在同一水平線上 */
+  height: 28px; 
+  display: flex;
+  align-items: center;
 }
+
 .tt-nav > .on {
   color: #fff;
 }
+
+/* 👇 調整 + 按鈕的定位 */
+.tt-plus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px; /* 與文字高度一致 */
+}
+
+.tt-plus b {
+  display: block;
+  position: relative;
+  width: 42px;
+  height: 28px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: -3px 0 0 #25f4ee, 3px 0 0 #fe2c55;
+}
+
+/* 中間的 + 號 */
+.tt-plus b::before,
+.tt-plus b::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: #000;
+  transform: translate(-50%, -50%);
+}
+
+.tt-plus b::before {
+  width: 14px;
+  height: 2.5px;
+}
+
+.tt-plus b::after {
+  width: 2.5px;
+  height: 14px;
+}
+
+.tt-item .tt-video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  background: #000;
+}
+.tt-nav {
+  flex: none;
+  display: flex;
+  align-items: center;
+  padding: 8px 6px 10px;
+  background: #000;
+  border-top: 1px solid #1d1d1d;
+}
+
+/* 👇 讓每個元素平分寬度，並強制文字置中 */
+.tt-nav > span {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+  height: 28px;
+}
+
+/* 👇 確保 + 按鈕也是在正中間 */
+.tt-plus {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 以下保留原本的 + 按鈕樣式 */
 .tt-plus b {
   display: block;
   position: relative;
@@ -5928,12 +6516,6 @@
 .tt-plus b::after {
   width: 2.5px;
   height: 14px;
-}
-.tt-item .tt-video {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain !important;
-  background: #000;
 }
 
 /* 修改音樂 App 頂部導航列的背景色 */
@@ -6187,3 +6769,1047 @@
 .phone-shell .phone-screen:has([data-sky="rain-night"])  .status-bar { background: #0e141f !important; }
 .phone-shell .phone-screen:has([data-sky="storm-night"]) .status-bar { background: #090c13 !important; }
 .phone-shell .phone-screen:has([data-sky="snow-night"])  .status-bar { background: #1d2738 !important; }
+
+
+/* ===== Instagram 重寫版 ===== */
+.instagram-ui.igx {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: #fff;
+  color: #111;
+}
+.igx button {
+  color: inherit;
+}
+.igx-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 !important;
+  scrollbar-width: none;
+}
+.igx-scroll::-webkit-scrollbar {
+  display: none;
+}
+.igx-empty {
+  margin: 36px 16px;
+  text-align: center;
+  font-size: 13px;
+  color: #8e8e8e;
+}
+
+/* 頭像 */
+.igx-avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #dbdbdb;
+  color: #666;
+  font-weight: 600;
+}
+.igx-avatar > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.igx-avatar > svg {
+  color: #a8abb0;
+}
+
+/* 限時動態 */
+.igx-stories {
+  display: flex;
+  gap: 14px;
+  padding: 8px 12px 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.igx-stories::-webkit-scrollbar {
+  display: none;
+}
+/* ===== 限時動態圓圈（統一尺寸） ===== */
+.igx-story {
+  flex: none;
+  width: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+}
+.igx-story small {
+  width: 100%;
+  font-size: 11px;
+  line-height: 1.2;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.igx-story .ring {
+  position: relative;
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
+  padding: 2px;
+  border: 1px solid #dbdbdb;
+  border-radius: 50%;
+  background: none;
+}
+.igx-story .ring.none {
+  border-color: transparent;
+}
+.igx-story .ring .igx-avatar {
+  box-sizing: border-box;
+  width: 100% !important;
+  height: 100% !important;
+  border: 0 !important;
+  border-radius: 50%;
+}
+.igx-story .ring > i {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #0095f6;
+  color: #fff;
+  display: grid;
+  place-items: center;
+}
+.igx-stories {
+  user-select: none;
+  cursor: grab;
+}
+.igx-stories img {
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+/* 貼文 */
+.igx-post {
+  margin-bottom: 8px;
+}
+.igx-post-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+}
+.igx-post-head > strong {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+}
+.igx-media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  padding: 0;
+  background: #efefef;
+}
+.igx-media > img,
+.igx-media > video,
+.igx-media > .skin-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.igx-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px 4px;
+}
+.igx-actions button {
+  padding: 0;
+}
+.igx-actions .igx-save {
+  margin-left: auto;
+}
+.igx-caption {
+  padding: 2px 12px 6px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.igx-caption > strong {
+  font-weight: 600;
+}
+.igx-caption > p {
+  margin-top: 2px;
+}
+.igx-caption > button {
+  display: block;
+  padding: 2px 0;
+  font-size: 13px;
+  color: #8e8e8e;
+}
+.igx-caption > time {
+  display: block;
+  margin-top: 2px;
+  font-size: 10px;
+  color: #8e8e8e;
+}
+
+/* 搜尋 / 格狀 */
+.igx-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #efefef;
+  color: #8e8e8e;
+}
+.igx-search input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 14px;
+  color: #111;
+}
+.igx-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2px;
+  margin-top: 4px;
+}
+.igx-grid > button {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  padding: 0;
+  background: #efefef;
+}
+.igx-grid > button > img,
+.igx-grid > button > video,
+.igx-grid > button > .skin-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 個人主頁 */
+.igx-ptop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  font-size: 18px;
+}
+.igx-ptop > button {
+  padding: 0;
+}
+.igx-ptop > strong {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 20px;
+  font-weight: 700;
+}
+.igx-phead {
+  display: flex;
+  align-items: center;
+  padding: 16px 16px 16px 12px;
+  gap: 50px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.igx-pinfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.igx-display-name {
+  font-size: 18px !important;
+  line-height: 1.25;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 0; /* 拿掉多餘的左邊距，直接跟「貼文」對齊 */
+}
+
+.igx-stats {
+  display: flex;
+  justify-content: flex-start; /* 👈 不再撐滿兩端 */
+  gap: 36px; /* 👈 「貼文、粉絲、追蹤中」三欄之間的距離，想更緊湊可改 18px～20px */
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.igx-stats b {
+  display: block;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.igx-stats > span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.igx-stats button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.igx-bio {
+  padding: 0 16px 10px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.igx-bio p {
+  white-space: pre-wrap;
+}
+/* 個人主頁的按鈕區 (編輯、分享) */
+.igx-pbtns {
+  display: flex;
+  gap: 8px; /* 兩個按鈕中間的縫隙 */
+  padding: 0 16px 16px; /* 左右留白 16px */
+}
+
+/* 讓按鈕平分寬度 */
+.igx-pbtns button {
+  flex: 1; /* 👈 關鍵：讓兩個按鈕平分 100% 的寬度 */
+  padding: 8px 0;
+  background: #efefef; /* 淺灰色背景 */
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  cursor: pointer;
+  text-align: center;
+}
+
+.igx-pbtns button:active {
+  background: #dbdbdb; /* 點擊時稍微變深 */
+}
+/* 個人主頁的分頁切換列 (貼文 / 已收藏) */
+.igx-ptabs {
+  display: flex;
+  width: 100%;
+  border-top: 0.5px solid #dbdbdb; /* 頂部的灰色細線 */
+}
+
+/* 每個按鈕平分寬度 */
+.igx-ptabs button {
+  flex: 1; /* 👈 關鍵：讓兩個按鈕平分 100% 的寬度 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0;
+  background: none;
+  border: none;
+  color: #8e8e93;
+  cursor: pointer;
+  position: relative;
+}
+
+/* 被選中時的樣式 */
+.igx-ptabs button.on {
+  color: #000;
+}
+
+/* 被選中時底下的黑色底線 */
+.igx-ptabs button.on::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%; /* 👈 底線佔滿這 50% 的寬度 */
+  height: 1.5px;
+  background: #000;
+}
+
+/* IG 頂部導航列 */
+.igx-top {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #fff;
+}
+.igx-top button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.igx-top > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.igx-logo {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Snell Roundhand", "Segoe Script", "Brush Script MT",
+    "Apple Chancery", cursive;
+  font-size: 30px;
+  font-weight: 600;
+}
+.igx-logo.plain {
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Reels */
+.igx-reel {
+  position: relative;
+  height: 100%;
+  min-height: 520px;
+  background: #000;
+  color: #fff;
+}
+.igx-reel > video,
+.igx-reel > img,
+.igx-reel > .skin-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.igx-reel-info {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 16px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+.igx-reel-info p {
+  margin-top: 4px;
+  font-size: 13px;
+}
+/* ===== Reels ===== */
+.igx.dark .igx-nav {
+  background: #000;
+  border-top-color: #262626;
+}
+.igx.dark .igx-nav > button {
+  color: #fff;
+}
+.igx.dark .igx-nav > button.on .igx-avatar {
+  outline-color: #fff;
+}
+.igx-scroll:has(.igr-wrap) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.igr-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: #000;
+  color: #fff;
+}
+.igr-top {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 24px;
+  background: linear-gradient(rgba(0, 0, 0, 0.45), transparent);
+}
+.igr-top strong {
+  font-size: 20px;
+  font-weight: 700;
+}
+.igr-list {
+  height: 100%;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+}
+.igr-list::-webkit-scrollbar {
+  display: none;
+}
+.igr {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+.igr-video,
+.igr > img,
+.igr > .skin-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+.igr-shade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45%;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+  pointer-events: none;
+}
+.igr-mute {
+  position: absolute;
+  right: 12px;
+  bottom: 16px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+.igr-side {
+  position: absolute;
+  right: 10px;
+  bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.igr-side button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  color: #fff;
+  font-size: 12px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+.igr-info {
+  position: absolute;
+  left: 16px;
+  right: 70px;
+  bottom: 20px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+.igr-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.igr-user strong {
+  font-size: 17px;
+  font-weight: 600;
+}
+.igr-follow {
+  padding: 3px 10px;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.igr-info p {
+  font-size: 16px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.igr-audio {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 14px;
+}
+/* Reels：整個螢幕黑底 */
+.igx.dark {
+  background: #000;
+}
+.app-screen:has(.igx.dark) {
+  background: #000 !important;
+  color: #fff;
+}
+/* Reels：整個手機螢幕變黑（含狀態列、底部橫槓） */
+.phone-screen:has(.igx.dark) {
+  background: #000 !important;
+}
+.phone-screen:has(.igx.dark) .status-bar {
+  background: #000 !important;
+  color: #fff !important;
+}
+.phone-screen:has(.igx.dark) .status-bar svg {
+  color: #fff;
+}
+.phone-screen:has(.igx.dark) .home-indicator {
+  background: #000 !important;
+}
+/* 底部分頁 */
+.igx-nav {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 48px;
+  border-top: 1px solid #dbdbdb;
+  background: #fff;
+}
+.igx-nav > button {
+  padding: 8px 14px;
+  color: #111;
+}
+.igx-nav > button.on .igx-avatar {
+  outline: 2px solid #111;
+  outline-offset: 1px;
+}
+.igx-nav > .plus svg {
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  padding: 3px;
+  border: 2px solid #111;
+  border-radius: 7px;
+  stroke-width: 2.6;
+}
+.igx-plus-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 2px solid currentColor;
+  border-radius: 8px;
+}
+.igx-nav button {
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  color: #000;
+}
+
+/* IG 追蹤列表彈窗 */
+.igx-follow-overlay {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.igx-follow-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 0.5px solid #dbdbdb;
+  background: #fff;
+  color: #000;
+  flex-shrink: 0;
+}
+.igx-follow-header button {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  color: #000;
+  cursor: pointer;
+}
+.igx-follow-header strong {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+}
+.igx-follow-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 16px;
+}
+.igx-follow-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+}
+.igx-follow-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.igx-follow-info strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+}
+.igx-follow-info small {
+  font-size: 12px;
+  color: #8e8e93;
+}
+.igx-follow-row button {
+  padding: 6px 16px;
+  background: #efefef;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  cursor: pointer;
+}
+.igx-follow-row button:hover {
+  background: #dbdbdb;
+}
+
+/* IG 私訊列表 */
+.igx-dm {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.igx-dm:hover,
+.igx-dm:active {
+  background: #fafafa;
+}
+.igx-dm > :first-child {
+  flex-shrink: 0;
+}
+.igx-dm > div {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.igx-dm strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.igx-dm p {
+  margin: 0;
+  font-size: 13px;
+  color: #737373;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.igx-dm time {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: #8e8e93;
+  align-self: center;
+}
+
+/* ===== 聊天室：仿真補充 ===== */
+.igx-chat-title strong {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 17px;
+}
+.igx-chat-tools {
+  display: flex;
+  gap: 18px;
+  color: #111;
+}
+
+/* 頭像在線點 */
+.igx-online-wrap {
+  position: relative;
+  flex: none;
+  display: inline-flex;
+}
+.igx-online {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #3ccf4e;
+  border: 2px solid #fff;
+}
+
+
+/* 輸入列：整條灰色 */
+.igx-chat-form {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 12px 14px;
+  padding: 5px 14px 5px 5px;
+  border-radius: 28px;
+  background: #efefef;
+}
+.igx-chat-form .cam {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #5c6cf2;
+  color: #fff;
+}
+.igx-chat-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 0;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  font-size: 15px;
+  color: #111;
+}
+.igx-chat-form .tools {
+  display: flex;
+  gap: 14px;
+  color: #111;
+}
+.igx-chat-form .send {
+  border: 0;
+  background: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0095f6;
+}
+/* ===== 聊天室：基本樣式 ===== */
+.igx-chat-room {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: #fff;
+  color: #111;
+}
+.igx-chat-header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: #fff;
+}
+.igx-chat-header > button {
+  padding: 4px;
+  color: inherit;
+}
+.igx-chat-title {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.25;
+}
+.igx-chat-title strong {
+  font-weight: 600;
+}
+.igx-chat-title small {
+  display: block;
+  font-size: 12px;
+  color: #8e8e93;
+}
+
+/* 訊息區（只有這裡捲動） */
+.igx-chat-messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 12px 8px;
+  scrollbar-width: none;
+}
+.igx-chat-messages::-webkit-scrollbar {
+  display: none;
+}
+
+/* 一列訊息 */
+.igx-row {
+  display: flex;
+  align-items: flex-end; /* 預設底部對齊（適合短訊息或連續訊息） */
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+/* 👇 如果這則訊息是「對方」發的，且是「第一則」，讓頭像對齊頂部 */
+.igx-row.received.first {
+  align-items: flex-start;
+}
+.igx-row.sent {
+  justify-content: flex-end;
+}
+.igx-row .igx-avatar {
+  flex: none;
+  visibility: hidden;
+}
+.igx-row.last .igx-avatar {
+  visibility: visible;
+}
+.igx-row.first {
+  margin-top: 8px;
+}
+
+/* 泡泡 */
+.igx-msg {
+  max-width: 72%;
+  padding: 9px 16px;
+  border-radius: 20px;
+  font-size: 16px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.igx-msg.received {
+  background: #efefef;
+  color: #111;
+}
+.igx-msg.sent {
+  color: #fff;
+ background: linear-gradient(160deg, #ff4b5c 0%, #9ad0fa 75%);
+}
+.igx-row.received:not(.last) .igx-msg {
+  border-bottom-left-radius: 6px;
+}
+.igx-row.sent:not(.last) .igx-msg {
+  border-bottom-right-radius: 6px;
+}
+.igx-row.received:not(.first) .igx-msg {
+  border-top-left-radius: 6px;
+}
+.igx-row.sent:not(.first) .igx-msg {
+  border-top-right-radius: 6px;
+}
+/* ===== 貼文輪播 ===== */
+.igx-car {
+  position: relative;
+}
+.igx-car-track {
+  display: flex;
+  aspect-ratio: 1 / 1;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  background: #efefef;
+}
+.igx-car-track::-webkit-scrollbar {
+  display: none;
+}
+.igx-car-slide {
+  flex: none;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  scroll-snap-align: center;
+}
+.igx-car-slide > img,
+.igx-car-slide > video,
+.igx-car-slide > .skin-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.igx-car-count {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 3px 9px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 12px;
+}
+.igx-car-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  color: #111;
+}
+.igx-car-arrow.l {
+  left: 8px;
+}
+.igx-car-arrow.r {
+  right: 8px;
+}
+.igx-dots {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 0 0;
+}
+.igx-dots > i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #c7c7cc;
+}
+.igx-dots > i.on {
+  background: #0095f6;
+}
+/* ===== 個人主頁縮圖 ===== */
+.igx-grid > div {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #efefef;
+}
+.igx-grid > div > img,
+.igx-grid > div > video,
+.igx-grid > div > .skin-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

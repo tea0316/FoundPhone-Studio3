@@ -478,3 +478,145 @@
 .threads-reference .tr-search input {
   flex: 1;
 }
+/* ===== 仿真外觀 ===== */
+.tr-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.tr-menu i {
+  display: block;
+  height: 3px;
+  border-radius: 2px;
+  background: #aaa;
+}
+.tr-menu i:first-child {
+  width: 22px;
+}
+.tr-menu i:last-child {
+  width: 14px;
+}
+.tr-head > button:last-child svg {
+  color: #aaa;
+}
+.tr-compose-row {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 6px 20px 18px !important;
+  border-bottom: 1px solid #e6e6e6 !important;
+}
+.tr-compose-row > .catalog-avatar {
+  width: 44px;
+  height: 44px;
+  flex: none;
+}
+.tr-compose-row b {
+  display: block;
+  font-size: 17px;
+  font-weight: 700;
+}
+.tr-compose-row small {
+  color: #999;
+  font-size: 16px;
+}
+.tr-post {
+  padding: 14px 20px;
+}
+.tr-avatar,
+.tr-avatar > .catalog-avatar {
+  width: 44px;
+  height: 44px;
+}
+.tr-topic {
+  font-style: normal;
+  font-weight: 600;
+  color: #2b3ad0;
+}
+.tr-byline > span {
+  font-size: 15px;
+}
+.tr-actions {
+  gap: 22px;
+  font-size: 15px;
+}
+/* 圖片輪播 */
+.tr-media {
+  margin: 8px 0 4px;
+}
+.tr-count {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 5px 12px;
+  border-radius: 14px;
+  background: #efefef;
+  color: #888;
+  font-size: 15px;
+}
+.tr-track {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.tr-track::-webkit-scrollbar {
+  display: none;
+}
+.tr-track > img {
+  flex: 0 0 100%;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 16px;
+  scroll-snap-align: start;
+}
+.tr-track > img.multi {
+  flex-basis: 92%;
+}
+/* 底部導覽列：改成貼底的平面列 */
+.tr-scroll {
+  padding-bottom: 72px;
+}
+.tr-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 62px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+.tr-bottom > button {
+  position: relative;
+  color: #aaa;
+}
+.tr-bottom > button.selected {
+  background: none;
+  color: #111;
+}
+.tr-bottom > button:nth-child(3) {
+  flex: none;
+  width: 70px;
+  height: 46px;
+  border-radius: 16px;
+  background: #efefef;
+  color: #999;
+}
+.tr-dot {
+  position: absolute;
+  top: 8px;
+  left: calc(50% + 8px);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ff3040;
+}
+.tr-nav-av > .catalog-avatar {
+  width: 32px;
+  height: 32px;
+}

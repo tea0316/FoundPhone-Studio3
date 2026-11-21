@@ -126,9 +126,6 @@ export function NativeSettings({
                 </div>
               </>
             )}
-            <p className="settings-page-caption">
-              連線狀態僅用於作品中的虛擬手機。
-            </p>
           </>
         );
       case "藍牙":
@@ -171,11 +168,6 @@ export function NativeSettings({
           </div>
         );
       case "軟體更新":
-        return (
-          <p className="settings-page-caption">
-            iOS 18.0 · 此為作品中的虛擬系統，不下載系統更新。
-          </p>
-        );
       default:
         return (
           <>
@@ -189,9 +181,6 @@ export function NativeSettings({
                   : "",
               )}
             </div>
-            {!items.some((i) => i.folder === nav.page) && (
-              <p className="settings-page-caption">此作品沒有設定更多選項。</p>
-            )}
           </>
         );
     }
@@ -277,22 +266,18 @@ export function NativeSettings({
             ))}
           </>
         )}
-        {items
-          .filter(
-            (i) =>
-              !nav.page || i.folder === nav.page || i.title.includes(nav.page),
-          )
-          .map((i) => (
-            <button className="record-row" key={i.id} onClick={() => onItem(i)}>
-              {i.title}
-              <ChevronRight size={16} />
-            </button>
-          ))}
-        {creator && (
-          <button className="phone-add" onClick={onSettings}>
-            編輯系統設定
-          </button>
-        )}
+{items
+  .filter(
+    (i) =>
+      i.title !== "測試內容" &&
+      (!nav.page || i.folder === nav.page || i.title.includes(nav.page)),
+  )
+  .map((i) => (
+    <button className="record-row" key={i.id} onClick={() => onItem(i)}>
+      {i.title}
+      <ChevronRight size={16} />
+    </button>
+  ))}
       </NavigationPage>
       {!nav.page && (
         <label className="settings-search">

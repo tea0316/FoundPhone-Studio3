@@ -136,6 +136,7 @@ export function AppIcon({
     </span>
   );
 }
+const DECOR_APPS = ["maps", "find"];
 type PhoneProps = Omit<Parameters<typeof PhoneRuntime>[0], "deviceLayout">;
 export function Phone(props: PhoneProps) {
   const deviceLayout = useDeviceLayout(props.work, props.creator);
@@ -302,6 +303,7 @@ function PhoneRuntime({
       if (!recent.includes(id) && id !== app) appSnapshots.current.delete(id);
   };
   const open = (id: string) => {
+    if (DECOR_APPS.includes(id)) return;
     if (!work.apps.some((a) => a.id === id && a.installed)) return;
     setApp(id);
     setKeyboard(false);

@@ -22,6 +22,7 @@ import {
   ChevronLeft,
   Library,
   User,
+  Forward,
   Users,
   Video,
   Share2,
@@ -843,7 +844,7 @@ function TikVideo({ p, item }: { p: Props; item: Item }) {
           <small>{saved ? "已收藏" : "收藏"}</small>
         </button>
         <button aria-label="分享">
-          <Share2 size={29} fill="white" stroke="none" />
+          <Forward size={30} fill="white" stroke="none" />
           <small>分享</small>
         </button>
       </div>
@@ -861,7 +862,7 @@ function TikVideo({ p, item }: { p: Props; item: Item }) {
 
 export function TikTokSkin(p: Props) {
   const { items } = useContent(p, "為你推薦");
-  const [tab, setTab] = useState("為你推薦");
+  const [tab, setTab] = useState("追蹤中");
   const list =
     tab === "為你推薦"
       ? items
@@ -888,11 +889,11 @@ export function TikTokSkin(p: Props) {
       <div className="tt-nav" aria-hidden="true">
         <span className="on">首頁</span>
         <span>朋友</span>
-        <span className="tt-plus">
+         <span className="tt-plus">
           <b />
         </span>
-        <span>收件匣</span>
-        <span>個人檔案</span>
+        <span>信件匣</span>
+        <span>個人資料</span>
       </div>
     </div>
   );

@@ -2,7 +2,6 @@ import { useSkinState } from "../skinState";
 import {
   ArrowDown,
   ArrowUp,
-  AtSign,
   Bookmark,
   Camera,
   ChevronRight,
@@ -11,18 +10,18 @@ import {
   Heart,
   Menu,
   Home,
+  Share2,
   MessageCircle,
   Repeat2,
   User,
   Users,
-  Share2,
   ThumbsUp,
 } from "lucide-react";
 import { useState } from "react";
 import type { Item } from "../schema";
 import {
-   Search, Plus, Star, House, Send,
-   MoreHorizontal,  VolumeX, Music2,
+   Search, Plus, House, Send,
+   MoreHorizontal,   
 } from "lucide-react";
 import { coverUrl } from "../player"; 
 import {

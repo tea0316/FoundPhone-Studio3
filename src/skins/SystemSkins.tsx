@@ -35,7 +35,6 @@ import {
     SkipForward,
     Star,
     Users,
-    Wallet,
     Pause,    
     Play,     
     Radio,

@@ -25,7 +25,6 @@ import {
   Forward,
   Users,
   Video,
-  Share2,
 } from "lucide-react";
 import { useState, useEffect, useRef, type CSSProperties } from "react";
 import { safeMedia, type Item } from "../schema";

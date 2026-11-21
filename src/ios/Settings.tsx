@@ -48,9 +48,9 @@ const groups: Row[][] = [
 export function NativeSettings({
   work,
   items,
-  creator,
   onItem,
-  onSettings,
+creator,
+onSettings,
 }: {
   work: Work;
   items: Item[];

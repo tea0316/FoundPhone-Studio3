@@ -15,15 +15,18 @@ import {
   Repeat2,
   User,
   Users,
+  BarChart2,
+  X,
   ThumbsUp,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Item } from "../schema";
 import {
    Search, Plus, House, Send,
    MoreHorizontal,   
 } from "lucide-react";
 import { coverUrl } from "../player"; 
+
 import {
   Avatar,
   Empty,
@@ -36,6 +39,7 @@ import {
   useContent,
   type Props,
 } from "./shared";
+
 function Actions({ p, item }: { p: Props; item: Item }) {
   const [liked, setLiked] = useSkinState<boolean>(p, `liked-${item.id}`, false),
     [saved, setSaved] = useSkinState<boolean>(p, `saved-${item.id}`, false);
@@ -147,58 +151,211 @@ export function WeiboSkin(p: Props) {
     </div>
   );
 }
+
+type Sent = { text: string; time: string };
+
 export function XSkin(p: Props) {
   const { tab, setTab, q, setQ, items } = useContent(p, "為你推薦");
+
+  const [open, setOpen] = useState(false);
+  const [to, setTo] = useState("");
+  const [subj, setSubj] = useState("");
+  const [txt, setTxt] = useState("");
+  const [readOnly, setReadOnly] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [toast, setToast] = useState(false);
+  const [replied, setReplied] = useState<Record<string, Sent>>({});
+  const [liked, setLiked] = useState<string[]>([]);
+  const [reposted, setReposted] = useState<string[]>([]);
+
+  const tok = useRef(0);
+  const cur = useRef<Item | null>(null);
+  const typeDone = useRef(true);
+  const taRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => () => { tok.current++; }, []);
+
+  const replyOf = (i: Item) => String(meta(i, "reply", "") || "").trim();
+  const canReply = (i: Item) => !!replyOf(i) && !replied[i.id];
+  const num = (i: Item, k: string) => Number(meta(i, k, "0")) || 0;
+
+  const finishType = () => {
+    tok.current++;
+    const m = cur.current;
+    if (m) {
+      setTxt(replyOf(m) + "\n\n— 原始貼文 —\n" + m.body);
+      setReadOnly(false);
+      requestAnimationFrame(() => {
+        if (taRef.current) taRef.current.scrollTop = 0;
+      });
+    }
+    typeDone.current = true;
+    setReady(true);
+  };
+
+  const startReply = (m: Item) => {
+    if (!canReply(m)) return;
+    const handle = meta(m, "handle", m.sender);
+    setTo("@" + handle);
+    setSubj("回覆 @" + handle);
+    const t = ++tok.current;
+    cur.current = m;
+    typeDone.current = false;
+    setTxt("");
+    setReadOnly(true);
+    setReady(false);
+    setOpen(true);
+
+    const text = replyOf(m);
+    let n = 0;
+    const step = () => {
+      if (t !== tok.current) return;
+      if (n < text.length) {
+        const ch = text[n++];
+        setTxt((v) => v + ch);
+        setTimeout(step, ch === "\n" ? 160 : /[，。！？、,.!?]/.test(ch) ? 140 : 70);
+      } else {
+        setTimeout(() => { if (t === tok.current) finishType(); }, 200);
+      }
+    };
+    setTimeout(step, 500);
+  };
+
+  const startNew = () => {
+    tok.current++;
+    cur.current = null;
+    setReadOnly(false);
+    setTo("");
+    setSubj("新貼文");
+    setTxt("");
+    setOpen(true);
+    setTimeout(() => taRef.current?.focus(), 0);
+  };
+
+  const cancel = () => {
+    tok.current++;
+    cur.current = null;
+    typeDone.current = true;
+    setReadOnly(false);
+    setReady(false);
+    setOpen(false);
+  };
+
+  const send = () => {
+    const c = cur.current;
+    if (c && !typeDone.current) finishType();
+    const body = c ? replyOf(c) : txt;
+    tok.current++;
+    cur.current = null;
+    typeDone.current = true;
+    setReadOnly(false);
+    setReady(false);
+    setOpen(false);
+    if (c) {
+      setReplied((r) => ({ ...r, [c.id]: { text: body, time: "剛剛" } }));
+      setTimeout(() => {
+        document.getElementById("x-post-" + c.id)?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }, 50);
+    }
+    setToast(true);
+    setTimeout(() => setToast(false), 1400);
+  };
+
+  const toggle = (list: string[], set: (v: string[]) => void, id: string) =>
+    set(list.includes(id) ? list.filter((x) => x !== id) : [...list, id]);
+
   return (
-    <div className="catalog-skin x-ui">
-      <Header p={p} />
+    <div className="catalog-skin x-ui" style={{ position: "relative" }}>
+      <header className="x-top" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 14px" }}>
+        <Avatar name={p.owner ?? "我"} />
+        <X size={24} />
+        <span style={{ width: 32 }} />
+      </header>
+
       <div className="x-feed-tabs">
-        <button
-          className={tab === "為你推薦" ? "selected" : ""}
-          onClick={() => setTab("為你推薦")}
-        >
-          為你推薦
-        </button>
-        <button
-          className={tab === "正在關注" ? "selected" : ""}
-          onClick={() => setTab("正在關注")}
-        >
-          正在關注
-        </button>
+        <button className={tab === "為你推薦" ? "selected" : ""} onClick={() => setTab("為你推薦")}>為你推薦</button>
+        <button className={tab === "正在關注" ? "selected" : ""} onClick={() => setTab("正在關注")}>正在關注</button>
       </div>
+
       <div className="catalog-scroll">
         <SearchBox value={q} set={setQ} />
         {items
           .filter((i) => tab === "為你推薦" || i.folder === "正在關注")
-          .map((i) => (
-            <article className="x-post" key={i.id}>
-              <Avatar name={i.sender} />
-              <div>
-                <button className="x-byline" onClick={() => p.onItem(i)}>
-                  <strong>{i.sender}</strong>
-                  <span>
-                    @{meta(i, "handle", i.sender)} · {i.time.slice(5, 10)}
-                  </span>
-                </button>
-                <button className="social-body" onClick={() => p.onItem(i)}>
-                  <p>{i.body}</p>
-                  {i.media && <Media item={i} />}
-                </button>
-                <Actions p={p} item={i} />
-              </div>
-            </article>
-          ))}
+          .map((i) => {
+            const sent = replied[i.id];
+            const isLiked = liked.includes(i.id);
+            const isRt = reposted.includes(i.id);
+            return (
+              <article className="x-post" key={i.id} id={"x-post-" + i.id}>
+                <Avatar name={i.sender} />
+                <div>
+                  <button className="x-byline" onClick={() => p.onItem(i)}>
+                    <strong>{i.sender}</strong>
+                    <span>@{meta(i, "handle", i.sender)} · {i.time.slice(5, 10)}</span>
+                  </button>
+                  <button className="social-body" onClick={() => p.onItem(i)}>
+                    <p>{i.body}</p>
+                    {i.media && <Media item={i} />}
+                  </button>
+
+                  <div className="x-actions">
+                    <button aria-label="回覆" className={canReply(i) ? "" : "off"} onClick={() => startReply(i)}>
+                      <MessageCircle size={18} />
+                      <span>{(i.comments?.length ?? num(i, "replies")) + (sent ? 1 : 0)}</span>
+                    </button>
+                    <button aria-label="轉發" className={isRt ? "on rt" : ""} onClick={() => toggle(reposted, setReposted, i.id)}>
+                      <Repeat2 size={18} />
+                      <span>{num(i, "reposts") + (isRt ? 1 : 0)}</span>
+                    </button>
+                    <button aria-label="喜歡" className={isLiked ? "on lk" : ""} onClick={() => toggle(liked, setLiked, i.id)}>
+                      <Heart size={18} fill={isLiked ? "#f91880" : "none"} color={isLiked ? "#f91880" : "currentColor"} />
+                      <span>{(i.likes ?? 0) + (isLiked ? 1 : 0)}</span>
+                    </button>
+                    <button aria-label="查看數" onClick={() => p.onItem(i)}>
+                      <BarChart2 size={18} />
+                      <span>{num(i, "views")}</span>
+                    </button>
+                  </div>
+
+                  {sent && (
+                    <div className="x-sent">
+                      <div className="x-sh">
+                        <MessageCircle size={16} />
+                        <b>{p.owner}</b>
+                        <span>已回覆 · {sent.time}</span>
+                      </div>
+                      <div className="x-s">回覆 @{meta(i, "handle", i.sender)}</div>
+                      <div className="x-tx">{sent.text.split("\n").map((line, n) => <span key={n}>{line}<br /></span>)}</div>
+                    </div>
+                  )}
+                </div>
+              </article>
+            );
+          })}
       </div>
-      <Tabs
-        tabs={["為你推薦", "正在關注"]}
-        value={tab}
-        set={setTab}
-        icons={[<Home />, <Users />]}
-      />
+
+      <button className="x-fab" aria-label="發文" onClick={startNew}>
+        <Plus size={24} />
+      </button>
+
+      <Tabs tabs={["為你推薦", "正在關注"]} value={tab} set={setTab} icons={[<Home />, <Users />]} />
+
+      {open && (
+        <div className="x-comp">
+          <div className="x-comp-h">
+            <button onClick={cancel}>取消</button>
+            <strong>{subj}</strong>
+            <button className={"x-send" + (ready ? " ready" : "")} onClick={send}>傳送</button>
+          </div>
+          {to && <div className="x-comp-to">回覆對象：{to}</div>}
+          <textarea ref={taRef} value={txt} readOnly={readOnly} onChange={(e) => setTxt(e.target.value)} placeholder="有什麼新鮮事？" />
+        </div>
+      )}
+
+      <div className="x-toast" hidden={!toast}>已傳送</div>
     </div>
   );
 }
-
 const thCount = (n: number) =>
   n >= 10000 ? (n / 10000).toFixed(1).replace(/\.0$/, "") + "萬" : String(n);
 

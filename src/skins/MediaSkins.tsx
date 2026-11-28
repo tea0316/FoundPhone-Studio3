@@ -7,6 +7,7 @@ import {
   ChevronDown,
   Compass,
   Heart,
+  Bell,
   Home,
   MessageCircle,
   Music,
@@ -16,6 +17,10 @@ import {
   Repeat,
   Repeat1,
   Search,
+  House, 
+  Clapperboard, 
+  CirclePlus, 
+  CircleUserRound, 
   Shuffle,
   SkipBack,
   SkipForward,
@@ -54,9 +59,17 @@ import {
   type Props,
 } from "./shared";
 
-function TrackPlayer({ p, onOpen }: { p: Props; onOpen?: () => void }) {
+function TrackPlayer({
+  p,
+  items,
+  onOpen,
+}: {
+  p: Props;
+  items: Item[];
+  onOpen?: () => void;
+}) {
   const { item } = usePlayer();
-  if (!item) return null;
+  if (!item || !items.some((i) => i.id === item.id)) return null;
   return (
     <div className="track-player">
       <button onClick={() => (onOpen ? onOpen() : p.onItem(item))}>
@@ -267,7 +280,7 @@ export function SpotifySkin(p: Props) {
   const { tab, setTab, q, setQ, items } = useContent(p, "首頁");
   const [playlist, setPlaylist] = useState("");
   const [full, setFull] = useState(false);
-  const { item: current } = usePlayer();
+  const { item: current, playing } = usePlayer();
   const RECO = "為你推薦";
   const recommended = items.filter((i) => i.folder === RECO);
   const library = items.filter((i) => i.folder !== RECO);
@@ -281,7 +294,7 @@ export function SpotifySkin(p: Props) {
   const [recentIds, setRecentIds] = useState<string[]>([]);
 
   useEffect(() => {
-    if (current?.id) {
+    if (current?.id && items.some((i) => i.id === current.id)) {
       setRecentIds((prev) => {
         // 1. 先過濾掉已經存在的這首歌(不管它在哪)
         const filtered = prev.filter((id) => id !== current.id);
@@ -290,6 +303,12 @@ export function SpotifySkin(p: Props) {
       });
     }
   }, [current?.id]);
+    // 進入 Spotify 時，如果正在播的不是 Spotify 的歌，就暫停
+  useEffect(() => {
+    if (playing && current && !items.some((i) => i.id === current.id)) {
+      playerToggle();
+    }
+  }, []);
 
   // 把 ID 轉換成實際的歌曲資料
   const recent = recentIds
@@ -460,13 +479,13 @@ export function SpotifySkin(p: Props) {
           </div>
         )}
       </div>
-      <TrackPlayer p={p} onOpen={() => setFull(true)} />
+      <TrackPlayer p={p} items={items} onOpen={() => setFull(true)} />
       {full && <NowPlaying p={p} close={() => setFull(false)} />}
       <Tabs
         tabs={["首頁", "搜尋", "音樂庫", "建立"]}
         value={tab}
         set={(t) => {
-          if (t === "搜尋") return;
+          if (t === "搜尋" || t === "建立") return;
           setTab(t);
           setPlaylist("");
         }}
@@ -538,7 +557,7 @@ export function NeteaseSkin(p: Props) {
         ))}
         <Empty items={list} />
       </div>
-      <TrackPlayer p={p} />
+       <TrackPlayer p={p} items={items} />
       <Tabs
         tabs={["發現", "我的"]}
         value={tab}
@@ -552,67 +571,503 @@ export function NeteaseSkin(p: Props) {
   );
 }
 
-export function YouTubeSkin(p: Props) {
-   const { tab, setTab, q, setQ, items } = useContent(p, "首頁");
-   const [category, setCategory] = useState("全部");
-   const list = items.filter((i) =>
-      tab === "Shorts"
-         ? i.folder === "Shorts"
-         : tab === "訂閱"
-            ? i.folder === "訂閱"
-            : tab === "播放清單"
-               ? i.favorite || i.folder === "播放清單"
-               : category === "全部" || i.folder === category,
-   );
-   return (
-      <div className="catalog-skin youtube-ui">
-         <Header p={p} />
-         <SearchBox value={q} set={setQ} />
-         <div className="youtube-chips">
-            {["全部", ...groupItems(items).filter((g) => g !== "未分類")].map(
-               (g) => (
-                  <button
-                     className={category === g ? "selected" : ""}
-                     key={g}
-                     onClick={() => setCategory(g)}
-                  >
-                     {g}
-                  </button>
-               ),
-            )}
-         </div>
-         <div className="catalog-scroll">
-            <div className={tab === "Shorts" ? "youtube-shorts" : "youtube-videos"}>
-               {list.map((i) => (
-                  <article key={i.id}>
-                     <button className="youtube-thumb" onClick={() => p.onItem(i)}>
-                        <Media item={i} />
-                        {meta(i, "duration") && <time>{meta(i, "duration")}</time>}
-                     </button>
-                     <button className="youtube-byline" onClick={() => p.onItem(i)}>
-                        <Avatar name={i.sender} />
-                        <div>
-                           <strong>{i.title}</strong>
-                           <small>
-                              {i.sender} · {meta(i, "views", "—")} 次觀看
-                           </small>
-                        </div>
-                     </button>
-                  </article>
-               ))}
-            </div>
-            <Empty items={list} />
-         </div>
-         <Tabs
-            tabs={["首頁", "Shorts", "訂閱", "播放清單"]}
-            value={tab}
-            set={setTab}
-            icons={[<Home />, <Video />, <Users />, <User />]}
-         />
-      </div>
-   );
-}
 
+export function YouTubeSkin(p: Props) {
+  const { tab, setTab, q, setQ, items } = useContent(p, "首頁");
+  const [category, setCategory] = useState("全部");
+  const [isSearching, setIsSearching] = useState(false);
+  const [activeShortIndex, setActiveShortIndex] = useState(0);
+
+  const isShorts = tab === "Shorts";
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const shortCardRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+// 同時篩選分頁（首頁 / Shorts）、分類與搜尋關鍵字
+  const list = items.filter((i) => {
+    const keyword = q.trim().toLowerCase();
+    const matchQuery =
+      !keyword ||
+      i.title.toLowerCase().includes(keyword) ||
+      i.sender.toLowerCase().includes(keyword);
+
+    if (!matchQuery) return false;
+
+    if (isShorts) {
+      return i.folder === "Shorts";
+    }
+
+    // 首頁或其他分頁：排除 Shorts，並套用分類篩選
+    if (i.folder === "Shorts") return false;
+    if (category === "全部") return true;
+
+    const rawCategories = meta(i, "categories", "");
+    const extraCategories = Array.isArray(rawCategories)
+      ? rawCategories
+      : String(rawCategories)
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean);
+
+    return i.folder === category || extraCategories.includes(category);
+  });
+
+  // 分類標籤
+  const chips = ["全部", "UsagiNeko", "Vlog", "音樂", "紀錄片", ];
+
+  // 共用點擊事件：有 youtubeId 開新分頁，否則走原本的 onItem
+  const handleOpenItem = (i: any) => {
+    const ytId = meta(i, "youtubeId", "");
+    if (ytId) {
+      window.open(`https://www.youtube.com/watch?v=${ytId}`, "_blank", "noopener,noreferrer");
+    } else {
+      p.onItem(i);
+    }
+  };
+
+  // 離開 Shorts 或切換篩選時，暫停所有 Shorts 影片並回到頂端
+  useEffect(() => {
+    if (!isShorts) {
+      Object.values(shortCardRefs.current).forEach((cardEl) => {
+        const videoEl = cardEl?.querySelector("video") as HTMLVideoElement | null;
+        if (videoEl) {
+          videoEl.pause();
+        }
+      });
+      return;
+    }
+
+    setActiveShortIndex(0);
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ top: 0, behavior: "auto" });
+    }
+  }, [isShorts, q, category]);
+
+  // 滑動到其他卡片時，把非目前 index 的影片暫停，避免音樂重疊
+  useEffect(() => {
+    if (!isShorts) return;
+
+    list.forEach((item, idx) => {
+      if (idx === activeShortIndex) return;
+      const cardEl = shortCardRefs.current[String(item.id)];
+      const videoEl = cardEl?.querySelector("video") as HTMLVideoElement | null;
+      if (videoEl && !videoEl.paused) {
+        videoEl.pause();
+      }
+    });
+  }, [isShorts, activeShortIndex, list]);
+
+  // 監聽上下滑動，更新目前停在哪一支
+  const handleShortsScroll = () => {
+    if (!isShorts || !scrollRef.current) return;
+    const { scrollTop, clientHeight } = scrollRef.current;
+    if (clientHeight <= 0) return;
+    const nextIdx = Math.round(scrollTop / clientHeight);
+    const clampedIdx = Math.max(0, Math.min(list.length - 1, nextIdx));
+    if (clampedIdx !== activeShortIndex) {
+      setActiveShortIndex(clampedIdx);
+    }
+  };
+
+  return (
+    <div
+      className="catalog-skin youtube-ui"
+      style={{
+        background: "#0f0f0f",
+        color: "#fff",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* 頂部導覽列 — Shorts 模式隱藏 */}
+      {!isShorts && (
+        <header
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "12px 16px",
+            minHeight: "52px",
+            flexShrink: 0,
+          }}
+        >
+          {isSearching ? (
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", width: "100%" }}>
+              <button
+                onClick={() => {
+                  setIsSearching(false);
+                  setQ("");
+                }}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "#fff",
+                  fontSize: "16px",
+                  padding: "0 4px",
+                  cursor: "pointer",
+                }}
+              >
+                ←
+              </button>
+              <input
+                type="text"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="搜尋 YouTube"
+                autoFocus
+                style={{
+                  flex: 1,
+                  background: "#272727",
+                  border: "none",
+                  borderRadius: "18px",
+                  padding: "6px 14px",
+                  color: "#fff",
+                  fontSize: "14px",
+                  outline: "none",
+                }}
+              />
+              {q && (
+                <button
+                  onClick={() => setQ("")}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#aaa",
+                    fontSize: "14px",
+                    padding: "0 4px",
+                    cursor: "pointer",
+                  }}
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          ) : (
+            <>
+              <img
+                src="/youtube-logo.png"
+                alt="YouTube"
+                style={{ height: "30px", width: "auto", display: "block" }}
+              />
+
+              <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+                <button
+                  style={{ background: "none", border: "none", color: "#fff", padding: 0, cursor: "pointer" }}
+                  onClick={() => {}}
+                >
+                  <Bell size={22} />
+                </button>
+                <button
+                  style={{ background: "none", border: "none", color: "#fff", padding: 0, cursor: "pointer" }}
+                  onClick={() => setIsSearching(true)}
+                >
+                  <Search size={22} />
+                </button>
+              </div>
+            </>
+          )}
+        </header>
+      )}
+
+      {/* 分類標籤 (Chips) — Shorts 模式隱藏 */}
+      {!isShorts && (
+        <div
+          className="youtube-chips"
+          onWheel={(e) => {
+            e.currentTarget.scrollLeft += e.deltaY;
+          }}
+          style={{
+            display: "flex",
+            gap: "8px",
+            overflowX: "auto",
+            padding: "0 10px 12px",
+            scrollbarWidth: "none",
+            flexShrink: 0,
+          }}
+        >
+          {chips.map((c) => {
+            const active = category === c;
+            return (
+              <button
+                key={c}
+                onClick={() => setCategory(c)}
+                className={active ? "selected" : ""}
+                style={{
+                  flex: "1 0 auto",
+                  textAlign: "center",
+                  background: active ? "#fff" : "#272727",
+                  color: active ? "#000" : "#fff",
+                  border: "none",
+                  padding: "6px 10px",
+                  borderRadius: "8px",
+                  fontSize: "13px",
+                  fontWeight: "500",
+                  whiteSpace: "nowrap",
+                  cursor: "pointer",
+                }}
+              >
+                {c}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* 影片列表與空狀態提示 */}
+      <div
+        ref={scrollRef}
+        onScroll={handleShortsScroll}
+        className="catalog-scroll youtube-videos"
+        style={{
+          flex: 1,
+          overflowY: "auto",
+          scrollSnapType: isShorts ? "y mandatory" : "none",
+          paddingBottom: isShorts ? "0px" : "72px",
+        }}
+      >
+        {list.length === 0 ? (
+          <div
+            style={{
+              textAlign: "center",
+              color: "#717171",
+              padding: "48px 16px",
+              fontSize: "14px",
+            }}
+          >
+            找不到相關影片
+          </div>
+        ) : isShorts ? (
+          // 全螢幕上下滑動模式（Shorts）
+          list.map((i) => (
+            <div
+              key={i.id}
+              ref={(el) => {
+                shortCardRefs.current[String(i.id)] = el;
+              }}
+              onClick={() => handleOpenItem(i)}
+              style={{
+                height: "100%",
+                width: "100%",
+                scrollSnapAlign: "start",
+                scrollSnapStop: "always",
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                background: "#000",
+                cursor: "pointer",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                className="shorts-media-frame"
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                <Media item={i} />
+              </div>
+
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  padding: "36px 16px 76px",
+                  background: "linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent)",
+                  zIndex: 10,
+                }}
+              >
+                <strong style={{ display: "block", fontSize: "16px", color: "#fff", lineHeight: "1.4" }}>
+                  {i.title}
+                </strong>
+                <p style={{ fontSize: "13px", color: "#ddd", marginTop: "6px", marginBottom: 0 }}>
+                  @{i.sender}
+                </p>
+              </div>
+            </div>
+          ))
+        ) : (
+          // 一般首頁列表模式
+          list.map((i) => (
+            <article key={i.id} style={{ marginBottom: "20px" }}>
+              {/* 縮圖區塊 */}
+              <button
+                className="youtube-thumb"
+                onClick={() => handleOpenItem(i)}
+                style={{
+                  width: "100%",
+                  aspectRatio: "16 / 9",
+                  padding: 0,
+                  margin: 0,
+                  border: "none",
+                  background: "#222",
+                  display: "block",
+                  position: "relative",
+                  overflow: "hidden",
+                  cursor: "pointer",
+                }}
+              >
+                <Media item={i} />
+                {meta(i, "duration") && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      bottom: "8px",
+                      right: "8px",
+                      background: "rgba(0, 0, 0, 0.8)",
+                      color: "#fff",
+                      padding: "3px 6px",
+                      borderRadius: "4px",
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      zIndex: 2,
+                    }}
+                  >
+                    {meta(i, "duration")}
+                  </span>
+                )}
+              </button>
+
+              {/* 標題與頻道資訊區（點擊同樣觸發 handleOpenItem） */}
+              <div
+                onClick={() => handleOpenItem(i)}
+                style={{ padding: "12px 16px", cursor: "pointer" }}
+              >
+                {/* 影片標題（最多兩行截斷） */}
+                <strong
+                  style={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    lineHeight: "1.4",
+                    color: "#fff",
+                  }}
+                >
+                  {i.title}
+                </strong>
+
+                {/* 頻道頭像、頻道名稱、觀看數 */}
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "10px" }}>
+                  <Avatar name={i.sender} src={meta(i, "avatar", "")} />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      flexWrap: "wrap",
+                      gap: "10px",
+                      minWidth: 0,
+                      fontSize: "13px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "#aaa",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        maxWidth: "130px",
+                      }}
+                    >
+                      @{i.sender}
+                    </span>
+                    <span style={{ color: "#717171", whiteSpace: "nowrap" }}>
+                      {meta(i, "views", "0")}次觀看
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))
+        )}
+      </div>
+
+      {/* 底部導覽列 */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: "60px",
+          background: "#0f0f0f",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-around",
+          borderTop: "1px solid #272727",
+          zIndex: 10,
+        }}
+      >
+        <button
+          style={{
+            color: tab === "首頁" ? "#fff" : "#717171",
+            background: "none",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            setTab("首頁");
+            setCategory("全部");
+            setIsSearching(false);
+            setQ("");
+          }}
+        >
+          <House size={26} />
+        </button>
+        <button
+          style={{
+            color: tab === "Shorts" ? "#fff" : "#717171",
+            background: "none",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            setTab("Shorts");
+            setIsSearching(false);
+            setQ("");
+          }}
+        >
+          <Clapperboard size={26} />
+        </button>
+        <button
+          style={{
+            color: "#717171",
+            background: "none",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+          }}
+          onClick={() => {}}
+        >
+          <CirclePlus size={28} />
+        </button>
+        <button
+          style={{
+            color: "#717171",
+            background: "none",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+          }}
+          onClick={() => {}}
+        >
+          <CircleUserRound size={26} />
+        </button>
+      </div>
+    </div>
+  );
+}
 export function BilibiliSkin(p: Props) {
    const { tab, setTab, q, setQ, items } = useContent(p, "首頁");
    const [category, setCategory] = useState("推薦");
@@ -836,7 +1291,7 @@ function TikVideo({ p, item }: { p: Props; item: Item }) {
         </button>
         <button aria-label="留言">
           <MessageCircle size={31} fill="white" stroke="none" />
-          <small>{fmtCount(item.comments.length)}</small>
+          <small>{fmtCount(Number(item.meta.comments) || item.comments.length)}</small>
         </button>
         <button aria-label="收藏" onClick={() => setSaved(!saved)}>
           <Bookmark size={30} fill={saved ? "#ffc933" : "white"} stroke="none" />
@@ -860,12 +1315,20 @@ function TikVideo({ p, item }: { p: Props; item: Item }) {
 }
 
 export function TikTokSkin(p: Props) {
+  const { playing } = usePlayer();
+  // 👇 進入 TikTok 時，如果正在播放音樂，就自動暫停
+  useEffect(() => {
+    if (playing) {
+      playerToggle();
+    }
+  }, []);
   const { items } = useContent(p, "為你推薦");
   const [tab, setTab] = useState("追蹤中");
+  const isFollowing = (i: Item) => i.folder === "關注" || i.folder === "Following";
   const list =
     tab === "為你推薦"
-      ? items
-      : items.filter((i) => i.folder === "關注" || i.folder === "Following");
+      ? items.filter((i) => !isFollowing(i))
+      : items.filter(isFollowing);
   return (
     <div className="catalog-skin tiktok-ui tt">
       <div className="tt-top">
@@ -883,89 +1346,221 @@ export function TikTokSkin(p: Props) {
         {list.map((i) => (
           <TikVideo key={i.id} p={p} item={i} />
         ))}
-        <Empty items={list} label="還沒有追蹤的內容" />
       </div>
-      <div className="tt-nav" aria-hidden="true">
-        <span className="on">首頁</span>
-        <span>朋友</span>
-         <span className="tt-plus">
+      {list.length === 0 && (
+  <div className="tt-empty">
+    {tab === "追蹤中" ? "還沒有任何的內容" : "目前沒有影片"}
+  </div>
+)}
+      <div className="tt-nav" style={{ pointerEvents: "auto" }}>
+        <span className="on" role="button" style={{ cursor: "pointer" }}>首頁</span>
+        <span role="button" style={{ cursor: "pointer" }}>朋友</span>
+        <span className="tt-plus" role="button" style={{ cursor: "pointer" }}>
           <b />
         </span>
-        <span>信件匣</span>
-        <span>個人資料</span>
+        <span role="button" style={{ cursor: "pointer" }}>信件匣</span>
+        <span role="button" style={{ cursor: "pointer" }}>個人資料</span>
       </div>
     </div>
   );
 }
 
 export function NetflixSkin(p: Props) {
-   const { tab, setTab, q, setQ, items } = useContent(p, "首頁");
-   const [saved, setSaved] = useSkinState<string[]>(p, "saved", []);
-   const list =
-      tab === "我的清單"
-         ? items.filter((i) => i.favorite || saved.includes(i.id))
-         : items;
-   const featured = list[0];
-   return (
-      <div className="catalog-skin netflix-ui">
-         <Header p={p} />
-         <div className="catalog-scroll">
-            <SearchBox value={q} set={setQ} />
-            {featured && tab === "首頁" && (
-               <div className="netflix-feature">
-                  <Media item={featured} />
-                  <div>
-                     <strong>{featured.title}</strong>
-                     <small>
-                        {meta(featured, "year")} · {meta(featured, "genre")} ·{" "}
-                        {meta(featured, "duration")}
-                     </small>
-                     <button onClick={() => p.onItem(featured)}>
-                        <Play size={16} />
-                        播放 / 詳情
-                     </button>
-                     <button
-                        onClick={() =>
-                           setSaved(
-                              saved.includes(featured.id)
-                                 ? saved.filter((id) => id !== featured.id)
-                                 : [...saved, featured.id],
-                           )
-                        }
-                     >
-                        {saved.includes(featured.id) ? (
-                           <Check size={16} />
-                        ) : (
-                           <Plus size={16} />
-                        )}
-                        我的清單
-                     </button>
-                  </div>
-               </div>
-            )}
-            {groupItems(list, "影片").map((g) => (
-               <section className="netflix-shelf" key={g}>
-                  <h3>{g}</h3>
-                  <div>
-                     {list
-                        .filter((i) => (i.folder || "影片") === g)
-                        .map((i) => (
-                           <button key={i.id} onClick={() => p.onItem(i)}>
-                              <Media item={i} />
-                              <strong>{i.title}</strong>
-                           </button>
-                        ))}
-                  </div>
-               </section>
-            ))}
-            <Empty items={list} />
-         </div>
-         <Tabs
-            tabs={["首頁", "我的清單"]}
-            value={tab}
-            set={setTab}
-            icons={[<Home />, <Bookmark />]}
-         />
+  const { tab, setTab, q, setQ, items } = useContent(p, "首頁");
+  const [saved, setSaved] = useSkinState<string[]>(p, "saved", []);
+  const [playingVideo, setPlayingVideo] = useState<string | null>(null);
+  
+  const list =
+    tab === "我的清單"
+      ? items.filter((i) => i.favorite || saved.includes(i.id))
+      : items;
+      
+  const featured = list[0];
+
+  // 👇 點擊影片跳轉到 YouTube 的函式
+  const playVideo = (item: any) => {
+    // 這裡你可以把 youtubeId 換成該影片的預告片 ID
+    const ytId = meta(item, "youtubeId", ""); 
+    if (ytId) {
+      window.open(`https://www.youtube.com/watch?v=${ytId}`, "_blank");
+    } else {
+      // 如果沒有設定 ID，就跳出提示或執行原本的 p.onItem
+      alert("這部影片還沒有預告片連結喔！");
+    }
+  };
+
+  return (
+    <div className="catalog-skin netflix-ui">
+      {/* 👇 自訂頂部導航列 */}
+      <div className="catalog-nav" style={{ 
+        position: "relative", 
+        display: "flex", 
+        alignItems: "center", 
+        justifyContent: "center", 
+        padding: "12px 16px", 
+        background: "#151515" 
+      }}>
+        {/* 返回鍵固定在左邊 */}
+        <button 
+          onClick={p.onBack} 
+          style={{ 
+            position: "absolute", 
+            left: "16px", 
+            background: "none", 
+            border: "none", 
+            color: "#d35050", 
+            padding: 0 
+          }}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        
+        {/* 中間的 Logo 圖片 */}
+        <img 
+          src="/netflix-logo.png" 
+          alt="Netflix" 
+          style={{ 
+            height: "48px", 
+            objectFit: "contain", 
+            marginLeft: "18px" 
+          }} 
+        />
       </div>
-   );
+      
+      <div className="catalog-scroll">
+        <SearchBox value={q} set={setQ} />
+        
+        {/* 首頁大圖 (Hero Banner) */}
+        {featured && tab === "首頁" && (
+          <div className="netflix-feature">
+            {/* 👇 這裡永遠只顯示圖片，影片交給彈出視窗播放 */}
+            <img 
+              src={meta(featured, "banner") || coverUrl(featured.avatar) || ""} 
+              alt={featured.title} 
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+            
+            <div>
+              <strong>{featured.title}</strong>
+              <small>
+                {meta(featured, "year")} · {meta(featured, "genre")} · {meta(featured, "duration")}
+              </small>
+              <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginTop: "15px" }}>
+                <button onClick={() => {
+                  const videoUrl = meta(featured, "videoUrl", "");
+                  if (videoUrl) {
+                    setPlayingVideo(videoUrl);
+                  } else {
+                    playVideo(featured);
+                  }
+                }}>
+                  <Play size={16} /> 播放
+                </button>
+                <button
+                  onClick={() =>
+                    setSaved(
+                      saved.includes(featured.id)
+                        ? saved.filter((id) => id !== featured.id)
+                        : [...saved, featured.id],
+                    )
+                  }
+                >
+                  {saved.includes(featured.id) ? <Check size={16} /> : <Plus size={16} />}
+                  我的片單
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 橫向滑動影片架 (Shelves) */}
+        {groupItems(list, "影片").map((g) => (
+          <section className="netflix-shelf" key={g}>
+            <h3>{g}</h3>
+            <div
+              onWheel={(e) => {
+                if (e.deltaY !== 0) {
+                  e.currentTarget.scrollLeft += e.deltaY;
+                }
+              }}
+              style={{
+                display: "flex",
+                gap: "8px",
+                overflowX: "auto",
+                padding: "0 13px",
+              }}
+            >
+              {list
+                .filter((i) => (i.folder || "影片") === g)
+                .map((i) => (
+                  <button key={i.id} onClick={() => playVideo(i)}>
+                    <Media item={i} />
+                    <strong>{i.title}</strong>
+                  </button>
+                ))}
+            </div>
+          </section>
+        ))}
+
+        <Empty items={list} />
+      </div>
+
+      <Tabs
+        tabs={["首頁", "我的清單"]}
+        value={tab}
+        set={setTab}
+        icons={[<Home />, <Bookmark />]}
+      />
+
+      {/* 👇 彈出式影片播放器 */}
+      {playingVideo && (
+        <div style={{
+          position: "absolute", // 👈 改用 absolute 覆蓋整個 App
+          inset: 0,
+          zIndex: 100,
+          background: "#000",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center"
+        }}>
+          {/* 關閉按鈕 */}
+          <button 
+            onClick={() => setPlayingVideo(null)}
+            style={{ 
+              position: "absolute", 
+              top: "20px", 
+              right: "20px", 
+              color: "#fff", 
+              background: "rgba(0,0,0,0.5)", 
+              border: "none", 
+              borderRadius: "50%",
+              width: "40px",
+              height: "40px",
+              fontSize: "20px", 
+              cursor: "pointer", 
+              zIndex: 101,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            ✕
+          </button>
+          
+          {/* 影片播放器 */}
+          <video 
+            src={playingVideo} 
+            controls 
+            autoPlay 
+            style={{ 
+              width: "100%", 
+              height: "100%", // 👈 讓影片填滿整個容器
+              objectFit: "contain" // 👈 保持比例，不會變形
+            }} 
+          />
+        </div>
+      )}
+    </div>
+  );
 }

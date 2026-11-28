@@ -91,7 +91,7 @@ async function load(lat: string, lon: string, tz: string): Promise<LiveWeather> 
     };
  });
   const daily = (w.daily.time as string[]).slice(0, 7).map((d, i) => ({
-    label: i === 0 ? "今日" : WEEK[new Date(d + "T12:00:00").getDay()],
+    label: i === 0 ? "今" : WEEK[new Date(d + "T12:00:00").getDay()],
     low: Math.round(w.daily.temperature_2m_min[i]),
     high: Math.round(w.daily.temperature_2m_max[i]),
     code: w.daily.weather_code[i] as number,

@@ -2,6 +2,7 @@
 import { NativeComposer } from "./DeviceSystem";
 import { useSkinState } from "./skinState";
 import { useVolume } from "./volume";
+import { usePlayer, playerToggle } from "./player";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { coverUrl } from "./player";
 import {
@@ -59,7 +60,7 @@ export type SkinProps = {
   onBack: () => void;
   thread: string;
   onThread: (s: string) => void;
-  fireEv?: (name: string, data: { subject: string; text: string }) => void; // 
+  fireEv?: (name: string, data: { subject: string; text: string }) => void; 
 };
 function Avatar({
   name,
@@ -72,7 +73,7 @@ function Avatar({
 }) {
   return (
     <span className={`skin-avatar ${round ? "round" : ""}`}>
-      {safeMedia(src)?.startsWith("data:image/") ? (
+      {/^(\/|data:image\/)/.test(safeMedia(src)) ? (
         <img src={safeMedia(src)} alt="" />
       ) : (
         name.slice(0, 1)
@@ -868,7 +869,10 @@ useEffect(() => {
     return () => io.disconnect();
   }, []);
 
-  const likes = Math.max(0, item.likes - (liked ? 0 : 1));
+  const likes = Math.max(
+  0,
+  item.likes + (liked ? 1 : 0) - (item.meta?.liked === "1" ? 1 : 0),
+);
    return (
     <div className="igr" ref={box}>
       {isVideo ? (
@@ -1141,6 +1145,7 @@ const CHAT_BOTS: Record<string, ChatBot> = {
 const DEFAULT_BOT: ChatBot = { rules: [], fallback: "🌸" };
 
 export function InstagramSkin(p: SkinProps) {
+  
   const [tab, setTab] = useState("首頁");
   const [dm, setDm] = useState(false);
   const [chatWith, setChatWith] = useState<string | null>(null);
@@ -1149,8 +1154,14 @@ export function InstagramSkin(p: SkinProps) {
   const [pTab, setPTab] = useState("grid");
 const [unliked, setUnliked] = useSkinState<string[]>(p, "unliked", []);
 const isLiked = (id: string) => !unliked.includes(id);
+const [flipped, setFlipped] = useSkinState<string[]>(p, "reelFlip", []);
+const reelLiked = (i: Item) => (i.meta.liked === "1") !== flipped.includes(i.id);
   const [followList, setFollowList] = useState<"followers" | "following" | null>(null);
   const [chatLog, setChatLog] = useSkinState<string[]>(p, "chats", []);
+  const { playing: musicOn } = usePlayer();
+  useEffect(() => {
+    if (tab === "Reels" && musicOn) playerToggle();
+  }, [tab, musicOn]);
   const [draft, setDraft] = useState("");
     const storyDrag = useRef({ down: false, x: 0, left: 0 });
   const logRef = useRef(chatLog);
@@ -1594,13 +1605,13 @@ const first = dms.find((d) => d.sender === chatWith);
             </div>
             <div className="igr-list">
               {reels.map((i) => (
-                <IgReel
-                  key={i.id}
-                  item={i}
-                  liked={isLiked(i.id)}
-                  onLike={() => toggle(unliked, setUnliked, i.id)}
-                />
-              ))}
+  <IgReel
+    key={i.id}
+    item={i}
+    liked={reelLiked(i)}
+    onLike={() => toggle(flipped, setFlipped, i.id)}
+  />
+))}
               {!reels.length && <p className="igx-empty">還沒有 Reels</p>}
             </div>
           </div>

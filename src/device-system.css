@@ -726,7 +726,7 @@
   }
 }
 .ios18 .keyboard-open .app-screen {
-  padding-bottom: 370px;
+  padding-bottom: 405px;
 }
 .ios18 .keyboard-draft {
   display: flex;
@@ -1357,4 +1357,247 @@
 /* 隱藏「關閉資料夾」的文字按鈕 */
 .ios18 .folder-overlay .glass-btn {
   display: none !important;
+}
+/* ===== 通知中心（淺色毛玻璃）===== */
+.system-panel.notif-center {
+  background: linear-gradient(180deg, #e6e9ec, #d4d8dd);
+  color: #1d2127;
+  padding: 58px 18px 24px;
+  backdrop-filter: none;
+}
+.nc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px 6px 22px;
+}
+.system-panel.notif-center h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  color: #1d2127;
+}
+.nc-close {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: #d0d5dd;
+  color: #4a5260;
+  display: grid;
+  place-items: center;
+}
+.nc-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 6px 10px;
+  color: #5b6470;
+  font-size: 15px;
+  font-weight: 600;
+}
+.nc-group small {
+  font-size: 13px;
+  font-weight: 400;
+  color: #7b8491;
+}
+.nc-list {
+  display: grid;
+  gap: 12px;
+}
+.nc-card {
+  background: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+}
+.nc-card-main {
+  display: block;
+  width: 100%;
+  padding: 12px 16px 14px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  color: #1d2127;
+}
+.nc-app {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.nc-app b {
+  font-weight: 600;
+}
+.nc-app small {
+  margin-left: auto;
+  color: #9aa1ab;
+  font-size: 12px;
+}
+.nc-body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.nc-text {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+.nc-text strong {
+  font-size: 17px;
+}
+.nc-text > span {
+  font-size: 14px;
+  color: #555d68;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.nc-avatar {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #aab0b8;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+}
+/* 通知卡片左上角的小圖示與文字 */
+.nc-app {
+  gap: 6px;
+  font-size: 12px;
+}
+.nc-app .app-icon-wrap,
+.nc-app .app-icon {
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 20px !important;
+  border-radius: 5px !important;
+}
+.nc-app .app-icon > *,
+.nc-app .app-icon svg,
+.nc-app .app-icon img {
+  width: 100% !important;
+  height: 100% !important;
+}
+.nc-app small {
+  font-size: 11px;
+}
+/* ===== 鎖定畫面的 LINE 通知（群組樣式）===== */
+.lock-line-notices {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 150px;
+  z-index: 999 !important;
+  pointer-events: auto;
+}
+.lock-line-notice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 14px 10px 10px;
+  border: 0;
+  border-radius: 22px;
+  text-align: left;
+  color: #fff;
+  background: rgba(80, 82, 92, 0.55);
+  backdrop-filter: blur(24px) saturate(1.4);
+}
+.ll-avatar {
+  position: relative;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #aab0b8;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 19px;
+}
+.ll-badge {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.ll-badge .app-icon-wrap,
+.ll-badge .app-icon {
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  border-radius: 6px !important;
+}
+.ll-badge .app-icon > *,
+.ll-badge .app-icon svg,
+.ll-badge .app-icon img {
+  width: 100% !important;
+  height: 100% !important;
+}
+.ll-main {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+.ll-main strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+.ll-main > span {
+  font-size: 15px;
+  opacity: 0.92;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.lock-line-notice > small {
+  align-self: flex-start;
+  margin-top: 4px;
+  font-size: 13px;
+  opacity: 0.65;
+}
+
+.app-icon-wrap {
+  position: relative;
+}
+.app-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  z-index: 3;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  background: #ff3b30;
+  color: #fff;
+  font: 600 14px/22px -apple-system, "PingFang TC", sans-serif;
+  text-align: center;
+  box-sizing: border-box;
+}
+.ios18 .device-keyboard .keyboard-bottom button.key-ready {
+  background: #06c755 !important;
+  color: #fff !important;
+}
+.nc-avatar {
+  object-fit: cover;
+  border-radius: 50%;
+}
+.ll-photo {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 }

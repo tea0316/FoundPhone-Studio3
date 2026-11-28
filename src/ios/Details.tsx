@@ -13,6 +13,7 @@ import {
   Check,
 } from "lucide-react";
 import { RichText } from "../RichText";
+import { dialRequest } from "../phoneDial";
 import { safeMedia, type Item } from "../schema";
 
 // 有「詳細頁」的 App 清單，外部可用來判斷是否走 NativeDetail
@@ -135,7 +136,23 @@ export function NativeDetail({
             ].map(([Icon, label]) => {
               const Glyph = Icon as typeof Phone;
               return (
-                <button key={String(label)} onClick={() => setCall(true)}>
+                <button
+                  key={String(label)}
+                  onClick={
+                    label === "通話"
+                      ? () => {
+                          if (app === "phone") {
+                            back();
+                            dialRequest(item.title);
+                          } else if (app === "contacts") {
+                            dialRequest(item.title, true, "contacts");
+                          } else {
+                            setCall(true);
+                          }
+                        }
+                      : undefined
+                  }
+                >
                   <Glyph size={23} />
                   {String(label)}
                 </button>
@@ -144,11 +161,11 @@ export function NativeDetail({
           </div>
           <div className="native-detail-group">
             <small>手機</small>
-            <p className="native-blue">{item.meta.phone || "未設定號碼"}</p>
+            <p className="native-blue">{item.meta.number || item.meta.phone || "未設定號碼"}</p>
           </div>
           <div className="native-detail-group">
             <small>備註</small>
-            <p>{item.body}</p>
+            <p>{item.meta.note || ""}</p>
           </div>
           {/* 模擬通話中的提示區塊 */}
           {call && (

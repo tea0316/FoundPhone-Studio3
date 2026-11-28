@@ -187,7 +187,7 @@ export function createWork(title = "雨停之前"): Work {
         {
           type: "notification",
           key: "",
-          value: "相簿中似乎出現了一張新的相片。",
+          value: "照片中似乎出現了一張新的相片。",
         },
       ],
       next: ["decision"],

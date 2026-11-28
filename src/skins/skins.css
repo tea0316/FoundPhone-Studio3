@@ -1,3 +1,7 @@
+/* ======================================================================
+   00｜共用基礎元件與通用樣式
+   共用控制項、目錄列表與跨 App 基礎排版
+   ====================================================================== */
 /* Shared controls, not shared page layouts. Each app owns its page structure. */
 .catalog-skin {
   display: flex;
@@ -199,9 +203,12 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/* ======================================================================
+   01｜iOS 系統 App
+   ====================================================================== */
 /* ===== iOS 系統 App｜電話與聯絡人 ===== */
 .native-phone {
-  --app-accent: #0cbe58;
+  --app-accent: #9ad0fa;
 }
 .call-row {
   display: flex;
@@ -334,6 +341,589 @@
   padding-top: 10px;
   padding-bottom: 10px;
 }
+.native-phone .contact-av {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+}
+.native-phone .contact-av > * {
+  width: 100%;
+  height: 100%;
+}
+.native-phone .call-row {
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+}
+.native-phone .call-row .contact-av {
+  flex: 0 0 56px !important;
+  width: 56px !important;
+  height: 56px !important;
+  min-width: 56px !important;
+  max-width: 56px !important;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 14px;
+}
+.native-phone .call-row .contact-av > * {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50%;
+  font-size: 22px;
+}
+.native-phone .call-row .contact-av img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+.native-phone .call-row strong {
+  font-size: 20px;
+}
+.native-phone .call-row small {
+  font-size: 18px;
+}
+.native-phone .call-cap {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.native-phone .co-line {
+  align-self: flex-start;
+  max-width: 80%;
+  padding: 9px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: left;
+}
+.native-phone .co-line.me {
+  align-self: flex-end;
+  background: #9ad0fa;
+}
+.native-phone .vm-item {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+  cursor: pointer;
+}
+.native-phone .vm-h {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.native-phone .vm-h b { font-size: 17px; }
+.native-phone .vm-h time { color: #8e8e93; font-size: 14px; }
+.native-phone .vm-s { margin-top: 2px; color: #8e8e93; font-size: 14px; }
+.native-phone .vm-body { margin-top: 12px; }
+.native-phone .vm-play {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #8e8e93;
+  font-size: 13px;
+}
+.native-phone .vm-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(128, 128, 128, 0.35);
+  overflow: hidden;
+}
+.native-phone .vm-bar u {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: #9ad0fa;
+}
+.native-phone .vm-tx {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(128, 128, 128, 0.14);
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+.native-phone .vm-item {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+  cursor: pointer;
+}
+.native-phone .vm-h {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.native-phone .vm-h b { font-size: 17px; }
+.native-phone .vm-h time { color: #8e8e93; font-size: 14px; }
+.native-phone .vm-s { margin-top: 2px; color: #8e8e93; font-size: 14px; }
+.native-phone .vm-body { margin-top: 12px; }
+.native-phone .vm-play {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #8e8e93;
+  font-size: 13px;
+}
+.native-phone .vm-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(128, 128, 128, 0.35);
+  overflow: hidden;
+}
+.native-phone .vm-bar u {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: #0a84ff;
+}
+.native-phone .vm-tx {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(128, 128, 128, 0.14);
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+.native-phone .co-opts {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px 14px;
+  padding: 8px 22px 18px;
+}
+
+.native-phone .co-opts button {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  background: none !important;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.native-phone .co-opts button span {
+  width: 70px;
+  height: 70px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  color: #fff;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.12s ease;
+}
+
+.native-phone .co-opts button:active span {
+  transform: scale(0.95);
+}
+
+.native-phone .co-opts button.on span {
+  background: #fff;
+  border-color: #fff;
+  color: #1c1c1e;
+}
+
+.native-phone .co-opts button.end span {
+  background: radial-gradient(circle at 50% 25%, #ff5a52, #e53935 75%);
+  border-color: rgba(255, 130, 125, 0.35);
+  box-shadow: 0 4px 14px rgba(229, 57, 53, 0.35);
+  color: #fff;
+}
+
+.native-phone .co-opts button.end svg {
+  transform: rotate(135deg);
+}
+
+.native-phone .co-opts button small {
+  font-size: 13px;
+  line-height: 1.2;
+  letter-spacing: 0.3px;
+  color: rgba(255, 255, 255, 0.92);
+  white-space: nowrap;
+}
+/* 通話畫面：整個手機底色統一 */
+.native-phone .virtual-call {
+  background: linear-gradient(#4b5661, #3a424b) !important;
+}
+.phone-screen:has(.virtual-call),
+.phone-screen:has(.virtual-call) .app-screen {
+  background: #4b5661 !important;
+  background-image: none !important;
+}
+.phone-screen:has(.virtual-call) .status-bar {
+  background: #4b5661 !important;
+  color: #fff !important;
+}
+.phone-screen:has(.virtual-call) .home-indicator {
+  background: #3a424b !important;
+  color: #fff !important;
+}
+.phone-screen:has(.virtual-call) .home-indicator::after {
+  background: #fff !important;
+}
+.native-phone .virtual-call {
+  position: absolute;
+  inset: 0; /* 蓋滿整個手機畫面，不再留 20px 切出底條 */
+  z-index: 10;
+  background: linear-gradient(180deg, #4b5661 0%, #3a424b 100%) !important;
+  padding: 56px 20px 34px; /* 底部留空間給 home bar，但不切斷背景 */
+}
+
+/* 如果 .home-indicator 在 .virtual-call 之上，讓它背景透明 */
+.phone-screen:has(.virtual-call) .home-indicator {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-top: 0 !important;
+}
+.native-phone .rf-seg {
+  display: flex;
+  width: 220px;
+  margin: 0 auto 12px;
+  padding: 3px;
+  border-radius: 12px;
+  background: rgba(128, 128, 128, 0.2);
+}
+.native-phone .rf-seg button {
+  flex: 1;
+  padding: 9px 0;
+  border: 0;
+  border-radius: 9px;
+  background: none !important;
+  color: inherit;
+  font-size: 16px;
+  font-weight: 600;
+}
+.native-phone .rf-seg button.on {
+  background: #fff !important;
+  color: #000;
+}
+.native-phone .cr {
+  display: flex;
+  align-items: center;
+  padding: 0 14px 0 8px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+}
+.native-phone .cr-main {
+  flex: 1;
+  min-width: 0;
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0;
+  background: none !important;
+  border: 0;
+  color: inherit;
+  text-align: left;
+}
+.native-phone .cr-dir {
+  width: 18px;
+  display: grid;
+  place-items: center;
+  color: #8e8e93;
+}
+.native-phone .cr-who {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.native-phone .cr-who strong {
+  font-size: 20px;
+  font-weight: 700;
+}
+.native-phone .cr-who small {
+  font-size: 14px;
+  color: #8e8e93;
+}
+.native-phone .cr-time {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 12px;
+  font-size: 14px;
+  color: #8e8e93;
+}
+.native-phone .cr-info {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: none !important;
+  border: 0;
+  color: #0a84ff;
+}
+.native-phone .cr.missed .cr-dir,
+.native-phone .cr.missed .cr-who strong {
+  color: #ff3b30;
+}
+/* 電話詳情頁：整個手機底色統一 */
+.native-detail-phone,
+.native-detail-phone .app-nav,
+.native-detail-phone .native-detail-scroll {
+  background: #f2f2f7 !important;
+}
+.phone-screen:has(.native-detail-phone),
+.phone-screen:has(.native-detail-phone) .app-screen,
+.phone-screen:has(.native-detail-phone) .status-bar,
+.phone-screen:has(.native-detail-phone) .home-indicator {
+  background: #f2f2f7 !important;
+  background-image: none !important;
+}
+.native-phone { position: relative; }
+.native-phone .ct-h {
+  padding: 4px 18px;
+  background: #f2f2f7;
+  color: #6d6d72;
+  font-size: 15px;
+  font-weight: 700;
+}
+.native-phone .ct-row {
+  display: block;
+  width: 100%;
+  padding: 14px 18px;
+  background: #fff !important;
+  border: 0;
+  border-bottom: 1px solid #e5e5ea;
+  color: #000;
+  font-size: 19px;
+  text-align: left;
+}
+.native-phone .ct-idx {
+  position: absolute;
+  right: 3px;
+  top: 50%;
+  z-index: 5;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.native-phone .ct-idx button {
+  padding: 1px 4px;
+  background: none !important;
+  border: 0;
+  color: #007aff;
+  font-size: 11px;
+  font-weight: 700;
+}
+.native-phone nav,
+.native-phone .catalog-tabs,
+.native-phone [role="tablist"] {
+  background: #fff !important;
+  background-color: #fff !important;
+}
+/* 通話畫面：整個手機同一個純色 */
+.native-phone .virtual-call {
+  background: #434c56 !important;
+}
+.phone-screen:has(.virtual-call),
+.phone-screen:has(.virtual-call) .app-screen,
+.phone-screen:has(.virtual-call) .status-bar,
+.phone-screen:has(.virtual-call) .home-indicator {
+  background: #434c56 !important;
+  background-image: none !important;
+}
+.phone-screen:has(.virtual-call) .status-bar,
+.phone-screen:has(.virtual-call) .home-indicator {
+  color: #fff !important;
+}
+.phone-screen:has(.virtual-call) .home-indicator::after {
+  background: #fff !important;
+}
+.native-phone .kp {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 0 16px;
+  background: #fff;
+}
+.native-phone .kp-num {
+  min-height: 56px;
+  font-size: 44px;
+  font-weight: 300;
+  line-height: 56px;
+  color: #000;
+}
+.native-phone .kp-sub {
+  min-height: 24px;
+  margin-bottom: 16px;
+  color: #007aff;
+  font-size: 17px;
+}
+.native-phone .kp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 78px);
+  gap: 14px 22px;
+}
+.native-phone .kp-grid button {
+  width: 78px;
+  height: 78px;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #e5e5ea !important;
+  color: #000;
+}
+.native-phone .kp-grid b {
+  font-size: 34px;
+  font-weight: 300;
+  line-height: 1;
+}
+.native-phone .kp-grid small {
+  min-height: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #333;
+}
+.native-phone .kp-bottom {
+  display: grid;
+  grid-template-columns: repeat(3, 78px);
+  gap: 22px;
+  margin-top: 14px;
+  align-items: center;
+  justify-items: center;
+}
+.native-phone .kp-call {
+  width: 78px;
+  height: 78px;
+  display: grid !important;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #34c759 !important;
+  color: #fff;
+}
+.native-phone .kp-call:disabled {
+  opacity: 0.45;
+}
+.native-phone .kp-del {
+  padding: 0;
+  background: none !important;
+  border: 0;
+  color: #8e8e93;
+}
+.native-phone .catalog-scroll:has(.kp) {
+  display: flex;
+  flex-direction: column;
+}
+.native-phone .kp {
+  margin: auto 0;
+  padding-bottom: 40px;
+}
+.native-phone .vm-h b {
+  font-size: 20px;
+}
+.native-phone .vm-h time {
+  font-size: 15px;
+}
+.native-phone .vm-s {
+  font-size: 15px;
+}
+.native-phone .vm-tx {
+  font-size: 16px;
+}
+.native-phone .vm-play {
+  font-size: 14px;
+}
+/* 通話畫面：頭像與文字大小 */
+.native-phone .virtual-call > :nth-child(1) {
+  font-size: 16px;
+}
+.native-phone .virtual-call > :nth-child(2) {
+  width: 64px !important;
+  height: 64px !important;
+  font-size: 30px !important;
+}
+.native-phone .virtual-call > :nth-child(2) img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+.native-phone .virtual-call h2 {
+  font-size: 24px;
+}
+.native-phone .virtual-call .co-line {
+  font-size: 17px;
+}
+.native-phone .virtual-call .co-opts button small {
+  font-size: 14px;
+}
+.dynamic-island.isl-calling {
+  width: 150px !important;
+  background: #000;
+  transition: width 0.25s ease;
+}
+.dynamic-island .isl-call {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 100%;
+  color: #34c759;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.native-contacts { position: relative; }
+.native-contacts .ct-h {
+  padding: 4px 18px;
+  background: #f2f2f7;
+  color: #6d6d72;
+  font-size: 15px;
+  font-weight: 700;
+}
+.native-contacts .ct-row {
+  display: block;
+  width: 100%;
+  padding: 14px 18px;
+  background: #fff !important;
+  border: 0;
+  border-bottom: 1px solid #e5e5ea;
+  color: #000;
+  font-size: 19px;
+  text-align: left;
+}
+.native-contacts .ct-idx {
+  position: absolute;
+  right: 3px;
+  top: 50%;
+  z-index: 5;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.native-contacts .ct-idx button {
+  padding: 1px 4px;
+  background: none !important;
+  border: 0;
+  color: #007aff;
+  font-size: 11px;
+  font-weight: 700;
+}
 /* ===== iOS 系統 App｜照片與相機 ===== */
 .photo-mosaic {
   display: grid;
@@ -400,6 +990,417 @@
   font-size: 10px;
   margin-top: 4px;
 }
+/* 相簿：照片方格 */
+.native-photos .photo-mosaic {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+.native-photos .photo-mosaic > button {
+  position: relative;
+  aspect-ratio: 1;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: #e5e5ea;
+}
+.native-photos .photo-mosaic img,
+.native-photos .photo-mosaic video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.native-photos .photo-mosaic svg {
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+}
+.native-photos .media-count {
+  padding: 18px 0 8px;
+  text-align: center;
+  color: #8e8e93;
+  font-size: 15px;
+}
+
+/* 為你推薦 */
+.native-photos .pf-sec {
+  margin: 18px 16px 8px;
+  font-size: 20px;
+  font-weight: 700;
+}
+.native-photos .pf-row {
+  display: flex;
+  gap: 10px;
+  padding: 0 16px;
+  overflow-x: auto;
+}
+.native-photos .pf-card span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 36px 16px 14px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
+  color: #fff;
+}
+.native-photos .pf-card strong {
+  display: block;
+  font-size: 20px;
+}
+.native-photos .pf-card small {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* ==================== 相簿 App ==================== */
+
+/* ---- 整體版面 ---- */
+.native-photos {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+.native-photos .catalog-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding-top: 54px; /* 避開狀態列 */
+  padding-bottom: 80px; /* 不被底部導覽列蓋住 */
+}
+.native-photos .pf-sec {
+  margin: 18px 16px 8px;
+  font-size: 20px;
+  font-weight: 700;
+}
+.native-photos .pf-back {
+  display: flex;
+  align-items: center;
+  padding: 8px 8px 12px;
+  background: none;
+  border: 0;
+  color: #007aff;
+  font-size: 17px;
+}
+
+/* ---- 圖庫／相簿內的照片方格 ---- */
+.native-photos .photo-mosaic {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+.native-photos .photo-mosaic > button {
+  position: relative;
+  aspect-ratio: 1;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: #e5e5ea;
+}
+.native-photos .photo-mosaic img,
+.native-photos .photo-mosaic video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.native-photos .photo-mosaic svg {
+  position: absolute; /* 縮圖左下角的愛心 */
+  left: 4px;
+  bottom: 4px;
+}
+.native-photos .media-count {
+  padding: 18px 0 8px;
+  text-align: center;
+  color: #8e8e93;
+  font-size: 15px;
+}
+
+.native-photos .pf-row {
+  display: flex;
+  gap: 10px;
+  padding: 0 16px;
+  overflow-x: auto;
+}
+.native-photos .pf-feat {
+  flex: 0 0 70%;
+  aspect-ratio: 1;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 16px;
+  background: #e5e5ea;
+}
+.native-photos .pf-feat img,
+.native-photos .pf-feat video,
+.native-photos .pf-card img,
+.native-photos .pf-card video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.native-photos .pf-mem {
+  display: flex;
+  gap: 10px;
+  padding: 0 16px 16px;
+  overflow-x: auto;
+}
+.native-photos .pf-card {
+  position: relative;
+  flex: 0 0 70%;
+  aspect-ratio: 1;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 16px;
+  background: #e5e5ea;
+  text-align: left;
+}
+.native-photos .pf-card span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 36px 16px 14px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
+  color: #fff;
+}
+.native-photos .pf-card strong {
+  display: block;
+  font-size: 20px;
+}
+.native-photos .pf-card small {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+
+/* ---- 相簿列表 ---- */
+.native-photos .album-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 12px;
+  padding: 0 16px 16px;
+}
+
+/* 每個相簿項目 */
+.native-photos .album-grid > button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+
+/* 所有相簿封面統一正方形 */
+.native-photos .album-grid img,
+.native-photos .album-grid video,
+.native-photos .album-grid .lock-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* 相簿名稱 */
+.native-photos .album-grid strong {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  font-size: 16px;
+}
+
+/* 照片數量 */
+.native-photos .album-grid small {
+  color: #8e8e93;
+  font-size: 14px;
+}
+
+/* 已上鎖封面 */
+.native-photos .album-grid .lock-cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #3a3a3c 0%, #1c1c1e 100%);
+  color: #fff;
+}
+
+.native-photos .album-grid .lock-cover svg {
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+/* 👇 已上鎖的封面，直接加在相簿列表的規則裡面 */
+.native-photos .lock-cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+  aspect-ratio: 1 !important;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #3a3a3c 0%, #1c1c1e 100%);
+  color: #fff;
+  position: relative;
+}
+.native-photos .lock-cover svg {
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+/* ===== 相簿解鎖畫面 (精緻版) ===== */
+.pf-lock-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  height: 100%;
+}
+.pf-lock-icon {
+  width: 80px;
+  height: 80px;
+  background: #f2f2f7;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: #1c1c1e;
+}
+.pf-lock-screen h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: #000;
+}
+.pf-lock-screen p {
+  font-size: 15px;
+  color: #8e8e93;
+  margin: 0 0 32px;
+}
+.pf-lock-screen form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 260px;
+}
+.pf-lock-screen input {
+  width: 100%;
+  padding: 16px;
+  border: 1.5px solid #e5e5ea;
+  border-radius: 12px;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 8px;
+  background: #f9f9fb;
+  color: #000;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.pf-lock-screen input:focus {
+  border-color: #007aff;
+  background: #fff;
+}
+.pf-lock-screen input.error {
+  border-color: #ff3b30;
+  background: #fff5f5;
+  animation: shake 0.4s ease-in-out;
+}
+.pf-lock-screen .error-text {
+  color: #ff3b30;
+  font-size: 13px;
+  margin-top: 12px;
+  font-weight: 500;
+}
+.pf-lock-screen .unlock-btn {
+  width: 100%;
+  margin-top: 24px;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  background: #007aff;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.pf-lock-screen .unlock-btn:active {
+  opacity: 0.8;
+  transform: scale(0.98);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-4px); }
+}
+
+/* ---- 底部導覽列 ---- */
+.native-photos .catalog-tabs {
+  flex: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+  padding-bottom: env(safe-area-inset-bottom, 8px);
+  background: #fff !important;
+  border-top: 1px solid #e5e5ea !important;
+  z-index: 10;
+}
+.native-photos .catalog-tabs button {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 0;
+  background: none;
+  border: none;
+  color: #8e8e93;
+}
+.native-photos .catalog-tabs button.selected {
+  color: #0a84ff;
+}
+.native-photos .catalog-tabs svg {
+  width: 24px;
+  height: 24px;
+}
+.native-photos .catalog-tabs span {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* ---- 全螢幕預覽：照片完整顯示不裁切 ---- */
+[style*="z-index: 9999"] img,
+[style*="z-index: 9999"] video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+/* 每個分頁最上面的第一個小標題，不要再多留白 */
+.native-photos .catalog-scroll > .pf-sec:first-child {
+  margin-top: 0;
+}
+.native-photos .catalog-scroll {
+  padding-top:  10px;
+}
+[style*="z-index: 9999"] {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .native-camera {
   background: #000;
   color: #fff;
@@ -507,163 +1508,929 @@
   text-align: center;
   padding-bottom: 10px;
 }
-/* ===== iOS 系統 App｜Safari 瀏覽器 ===== */
-.native-safari {
-  background: #eef0f3;
+/* ===== 相機全螢幕覆蓋（包含外殼與狀態列） ===== */
+.native-camera {
+  background: #000 !important;
+  color: #fff;
+  height: 100% !important;
+  width: 100% !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 50;
+  padding-top: 59px !important;
 }
-.safari-favorites {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px 10px;
-  padding: 10px 16px;
+
+/* 頂部狀態列 (閃光燈/HD) */
+.native-camera .camera-top {
+  padding: 12px 16px 8px !important;
+  background: #000 !important;
 }
-.safari-favorites > button {
+
+/* 讓取景框完全填滿中間的空間 */
+.native-camera .camera-view {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #151515;
+  overflow: hidden;
+}
+
+/* 確保圖片或影片填滿整個取景框 */
+.native-camera .camera-view img,
+.native-camera .camera-view video,
+.native-camera .camera-view .catalog-art {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: absolute;
+  inset: 0;
+}
+
+/* 底部控制列 */
+.native-camera .camera-mode,
+.native-camera .camera-controls {
+  background: #000 !important;
+  z-index: 10;
+}
+
+/* 👇 關鍵：當相機打開時，強制整個手機螢幕、狀態列、Home Indicator 都是黑的 */
+.phone-screen:has(.native-camera),
+.phone-screen:has(.native-camera) .app-screen {
+  background: #000 !important;
+  background-image: none !important;
+}
+
+.phone-screen:has(.native-camera) .status-bar {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+.phone-screen:has(.native-camera) .home-indicator {
+  background: #000 !important;
+}
+.phone-screen:has(.native-camera) .home-indicator::after {
+  background: #fff !important;
+}
+/* ===== iOS 系統 App｜Safari 歷史紀錄風格 ===== */
+.native-safari.sf-ref-theme {
+  position: relative;
   display: flex;
   flex-direction: column;
-  min-width: 0;
-  padding: 0;
-  gap: 8px;
-  text-align: center;
-}
-.safari-favorites > button > span {
-  width: 54px;
-  height: 54px;
-  border-radius: 11px;
-  background: #fff;
-  display: grid;
-  place-items: center;
-  color: #628aaf;
-}
-.safari-favorites strong {
-  font-size: 10px;
-  font-weight: 500;
-  max-width: 100%;
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  background: #f2f2f7;
+  font-family: -apple-system, "SF Pro Text", "PingFang TC", sans-serif;
 }
-.safari-favorites small {
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 8px;
-  color: #999;
-}
-.safari-address {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  gap: 7px;
-  margin: 8px 16px 10px;
-  padding: 0 10px;
-  border-radius: 10px;
-  background: #dfe2e7;
-  color: #7c818a;
-}
-.safari-address input {
+.native-safari.sf-ref-theme button {
   border: 0;
   background: none;
-  box-shadow: none;
-  font-size: 11px;
-  padding: 11px 0;
-  min-width: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
 }
-/* ===== iOS 系統 App｜備忘錄 ===== */
-.native-notes {
-  --app-accent: #cfa525;
-  background: #f4f3ee;
+.native-safari.sf-ref-theme .safari-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  background: #f2f2f7;
 }
-.native-notes .catalog-nav {
-  background: #f4f3ee;
-  border: 0;
+
+/* --- 頂部標題與數量 --- */
+.sf-history-page {
+  padding-bottom: 24px;
 }
-.notes-back {
-  color: #b4942c;
-  font-size: 11px;
-  padding: 12px 15px 0;
+.sf-history-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 14px 18px 14px;
+  background: #f7f7f9;
+  border-bottom: 0.5px solid #dcdce0;
 }
-.native-notes .catalog-scroll > h1 {
-  margin-top: 11px;
+.sf-history-header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: #111111;
 }
-.notes-list {
-  margin: 0 13px;
-  background: #fff;
-  border-radius: 9px;
+.sf-history-count {
+  font-size: 14px;
+  color: #8e8e93;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- 上方書籤列 --- */
+.sf-bookmark-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  overflow-x: auto;
+  background: #f7f7f9;
+  border-bottom: 0.5px solid #dcdce0;
+  scrollbar-width: none;
+}
+.sf-bookmark-bar::-webkit-scrollbar {
+  display: none;
+}
+.sf-bookmark-chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 0.5px solid #d1d1d6;
+  font-size: 13px;
+  color: #1c1c1e;
+  white-space: nowrap;
+}
+.sf-bookmark-chip.is-clickable:active {
+  background: #e5e5ea;
+}
+
+/* --- 群組小標與白底卡片 --- */
+.sf-history-section-label {
+  padding: 16px 24px 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #8e8e93;
+}
+.sf-history-card {
+  margin: 0 14px;
+  border-radius: 14px;
+  background: #ffffff;
   overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
-.notes-list > button {
-  padding: 13px 14px;
+.native-safari.sf-ref-theme .sf-history-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 0.5px solid #e5e5ea;
+  background: #ffffff;
+  color: inherit;
+  font: inherit;
   text-align: left;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.native-safari.sf-ref-theme .sf-history-row:last-child {
+  border-bottom: 0;
+}
+.native-safari.sf-ref-theme .sf-history-row.is-clickable {
+  cursor: pointer;
+}
+.native-safari.sf-ref-theme .sf-history-row.is-clickable:active {
+  background: #f2f2f7;
+}
+.native-safari.sf-ref-theme .sf-block-video {
   display: block;
   width: 100%;
-  border-bottom: 1px solid #e8e7e2;
+  height: auto;
+  max-height: 420px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #000000;
 }
-.notes-list strong {
+/* --- 純影片內頁滿版（限制在手機內容區內） --- */
+/* --- 純影片內頁滿版（白底、限制在手機內容區內） --- */
+.native-safari.sf-ref-theme .sf-video-fullscreen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  background: #ffffff;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 3px;
-  font-size: 13px;
-  font-weight: 600;
-}
-.notes-list p {
-  font-size: 10px;
-  color: #999;
-  margin-top: 7px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  justify-content: center;
   overflow: hidden;
 }
-.notes-list time {
-  color: #777;
-}
-.notes-list small {
+
+.native-safari.sf-ref-theme .sf-video-fullscreen-player {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
   display: block;
-  color: #a3a3a0;
-  font-size: 9px;
-  margin-top: 5px;
+  background: #ffffff;
 }
-.note-folders {
-  margin: 0 13px 15px;
+
+.native-safari.sf-ref-theme .sf-video-fullscreen-caption {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 54px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #1c1c1e;
+  font-size: 13px;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* 左側圓角方框放大鏡 */
+.sf-history-icon {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: #f2f2f7;
+  color: #8e8e93;
+  display: grid;
+  place-items: center;
+}
+
+/* 中間標題 */
+.sf-history-text {
+  flex: 1;
+  min-width: 0;
   display: flex;
-  gap: 7px;
-  overflow: auto;
+  flex-direction: column;
 }
-.note-folders > button {
-  gap: 6px;
-  border: 1px solid #e4dfcf;
-  border-radius: 7px;
-  padding: 8px;
-  font-size: 10px;
+.sf-history-text strong {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: #1c1c1e;
   white-space: nowrap;
-  color: #aa8e34;
-  background: #fff9;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.note-folders small {
-  color: #aaa;
-  font-size: 9px;
+
+.sf-history-chevron {
+  flex: none;
+  color: #c7c7cc;
 }
-.notes-footer,
-.mail-footer {
+.sf-history-empty {
+  padding: 28px 16px;
+  text-align: center;
+  font-size: 14px;
+  color: #8e8e93;
+}
+
+/* --- 底部膠囊列 + 工具列 --- */
+.native-safari.sf-ref-theme .safari-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 14px 10px;
+  background: #f4f4f6;
+  border-top: 0.5px solid #d1d1d6;
+}
+.sf-pill-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 0.5px solid #e5e5ea;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+.sf-pill-size {
+  flex: none;
+  font-size: 14px;
+  color: #3c3c43;
+  user-select: none;
+}
+.sf-pill-input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  text-align: center;
+  font-size: 15px;
+  color: #1c1c1e;
+  pointer-events: none;
+  user-select: none;
+}
+.sf-pill-input::placeholder {
+  color: #8e8e93;
+}
+.sf-pill-clear {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  color: #8e8e93;
+  user-select: none;
+}
+
+.native-safari.sf-ref-theme .safari-toolbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 40px;
+}
+.native-safari.sf-ref-theme .safari-toolbar button,
+.native-safari.sf-ref-theme .safari-toolbar button:disabled {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 40px;
+  color: #007aff !important;
+  opacity: 1;
+}
+
+/* --- 內頁閱讀 --- */
+.native-safari.sf-ref-theme .sf-site {
+  min-height: 100%;
+  padding: 18px 20px 40px;
+  background: #ffffff;
+  color: #1c1c1e;
+}
+.native-safari.sf-ref-theme .sf-site .u {
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e5ea;
+  font-size: 12px;
+  color: #8e8e93;
+}
+.native-safari.sf-ref-theme .sf-site h1 {
+  margin: 0 0 14px;
+  font-size: 24px;
+  line-height: 1.3;
+  font-weight: 700;
+}
+.native-safari.sf-ref-theme .sf-site .b {
+  font-size: 15px;
+  line-height: 1.75;
+  white-space: pre-wrap;
+}
+.native-safari.sf-ref-theme .sf-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.native-safari.sf-ref-theme .sf-block-text {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.75;
+  color: #1c1c1e;
+  white-space: pre-wrap;
+}
+.native-safari.sf-ref-theme .sf-block-figure {
+  margin: 0;
+}
+.native-safari.sf-ref-theme .sf-block-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+.native-safari.sf-ref-theme .sf-block-figure figcaption {
+  margin-top: 6px;
+  font-size: 15px;
+  color: #8e8e93;
+  text-align: center;
+}
+.native-safari.sf-ref-theme .sf-block-link-wrap {
+  margin-top: 2px;
+}
+.native-safari.sf-ref-theme .sf-block-link {
+  color: #007aff;
+  font-size: 17px;
+  text-decoration: underline;
+  word-break: break-all;
+}
+.native-safari.sf-ref-theme .sf-history-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.native-safari.sf-ref-theme .sf-history-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.native-safari.sf-ref-theme .sf-history-chevron {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: #8e8e93;
+}
+/* ===== Safari：上下白條改灰色，跟頁面統一 ===== */
+.phone-screen:has(.sf-ref-theme) {
+  background: #f4f4f6 !important;
+}
+.phone-screen:has(.sf-ref-theme) .app-screen {
+  background: #f4f4f6 !important;
+}
+.phone-screen:has(.sf-ref-theme) .status-bar {
+  background: #f7f7f9 !important;
+}
+.phone-screen:has(.sf-ref-theme) .home-indicator {
+  background: #f4f4f6 !important;
+}
+.phone-screen:has(.sf-ref-theme) .wallpaper-orb,
+.phone-screen:has(.sf-ref-theme) .screen-dimmer,
+.phone-screen:has(.sf-ref-theme) .hardware-reflection {
+  background: transparent !important;
+  opacity: 0 !important;
+}
+/* Safari 內文頁：最上面的狀態列改白色 */
+.phone-screen:has(.sf-site) .status-bar,
+.phone-screen:has(.sf-video-fullscreen) .status-bar {
+  background: #ffffff !important;
+}
+/* ==================== 備忘錄 App ==================== */
+.native-notes {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #f2f2f7;
+}
+.native-notes .catalog-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 16px 24px;
+}
+.native-notes .nt-back {
+  display: flex;
+  align-items: center;
+  margin: 0 0 4px -6px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: #e5a800;
+  font-size: 17px;
+}
+.native-notes .nt-title {
+  margin: 4px 0 10px;
+  font-size: 34px;
+  font-weight: 700;
+  color: #000;
+}
+.native-notes .nt-sec {
+  margin: 22px 0 8px 6px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #000;
+}
+.native-notes .nt-card {
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+}
+.native-notes .nt-card > button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 13px 16px;
+  background: none;
+  border: 0;
+  border-bottom: 0.5px solid #e5e5ea;
+  color: #000;
+  font-size: 17px;
+  text-align: left;
+}
+.native-notes .nt-card > button:last-child {
+  border-bottom: 0;
+}
+.native-notes .nt-card > button svg:first-child {
+  color: #e5a800;
+}
+.native-notes .nt-card > button span {
+  flex: 1;
+}
+.native-notes .nt-card > button small {
+  color: #8e8e93;
+  font-size: 17px;
+}
+.native-notes .nt-card > button svg:last-child {
+  color: #c7c7cc;
+}
+
+/* 備忘錄列表的每一則 */
+.native-notes .nt-notes > button {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+.native-notes .nt-notes > button strong {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 17px;
+  font-weight: 600;
+}
+.native-notes .nt-notes > button span {
+  flex: none;
+  width: 100%;
+  overflow: hidden;
+  color: #8e8e93;
+  font-size: 15px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.native-notes .nt-notes > button time {
+  margin-right: 10px;
+  color: #8e8e93;
+}
+.native-notes .nt-notes > button small {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #8e8e93;
+  font-size: 13px;
+}
+
+/* 底部 */
+.native-notes .nt-footer {
+  position: relative;
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 4px 13px;
-  border-top: 1px solid #e5e3d9;
-  min-height: 39px;
-  font-size: 9px;
-  color: #aaa;
-  flex-shrink: 0;
+  height: 56px;
+  padding: 0 20px;
+  background: #f2f2f7;
+  border-top: 0.5px solid #d1d1d6;
 }
+.native-notes .nt-footer button {
+  background: none;
+  border: 0;
+  color: #e5a800;
+}
+.native-notes .nt-footer button:last-child {
+  margin-left: auto;
+}
+.native-notes .nt-count {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 15px;
+  color: #3c3c43;
+}
+
+/* 手機上下色條統一 */
+.phone-screen:has(.native-notes),
+.phone-screen:has(.native-notes) .app-screen,
+.phone-screen:has(.native-notes) .status-bar,
+.phone-screen:has(.native-notes) .home-indicator {
+  background: #f2f2f7 !important;
+}
+.phone-screen:has(.native-notes) .wallpaper-orb,
+.phone-screen:has(.native-notes) .screen-dimmer,
+.phone-screen:has(.native-notes) .hardware-reflection {
+  background: transparent !important;
+  opacity: 0 !important;
+}
+.native-notes .nt-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 4px;
+}
+.native-notes .nt-top .nt-back {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.native-notes .nt-more {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+}
+.native-notes .nt-more {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1.5px solid #e5a800;
+  border-radius: 50%;
+  background: none;
+  color: #e5a800;
+}
+.native-notes .nt-sec.nt-gray {
+  margin-left: 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #8e8e93;
+}
+/* ==================== 備忘錄內文頁 ==================== */
+.note-detail {
+  background: #FFFEF8;
+  display: flex;
+  flex-direction: column;
+}
+
+.nd-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+}
+
+.nd-back {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #e5a800;
+  font-size: 17px;
+  padding: 0;
+  margin-left: -8px;
+  cursor: pointer;
+}
+
+.nd-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.nd-actions button {
+  background: none;
+  border: none;
+  color: #e5a800;
+  padding: 0;
+  cursor: pointer;
+}
+
+.nd-content {
+  flex: 1;
+  padding: 16px 24px;
+  overflow-y: auto;
+}
+
+.nd-date {
+  text-align: center;
+  color: #8e8e93;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.nd-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000;
+  margin: 0 0 16px 0;
+}
+
+.nd-body {
+  font-size: 17px;
+  line-height: 1.6;
+  color: #000;
+  white-space: pre-wrap; /* 保留換行 */
+}
+
+/* 內文頁底部工具列外層 */
+.nd-footer-wrapper {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 20px;
+  z-index: 10;
+}
+
+/* 膠囊狀工具列 */
+.nd-tools {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 24px;
+  background: #fff;
+  border-radius: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.nd-tools button {
+  background: none;
+  border: none;
+  color: #000;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* 右下角的編輯按鈕 */
+.nd-edit-btn {
+  background: none;
+  border: none;
+  color: #e5a800;
+  padding: 12px;
+  cursor: pointer;
+}
+
+/* 內文區塊預留底部空間 */
+.note-detail .nd-content {
+  padding: 16px 24px 100px 24px !important;
+}
+.nd-footer-wrapper {
+  position: absolute;
+  bottom: 30px; /* 👈 往上浮一點，不要貼著底部 */
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 10;
+  pointer-events: none; /* 讓外層不要擋住點擊 */
+}
+
+/* 左邊的膠囊工具列 */
+.nd-tools {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 20px;
+  background: #fff;
+  border-radius: 30px;
+  /* 👇 加上陰影，讓它看起來浮空 */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  pointer-events: auto;
+}
+
+.nd-tools button {
+  background: none;
+  border: none;
+  color: #e5a800;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* 右邊的圓形編輯按鈕 */
+.nd-edit-btn {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  color: #e5a800; /* 黃色圖示 */
+  /* 👇 圓形按鈕也要有陰影 */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* 內文區塊預留底部空間，避免被工具列擋住 */
+.note-detail .nd-content {
+  padding: 16px 24px 120px 24px !important;
+}
+
+/* 確認圖示的顏色 */
+.nd-tools svg {
+  stroke-width: 2.2; /* 讓線條粗一點，看起來更清楚 */
+}
+/* ===== 備忘錄密碼解鎖 Modal ===== */
+.nt-pin-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.nt-pin-box {
+  background: #fff;
+  width: 280px;
+  padding: 24px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.nt-pin-box h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 12px 0 4px;
+  color: #000;
+}
+
+.nt-pin-box p {
+  font-size: 13px;
+  color: #8e8e93;
+  margin: 0 0 16px;
+}
+
+.nt-pin-box input {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid #e5e5ea;
+  border-radius: 12px;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 8px;
+  background: #f9f9fb;
+  outline: none;
+  margin-bottom: 8px;
+}
+
+.nt-pin-box input:focus {
+  border-color: #e5a800;
+}
+
+.nt-pin-box input.error {
+  border-color: #ff3b30;
+  background: #fff5f5;
+  animation: shake 0.4s ease-in-out;
+}
+
+.nt-pin-box .error-text {
+  color: #ff3b30;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.nt-pin-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.nt-pin-actions button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nt-pin-actions button:first-child {
+  background: #e5e5ea;
+  color: #000;
+}
+
+.nt-pin-actions button.confirm {
+  background: #e5a800;
+  color: #fff;
+}
+
+/* 讓內文頁的背景與底部統一 */
+.phone-screen:has(.note-detail),
+.phone-screen:has(.note-detail) .app-screen,
+.phone-screen:has(.note-detail) .status-bar,
+.phone-screen:has(.note-detail) .home-indicator {
+  background: #FFFEF8 !important;
+}
+
 /* ===== iOS 系統 App｜行事曆與郵件 ===== */
 .month-title {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 19px 11px;
   color: #ee4d4d;
 }
+.month-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.month-title .today-btn {
+  position: absolute;
+  right: 11px;
+}
 .month-title h2 {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 500;
 }
 .month-title button {
@@ -673,64 +2440,300 @@
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 5px 2px;
+  gap: 8px 2px;
   padding: 0 11px 18px;
 }
 .calendar-grid > small {
   text-align: center;
   color: #aaa;
-  font-size: 9px;
+  font-size: 15px !important;
   padding: 6px 0;
 }
+/* 星期列（日本式：月～日，週日紅色、週六藍色） */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px 2px;
+  padding: 0 11px 18px;
+}
+
+.calendar-grid > small {
+  text-align: center;
+  color: #aaa;
+  font-size: 15px !important;
+  padding: 6px 0;
+}
+
+/* 星期日：紅色（第7欄） */
+.calendar-grid > small:nth-of-type(7) {
+  color: #e5534b;
+}
+
+/* 星期六：藍色（第6欄） */
+.calendar-grid > small:nth-of-type(6) {
+  color: #72bef7;
+}
+
+.month-title .today-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #ee4d4d;
+  background: rgba(238, 77, 77, 0.08);
+  border: 1px solid rgba(238, 77, 77, 0.35);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.month-title .today-btn:hover {
+  background: #fdf0f2;
+}
+
+.month-title .today-btn:active {
+  transform: scale(0.96);
+}
+
+/* 2. 日期按鈕：加大字體、預留底部小圓點空間 */
 .calendar-grid button {
   position: relative;
-  height: 34px;
-  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0 0 4px;
+  font-size: 18px;
+  font-weight: 400;
   border-radius: 50%;
-  margin: 0 2px;
+  margin: 0 auto;
 }
 .calendar-grid .selected {
   background: #ef4c4c;
   color: white;
 }
 .calendar-grid button > i {
-  width: 3px;
-  height: 3px;
-  background: #aaa;
+  width: 4px;
+  height: 4px;
+  background: #b5b5b5;
   border-radius: 50%;
   position: absolute;
-  bottom: 0;
+  bottom: -6px;
   left: 50%;
   transform: translateX(-50%);
 }
+
+/* 下方日期標題列 */
+.agenda-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 16px 12px;
+  border-top: 1px solid #efefef;
+}
+.agenda-header h4 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+}
+.agenda-header .show-all-btn {
+  padding: 2px 4px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #ee4d4d;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* 行程卡片：左側大日號＋週幾，右側紅線＋時間＋標題 */
 .calendar-event {
   display: flex;
-  align-items: flex-start;
-  gap: 13px;
+  align-items: center;
+  gap: 14px;
   width: 100%;
-  padding: 16px;
+  padding: 14px 16px;
   text-align: left;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #efefef;
 }
-.calendar-event > time {
-  font-size: 10px;
-  color: #aaa;
-  padding-top: 3px;
+.event-date-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 36px;
+  flex-shrink: 0;
 }
-.calendar-event > div {
-  border-left: 3px solid #ed6863;
-  padding-left: 9px;
+.event-day {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.15;
+  color: #222;
+}
+.event-weekday {
+  font-size: 12px;
+  color: #999;
+  margin-top: 2px;
+}
+.event-body {
+  flex: 1;
+  border-left: 3px solid #eb4d4b;
+  padding-left: 12px;
   min-width: 0;
 }
-.calendar-event strong {
+.event-body strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+}
+.event-body p {
   font-size: 12px;
+  line-height: 1.6;
+  color: #888;
+  margin-top: 4px;
 }
-.calendar-event p {
-  font-size: 10px;
-  line-height: 1.7;
+.native-calendar .catalog-empty {
+  font-size: 16px !important;
+  font-weight: 300;
   color: #999;
-  margin-top: 5px;
 }
+/* 點擊月份的按鈕 */
+.date-picker-trigger {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #ee4d4d;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.date-picker-arrow {
+  font-size: 11px;
+}
+
+/* 日期選擇器背景 */
+.date-picker-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* 日期選擇器本體 */
+.date-picker-modal {
+  width: min(90%, 360px);
+  background: #fff;
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* 標題列 */
+.date-picker-heading {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 120px;
+  margin-bottom: 12px;
+}
+
+/* 選擇日期：固定正中央 */
+.date-picker-heading strong {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+}
+
+/* 取消與確定按鈕 */
+.date-picker-heading button {
+  border: 1px solid #ee4d4d;
+  background: #fff;
+  color: #ee4d4d;
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+/* 確定按鈕 */
+.date-picker-heading button:last-child {
+  background: #ee4d4d;
+  color: #fff;
+}
+
+/* 三欄滾輪 */
+.date-wheel-container {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 4px;
+  height: 168px;
+  overflow: hidden;
+}
+
+/* 單一滾輪 */
+.date-wheel {
+  height: 168px;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+  padding: 56px 0;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.date-wheel::-webkit-scrollbar {
+  display: none;
+}
+
+/* 每個日期 */
+.date-wheel-item {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: center;
+  font-size: 23px;
+  color: #c5c5c5;
+  font-weight: 400;
+}
+
+/* 中間選中的日期 */
+.date-wheel-item.active {
+  color: #222;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+/* 中間選取區域 */
+.date-wheel-highlight {
+  position: absolute;
+  top: 56px;
+  left: 0;
+  right: 0;
+  height: 56px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  pointer-events: none;
+}
+
 .mail-folders {
   display: flex;
   gap: 8px;
@@ -1284,6 +3287,123 @@
   height: 30px;
   order: 4;
 }
+/* Apple Music：單首歌上鎖 */
+.native-music.am {
+  position: relative;
+}
+.native-music .am-lock-ico {
+  flex: none;
+  margin-right: 6px;
+  color: #8e8e93;
+}
+.native-music .am-pw-mask {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+.native-music .am-pw {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 78%;
+  padding: 22px 18px 16px;
+  border-radius: 16px;
+  background: #fff;
+  color: #1c1c1e;
+}
+.native-music .am-pw h3 {
+  margin: 4px 0 0;
+  font-size: 17px;
+}
+.native-music .am-pw small {
+  color: #8e8e93;
+  font-size: 13px;
+}
+.native-music .am-pw input {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px;
+  border: 1px solid #c7c7cc;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 18px;
+}
+.native-music .am-pw-err {
+  min-height: 18px;
+  color: #ff3b30;
+  font-size: 13px;
+}
+.native-music .am-pw-btns {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+.native-music .am-pw-btns button {
+  flex: 1;
+  padding: 10px 0;
+  border: 0;
+  border-radius: 10px;
+  background: #f2f2f7;
+  color: #1c1c1e;
+  font-size: 16px;
+}
+.native-music .am-pw-btns button[type="submit"] {
+  background: #fa233b;
+  color: #fff;
+}
+/* Apple Music：上鎖歌曲模糊 */
+.native-music .am-row.locked .am-art,
+.native-music .am-row.locked .am-title {
+  filter: blur(3px);
+}
+
+/* 輸錯密碼：震動 */
+@keyframes am-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  15% {
+    transform: translateX(-12px);
+  }
+  30% {
+    transform: translateX(10px);
+  }
+  45% {
+    transform: translateX(-8px);
+  }
+  60% {
+    transform: translateX(6px);
+  }
+  75% {
+    transform: translateX(-3px);
+  }
+}
+.native-music .am-pw.shake {
+  animation: am-shake 0.45s;
+}
+/* Apple Music：解鎖視窗出現時，上下色條跟遮罩同色 */
+.phone-screen:has(.am-pw-mask),
+.phone-screen:has(.am-pw-mask) .app-screen,
+.phone-screen:has(.am-pw-mask) .status-bar,
+.phone-screen:has(.am-pw-mask) .home-indicator {
+  background: #808080 !important;
+}
+/* Apple Music：底部色條跟分頁列同色 */
+.native-music.am {
+  background: #fff;
+}
+.phone-screen:has(.native-music):not(:has(.am-pw-mask)),
+.phone-screen:has(.native-music):not(:has(.am-pw-mask)) .app-screen,
+.phone-screen:has(.native-music):not(:has(.am-pw-mask)) .home-indicator {
+  background: #f9f9f9 !important;
+}
+
 
 /* ===== iOS 系統 App｜地圖 ===== */
 .fiction-map {
@@ -1572,6 +3692,10 @@
 .native-find {
   --app-accent: #4787cd;
 }
+/* ======================================================================
+   02｜通訊 App
+   聊天共用元件、QQ、Telegram、Discord、LINE、Messenger
+   ====================================================================== */
 /* ===== 訊息共用元件｜聊天列表與對話 ===== */
 .catalog-chat {
   display: flex;
@@ -2035,370 +4159,12 @@
   white-space: nowrap;
   overflow: hidden;
 }
-/* ===== 通訊 App｜LINE ===== */
-.line-ui {
-  --app-accent: #08b851;
-}
-.line-ui .catalog-nav {
-  background: #fff;
-  border: 0;
-}
-.line-ui h1 {
-  font-size: 24px;
-  font-weight: 700;
-  padding: 15px 16px 5px;
-}
-.line-owner {
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid #f2f2f2;
-}
-.line-owner .catalog-avatar {
-  width: 48px;
-  height: 48px;
-}
-.line-owner h2 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #111;
-}
-.line-ui .catalog-scroll > h4 {
-  padding: 15px 16px 6px;
-  font-size: 12px;
-  color: #888;
-  font-weight: 500;
-}
-.line-friends {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 10px 16px;
-  gap: 16px;
-}
-.line-friends > button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #333;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-align: center;
-}
-.line-friends > button .catalog-avatar {
-  width: 48px;
-  height: 48px;
-}
-.line-peer {
-  font-size: 13px;
-  padding: 13px;
-  text-align: center;
-  border-bottom: 1px solid #eee;
-}
-.line-row .catalog-avatar {
-  width: 40px;
-  height: 40px;
-  flex: none;
-}
-.line-avatar-gap {
-  width: 40px; 
-}
-
-.line-chat .catalog-avatar {
-  width: 46px;
-  height: 46px;
-}
-
+/* ===== 通訊 App｜LINE賴 ===== */
 .catalog-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: inherit;
-}
-
-/* ==========================================
-   LINE 專屬聊天室與泡泡樣式 (LineBubbles)
-   ========================================== */
-.line-bubbles {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 12px 10px;
-  background-color: #8fa9cf;
-  flex: 1;
-  overflow-y: auto;
-}
-
-.line-date {
-  display: block;
-  width: fit-content;
-  margin: 10px auto;
-  font-size: 11px;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  padding: 2px 10px;
-}
-
-.line-row {
-  display: flex;
-  gap: 6px;
-  margin: 2px 0;
-  align-items: flex-end;
-}
-
-.line-row.out {
-  justify-content: flex-end;
-}
-
-.line-avatar-gap {
-  width: 36px;
-  flex: none;
-}
-
-.line-col {
-  display: flex;
-  flex-direction: column;
-  max-width: 70%;
-}
-
-.line-name {
-  font-size: 11px;
-  color: #fff;
-  margin-bottom: 2px;
-  display: block;
-}
-
-.line-msg {
-  display: flex;
-  align-items: flex-end;
-  gap: 4px;
-}
-
-.line-row.in .line-msg {
-  flex-direction: row;
-}
-
-.line-row.out .line-msg {
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-.line-meta {
-  flex-shrink: 0;
-  min-width: max-content;
-}
-.line-row.out .line-meta {
-  align-items: flex-end;
-}
-
-.line-meta {
-  font-size: 10px;
-  color: #fff;
-  opacity: 0.85;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  line-height: 1.2;
-  white-space: nowrap;
-}
-
-.line-row.in .line-meta {
-  align-items: flex-start;
-}
-
-.line-meta em {
-  font-style: normal;
-}
-
-.line-bubble {
-  position: relative;
-  max-width: 68vw;
-  text-align: left;
-  padding: 8px 12px;
-  border-radius: 18px;
-  font-size: 14px;
-  line-height: 1.35;
-  background: #fff;
-  color: #111;
-  border: 0;
-  word-break: break-word;
-}
-
-.line-row.out .line-bubble {
-  background: #fff;
-  color: #111;
-}
-
-.line-bubble.media {
-  padding: 0;
-  background: none;
-  overflow: hidden;
-  border-radius: 12px;
-}
-
-/* 系統訊息小膠囊 (通話紀錄、收回訊息、群組通知) */
-.line-system-msg {
-  display: flex;
-  justify-content: center;
-  margin: 12px 0;
-}
-
-.line-system-msg span {
-  font-size: 13px;
-  color: #ffffff;
-  background: rgba(0, 0, 0, 0.22);
-  padding: 4px 14px;
-  border-radius: 12px;
-  text-align: center;
-  white-space: pre-wrap;
-  word-break: break-all;
-}
-
-/* ==========================================
-   LINE 專屬聊天列表樣式 (LineChatRows)
-   ========================================== */
-.line-chat {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 10px 16px;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid #f2f2f2;
-  cursor: pointer;
-  text-align: left;
-  transition: background-color 0.15s;
-}
-
-.line-chat:hover {
-  background-color: #f9f9f9;
-}
-
-.line-chat.pinned {
-  background-color: #f4f6f8;
-}
-
-.line-chat-main {
-  flex: 1;
-  min-width: 0;
-}
-
-.line-chat-main strong {
-  display: block;
-  font-size: 15px;
-  color: #111;
-  margin-bottom: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.line-chat-main p {
-  font-size: 13px;
-  color: #888;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.line-chat-side {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-  flex-shrink: 0;
-}
-
-.line-chat-side time {
-  font-size: 11px;
-  color: #9a9ea3;
-}
-
-.line-badge {
-  min-width: 18px;
-  height: 18px;
-  border-radius: 9px;
-  padding: 0 5px;
-  background: #06c755;
-  color: #fff;
-  font-size: 11px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.line-chat-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 12px;
-  height: 48px;
-  background: #ffffff;
-  border-bottom: 1px solid #eaeaea;
-  flex-shrink: 0;
-}
-
-/* 左側返回按鈕（含未讀數） */
-.line-chat-header > button {
-  background: none;
-  border: none;
-  font-size: 18px;
-  color: #111;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 500;
-  min-width: 60px;
-  text-align: left;
-}
-
-.line-chat-header strong {
-  flex: 1;
-  text-align: center;
-  font-size: 16px;
-  color: #111;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* 右側圖示區 */
-.line-chat-header span {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  color: #111;
-  min-width: 60px;
-}
-
-/* 發送的訊息 */
-.line-col {
-  max-width: 78%;
-}
-.line-bubble {
-  max-width: 100%;
-}
-.line-row.out .line-col {
-  align-items: flex-end;
-}
-.line-meta {
-  flex-shrink: 0;
-  min-width: max-content;
-  justify-content: flex-end;
-}
-
-.line-chat-header span svg {
-  cursor: pointer;
 }
 
 /* ===== 通訊 App｜Messenger ===== */
@@ -2531,6 +4297,10 @@
 .social-actions button:last-child {
   margin-left: auto;
 }
+/* ======================================================================
+   03｜社群 App
+   微博、X、Threads、Facebook、小紅書、Pinterest、Reddit、論壇、Snapchat
+   ====================================================================== */
 /* ===== 社群 App｜微博 ===== */
 .weibo-ui {
   --app-accent: #e88a38;
@@ -2616,7 +4386,7 @@
   width: 50%;
   padding: 15px 5px 13px;
   font-size: 12px;
-  color: #888;
+  color: #090909;
   position: relative;
 }
 .x-feed-tabs > .selected {
@@ -2662,7 +4432,7 @@
 }
 .x-byline > span {
   font-size: 8px;
-  color: #999;
+  color: #000000;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -2670,6 +4440,7 @@
   font-size: 11px;
   margin-top: 6px;
 }
+
 /* ===== 社群 App｜Threads ===== */
 .threads-ui {
   --app-accent: #111;
@@ -3551,6 +5322,10 @@
   background: #fff;
   color: #222;
 }
+/* ======================================================================
+   04｜音樂串流 App
+   Spotify、網易雲音樂
+   ====================================================================== */
 /* ===== 音樂串流 App｜Spotify ===== */
 .spotify-ui {
   background: #111;
@@ -3669,6 +5444,7 @@
   background: #2a2a2a;
   color: #ccc;
 }
+
 .track-player {
   display: flex;
   align-items: center;
@@ -3821,6 +5597,10 @@
   font-size: 13px;
   padding: 0 15px 12px;
 }
+/* ======================================================================
+   05｜影音與影片 App
+   YouTube、Bilibili、TikTok、Netflix、直向影片共用元件
+   ====================================================================== */
 /* ===== 影音 App｜YouTube ===== */
 .youtube-ui {
   --app-accent: #151515;
@@ -3929,6 +5709,194 @@
 .youtube-shorts .youtube-byline {
   padding: 8px 3px;
 }
+/* ===== YouTube 首頁橫向滑動 ===== */
+.youtube-horizontal-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 8px 16px 16px;
+  scrollbar-width: none; /* 隱藏滾動條 */
+}
+
+.youtube-horizontal-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.youtube-horizontal-card {
+  flex: 0 0 280px; /* 👈 每張卡片固定寬度，超出就會滑動 */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.youtube-horizontal-card .youtube-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* 👈 保持 YouTube 經典的 16:9 比例 */
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  background: #000;
+}
+
+.youtube-horizontal-card .youtube-thumb img,
+.youtube-horizontal-card .youtube-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.youtube-horizontal-card .youtube-byline {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 0;
+  text-align: left;
+  background: none;
+  border: none;
+}
+
+.youtube-horizontal-card .youtube-byline strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.3;
+}
+
+.youtube-horizontal-card .youtube-byline small {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 4px;
+  display: block;
+}
+
+.youtube-horizontal-card .youtube-byline .catalog-avatar {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+/* 隱藏 YouTube 分類標籤的滾動條 */
+.youtube-ui .catalog-scroll {
+  scrollbar-width: none;
+}
+.youtube-ui .catalog-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* 讓 YouTube 的按鈕不要有預設樣式 */
+.youtube-ui button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+/* 當開啟 YouTube App 時，強制狀態列變黑、文字變白 */
+.phone-screen:has(.youtube-ui) .status-bar {
+  color: #fff !important;
+  background: #0f0f0f !important;
+}
+
+/* 確保頂部的動態島（如果有）周圍不要有奇怪的底色 */
+.phone-screen:has(.youtube-ui) .dynamic-island {
+  background: #000 !important;
+}
+
+/* 如果外層的 header 有白底，也一併蓋掉 */
+.youtube-ui header {
+  background: #0f0f0f !important;
+}
+/* 強制 YouTube 影片縮圖保持 16:9 比例 */
+.youtube-thumb {
+  aspect-ratio: 16 / 9 !important;
+  width: 100% !important;
+  height: auto !important;
+  overflow: hidden;
+}
+
+/* 確保裡面的圖片或影片完全填滿，且不變形 */
+.youtube-thumb img,
+.youtube-thumb video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important; /* 👈 這行很重要，它會幫你把圖片裁切填滿 */
+}
+/* 1. 鎖定縮圖外框尺寸與裁切 */
+.youtube-ui article button:first-of-type,
+.youtube-thumb {
+  width: 100% !important;
+  aspect-ratio: 16 / 9 !important;
+  max-height: 215px !important; /* 手機螢幕內最舒服的縮圖高度 */
+  overflow: hidden !important;
+  position: relative !important;
+  display: block !important;
+}
+
+/* 2. 強制裡面的 Media（img / video / 自訂元件）完全填滿且不撐開外框 */
+.youtube-ui article button:first-of-type > *:not(span),
+.youtube-thumb > *:not(span),
+.youtube-thumb img,
+.youtube-thumb video {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+/* YouTube：整個手機底色統一 */
+.phone-screen[data-app="youtube"],
+.phone-screen[data-app="youtube"] .app-screen,
+.phone-screen[data-app="youtube"] .status-bar,
+.phone-screen[data-app="youtube"] .home-indicator {
+  background: #0f0f0f !important;
+  background-color: #0f0f0f !important;
+  background-image: none !important;
+}
+.phone-screen[data-app="youtube"] .wallpaper-orb,
+.phone-screen[data-app="youtube"] .screen-dimmer {
+  display: none !important;
+}
+.phone-screen[data-app="youtube"] .home-indicator::after {
+  background: #fff !important;
+}
+/* Shorts：影片完整顯示，不裁切 */
+.youtube-ui .shorts-media-frame {
+  background: #000;
+}
+.youtube-ui .shorts-media-frame > *,
+.youtube-ui .shorts-media-frame img,
+.youtube-ui .shorts-media-frame video {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+/* Shorts：整個手機同一個純黑 */
+.phone-screen:has(.shorts-media-frame),
+.phone-screen:has(.shorts-media-frame) .app-screen,
+.phone-screen:has(.shorts-media-frame) .youtube-ui,
+.phone-screen:has(.shorts-media-frame) .status-bar,
+.phone-screen:has(.shorts-media-frame) .home-indicator {
+  background: #000 !important;
+  background-image: none !important;
+}
+.phone-screen:has(.shorts-media-frame) .status-bar,
+.phone-screen:has(.shorts-media-frame) .home-indicator {
+  color: #fff !important;
+}
+.phone-screen:has(.shorts-media-frame) .home-indicator::after {
+  background: #fff !important;
+}
+
+/* 底部導覽列（它是 .youtube-ui 的最後一個 div，沒有 class） */
+.youtube-ui:has(.shorts-media-frame) > div:last-child {
+  background: #000 !important;
+  border-top: none !important;
+}
+
 /* ===== 影音 App｜哔哩哔哩 ===== */
 .bilibili-ui {
   --app-accent: #d7779c;
@@ -4164,15 +6132,51 @@
 .tiktok-ui .vertical-actions > button:nth-child(2) {
   color: #f4f4f4;
 }
-/* ===== 影音 App｜Netflix ===== */
+/* TikTok：整個手機底色統一成黑色 */
+.phone-screen:has(.tiktok-ui),
+.phone-screen:has(.tiktok-ui) .app-screen,
+.phone-screen:has(.tiktok-ui) .status-bar,
+.phone-screen:has(.tiktok-ui) .home-indicator {
+  background: #000 !important;
+  background-color: #000 !important;
+  background-image: none !important;
+}
+.phone-screen:has(.tiktok-ui) .wallpaper-orb,
+.phone-screen:has(.tiktok-ui) .screen-dimmer {
+  display: none !important;
+}
+.phone-screen:has(.tiktok-ui) .home-indicator::after {
+  background: #fff !important;
+}
+.tiktok-ui { position: relative; }
+.tiktok-ui .tt-empty {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  color: #8a8b91;
+  font-size: 18px;
+  text-align: center;
+  pointer-events: none;
+}
+/* =========================================================
+   影音 App｜Netflix UI（以後期修改為準）
+   ========================================================= */
+
+/* 1. 全域配色與手機外殼黑化 */
 .netflix-ui {
-  background: #111;
-  color: #f4f4f4;
+  background: #000 !important;
+  color: #fff;
   --app-accent: #f0f0f0;
 }
-.netflix-ui .catalog-nav {
-  background: #151515;
-  border-color: #222;
+.netflix-ui .catalog-scroll,
+.netflix-ui .catalog-nav,
+.netflix-ui .catalog-tabs {
+  background: #000 !important;
+  border-color: #222 !important;
 }
 .netflix-ui .catalog-nav strong {
   color: #d35050;
@@ -4183,53 +6187,131 @@
   background: #2c2c2c;
   color: #ccc;
 }
+.netflix-ui .catalog-empty {
+  font-size: 18px !important;
+  color: #8e8e93 !important;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* 當 Netflix App 開啟時，強制手機外殼、狀態列、動態島與 Home Indicator 變黑 */
+.phone-screen:has(.netflix-ui),
+.phone-screen:has(.netflix-ui) .app-screen {
+  background: #000 !important;
+  background-image: none !important;
+}
+.phone-screen:has(.netflix-ui) .status-bar,
+.phone-screen:has(.netflix-ui) .home-indicator,
+.phone-screen:has(.netflix-ui) .dynamic-island {
+  background: #000 !important;
+  color: #fff !important;
+}
+.phone-screen:has(.netflix-ui) .home-indicator::after {
+  background: #fff !important;
+}
+
+/* 2. 首頁大圖 (Hero Banner) */
 .netflix-feature {
   position: relative;
-  height: 300px;
+  width: calc(100% - 24px) !important;
+  height: auto !important;
   margin: 4px 12px 25px;
   border-radius: 11px;
   overflow: hidden;
+  background: #111;
 }
 .netflix-feature > img,
 .netflix-feature > video,
 .netflix-feature > .catalog-art {
-  height: 100%;
   width: 100%;
-  object-fit: cover;
+  height: auto !important;
+  aspect-ratio: 16 / 9;
+  object-fit: cover !important;
+  object-position: center center !important;
   background: #555;
+  display: block;
 }
+
+/* 首頁大圖下方資訊與按鈕區：貼底置中，保留上方人物畫面 */
 .netflix-feature > div:last-child {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 45px 13px 15px;
-  background: linear-gradient(transparent, #111e);
+  padding: 56px 14px 16px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.55) 45%,
+    rgba(0, 0, 0, 0.92) 100%
+  );
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
 }
+
 .netflix-feature strong {
-  font-size: 22px;
   display: block;
-  letter-spacing: 1px;
+  font-size: 22px;
+  line-height: 1.25;
+  color: #fff;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
 }
+
 .netflix-feature small {
   display: block;
-  color: #c3c3c3;
-  font-size: 9px;
-  margin: 9px 0 15px;
+  color: #e5e5e5;
+  font-size: 12px;
+  margin: 10px 0 20px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95);
 }
-.netflix-feature button {
-  font-size: 10px;
-  border-radius: 4px;
-  padding: 8px 12px;
-  background: #fff;
-  color: #222;
-  margin: 0 4px;
+
+/* 按鈕容器：兩顆並排、間距一致、置中 */
+.netflix-feature > div:last-child > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 0 !important;
 }
-.netflix-feature button:last-child {
-  color: #fff;
-  background: #ffffff28;
+
+/* 兩顆按鈕都固定白底黑字，且 hover / active / focus 都不變色 */
+.netflix-feature button,
+.netflix-feature button:last-child,
+.netflix-feature button:hover,
+.netflix-feature button:last-child:hover,
+.netflix-feature button:active,
+.netflix-feature button:last-child:active,
+.netflix-feature button:focus,
+.netflix-feature button:last-child:focus,
+.netflix-feature button:focus-visible,
+.netflix-feature button:last-child:focus-visible {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #111111 !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  padding: 9px 16px !important;
+  border-radius: 6px !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  white-space: nowrap;
 }
+
+/* 3. 橫向滑動影片架 (Shelves) */
 .netflix-shelf {
   margin-bottom: 25px;
 }
@@ -4241,38 +6323,48 @@
 .netflix-shelf > div {
   display: flex;
   gap: 8px;
-  overflow: auto;
+  overflow-x: auto;
   padding: 0 13px;
 }
 .netflix-shelf > div > button {
-  display: block;
+  width: 130px !important;
+  display: flex;
+  flex-direction: column;
   flex-shrink: 0;
-  width: 100px;
-  text-align: left;
+  text-align: center;
+  background: none;
+  border: none;
   padding: 0;
 }
 .netflix-shelf img,
 .netflix-shelf .catalog-art {
-  height: 143px;
   width: 100%;
+  height: 185px !important;
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 6px;
 }
 .netflix-shelf .catalog-art span {
   font-size: 15px;
 }
 .netflix-shelf strong {
-  font-size: 9px;
-  font-weight: 400;
-  color: #aaa;
-  display: block;
-  margin-top: 6px;
-  line-height: 1.7;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #eee !important;
+  margin-top: 8px;
+  line-height: 1.3;
+  min-height: 36px;
+  text-align: center;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
-.netflix-ui .catalog-tabs {
-  background: #181818;
-  border-color: #292929;
-}
+/* ======================================================================
+   06｜生活服務 App
+   支付寶、淘寶、外送
+   ====================================================================== */
 /* ===== 生活服務 App｜支付寶 ===== */
 .alipay-ui {
   --app-accent: #268bd5;
@@ -4701,6 +6793,10 @@
   margin-top: 14px;
   padding-top: 9px;
 }
+/* ======================================================================
+   07｜手機外框與系統共用介面
+   狀態列、底部指示條、深色模式等
+   ====================================================================== */
 /* ===== 手機外框｜狀態列、底部指示條與深色模式 ===== */
 .phone-shell .phone-screen:has(.catalog-skin) .status-bar {
   background: #fff;
@@ -5001,6 +7097,11 @@
   height: 40px;
   border-radius: 6px;
 }
+/* ======================================================================
+   08｜跨 App 音樂播放元件與播放器
+   迷你播放條、Spotify 播放頁、全螢幕播放器、Apple Music 風格
+   注意：這些是共用／補充樣式，保留原始位置以維持覆蓋順序。
+   ====================================================================== */
 /* ===== 迷你播放條(膠囊) ===== */
 .track-player .audio-pill,
 /* ===== 音樂共用元件｜音訊播放條 ===== */
@@ -5761,6 +7862,19 @@
   letter-spacing: 2px !important; 
   line-height: 1 !important;
 }
+/* Spotify 正在播放：上面綠色、下面黑色 */
+.phone-screen:has(.np-page) .status-bar {
+  background: #335647 !important;
+}
+.phone-screen:has(.np-page),
+.phone-screen:has(.np-page) .app-screen,
+.phone-screen:has(.np-page) .home-indicator {
+  background: #121212 !important;
+  background-image: none !important;
+}
+.phone-screen:has(.np-page) .wallpaper-orb {
+  display: none !important;
+}
 /* =========================================
    隱藏整個 App 的系統滾動條(保留滑動功能)
    ========================================= */
@@ -6137,6 +8251,9 @@
   transform: scale(0.9);
 }
 
+/* ======================================================================
+   09｜特效與動畫
+   ====================================================================== */
 /* ===== 煙火特效（升空拖尾 → 雙層爆開 → 下墜淡出） ===== */
 /* ===== 特效｜煙火動畫 ===== */
 .fireworks-container {
@@ -6249,6 +8366,10 @@
   100%    { transform: translateY(42px) scale(1.08); opacity: 0; }
 }
 
+/* ======================================================================
+   10｜後段補充樣式（依原始順序保留）
+   TikTok 仿真補充
+   ====================================================================== */
 /* ===== TikTok 仿真 ===== */
 
 .tiktok-ui.tt {
@@ -6524,6 +8645,10 @@
   border-bottom: none !important;
 }
 
+/* ======================================================================
+   11｜音樂 App 後續補充
+   導覽列與收藏庫鎖定／解鎖畫面
+   ====================================================================== */
 /* ===== 收藏庫解鎖畫面 ===== */
 /* ===== 音樂 App｜鎖定／解鎖畫面 ===== */
 .am-lock-screen {
@@ -6602,6 +8727,11 @@
   border: none;
   cursor: pointer;
 }
+/* ======================================================================
+   12｜iOS 天氣 App 後續補充
+   背景、溫度條、資訊卡、毛玻璃與狀態列配色
+   注意：此段位於檔案後段，請勿移動到天氣主樣式前面。
+   ====================================================================== */
 /* ===== 天氣：背景隨天氣變化 ===== */
 .native-weather.calibrated-weather[data-sky] {
   transition: background 0.6s ease;
@@ -6771,6 +8901,10 @@
 .phone-shell .phone-screen:has([data-sky="snow-night"])  .status-bar { background: #1d2738 !important; }
 
 
+/* ======================================================================
+   13｜Instagram（後段完整樣式與補充）
+   首頁、限時動態、貼文、搜尋、個人主頁、Reels、私訊與聊天室
+   ====================================================================== */
 /* ===== Instagram 重寫版 ===== */
 .instagram-ui.igx {
   position: relative;
@@ -7576,7 +9710,6 @@
   border: 2px solid #fff;
 }
 
-
 /* 輸入列：整條灰色 */
 .igx-chat-form {
   flex: none;
@@ -7813,3 +9946,4 @@
   height: 100%;
   object-fit: cover;
 }
+

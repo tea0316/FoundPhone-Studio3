@@ -1,0 +1,789 @@
+/* ==================== LINE（整理版）==================== */
+
+/* ---------- 主題色：想換配色只改這裡 ---------- */
+.phone-screen {
+  --ln-accent: #06c755;        /* 主色：綠色（傳送鍵、未讀、音樂圖示） */
+  --ln-text: #111;             /* 主要文字 */
+  --ln-sub: #7a808c;           /* 次要文字（分區標題） */
+  --ln-sub2: #8a919c;          /* 次要文字（狀態、顯示全部） */
+  --ln-muted: #888;            /* 聊天列表預覽文字 */
+  --ln-icon: #9a9ea3;          /* 淡色圖示、時間 */
+  --ln-bg: #fff;               /* 整體背景 */
+  --ln-border: #eaeaea;        /* 分隔線 */
+  --ln-border2: #dfe3e8;       /* 音樂標籤邊框 */
+  --ln-pin: #f4f6f8;           /* 置頂聊天背景 */
+  --ln-pill: #f4f4f4;          /* 輸入框背景 */
+  --ln-pill-active: #eceef1;   /* 輸入框背景（鍵盤打開時） */
+  --ln-bubble-in: #fff;        /* 對方氣泡 */
+  --ln-bubble-out: #85e249;    /* 我的氣泡 */
+  --ln-meta: #3f4652;          /* 已讀、時間 */
+  --ln-chat-muted: #6f7785;    /* 聊天室日期、系統訊息、名字 */
+  --ln-chat-bg: #eef0f6;       /* 聊天室背景底色（圖片沒載入時） */
+  --ln-statusbar-chat: #c0c0c0; /* 聊天室最上面的狀態列 */
+  --ln-kb-strip: #d1d4da;      /* 鍵盤打開時最下面那一條 */
+  --ln-send-idle: #b4b7bd;     /* 傳送箭頭（未準備好） */
+}
+
+.ln-app {
+  --app-accent: var(--ln-accent);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--ln-bg);
+}
+.ln-app .catalog-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding-top: 8px;
+}
+
+/* ---------- 列表頁頂部 ---------- */
+.ln-app .ln-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 16px 8px;
+}
+.ln-app .ln-top h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ln-text);
+}
+.ln-app .ln-top span {
+  display: flex;
+  gap: 18px;
+  color: var(--ln-text);
+}
+.ln-app .ln-sec {
+  margin: 0 !important;
+  padding: 4px 16px 8px !important;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ln-sub);
+}
+
+/* ---------- 聊天列表 ---------- */
+.ln-app .ln-chat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 16px;
+  background: none;
+  border: 0;
+  text-align: left;
+}
+.ln-app .ln-chat.pinned {
+  background: var(--ln-pin);
+}
+.ln-app .ln-chat .catalog-avatar {
+  flex: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+}
+.ln-app .ln-main {
+  flex: 1;
+  min-width: 0;
+}
+.ln-app .ln-main strong {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ln-text);
+}
+.ln-app .ln-main strong span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ln-app .ln-pin {
+  flex: none;
+  color: var(--ln-icon);
+}
+.ln-app .ln-main p {
+  margin: 2px 0 0;
+  overflow: hidden;
+  font-size: 14px;
+  color: var(--ln-muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ln-app .ln-side {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+.ln-app .ln-side time {
+  font-size: 12px;
+  color: var(--ln-icon);
+}
+.ln-app .ln-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--ln-accent);
+  color: #fff;
+  font-size: 11px;
+}
+
+/* ---------- 主頁：好友列 ---------- */
+.ln-app .ln-friend {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start !important;
+  width: 100%;
+  gap: 14px;
+  padding: 10px 16px !important;
+  text-align: left !important;
+  background: none;
+  border: 0;
+}
+.ln-app .ln-friend .catalog-avatar {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+}
+.ln-app .ln-friend span {
+  flex: 0 1 auto;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ln-text);
+}
+
+/* ---------- 主頁：個人資料與排版 ---------- */
+.ln-app .ln-top-home {
+  justify-content: flex-end;
+  padding: 8px 18px 10px;
+}
+.ln-app .ln-top-home span {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.ln-profile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 18px 10px;
+}
+.ln-profile-text {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+.ln-profile-text strong {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ln-text);
+}
+.ln-profile-text p {
+  margin: 0;
+  font-size: 16px;
+  color: var(--ln-sub2);
+}
+.ln-music {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 6px 14px;
+  border: 1px solid var(--ln-border2);
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--ln-sub2);
+}
+.ln-music svg {
+  flex: none;
+  color: var(--ln-accent);
+}
+.ln-my-avatar {
+  flex: none;
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 25%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.ln-sec-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 0;
+}
+.ln-app .ln-sec-row .ln-sec {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ln-text);
+}
+.ln-sec-row > span {
+  font-size: 15px;
+  color: var(--ln-sub2);
+}
+
+/* ---------- 底部分頁列 ---------- */
+.ln-app .catalog-tabs {
+  background: var(--ln-bg) !important;
+  border-top: 1px solid var(--ln-border) !important;
+}
+
+/* ---------- 聊天室頂部 ---------- */
+.ln-app .ln-head {
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr;
+  flex: none;
+  align-items: center;
+  height: 40px !important;
+  min-height: 0 !important;
+  padding: 0 14px;
+  background: var(--ln-bg);
+  border-bottom: 1px solid var(--ln-border);
+}
+.ln-app .ln-head > button {
+  min-width: 60px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--ln-text);
+  font-size: 18px;
+  font-weight: 500;
+  text-align: left;
+}
+.ln-app .ln-head .ln-back {
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--ln-text);
+}
+.ln-app .ln-head .ln-back em {
+  font-style: normal;
+  font-size: 16px;
+  font-weight: 500;
+}
+.ln-app .ln-head strong {
+  justify-self: center;
+  max-width: 52vw;
+  overflow: hidden;
+  color: var(--ln-text);
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ln-app .ln-head .ln-head-icons {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: var(--ln-text);
+}
+.ln-app .ln-head svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  flex: none;
+}
+.ln-app .ln-head .ln-back svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ---------- 聊天室訊息 ---------- */
+.ln-app .ln-log {
+  flex: 1;
+  min-height: 0;
+  padding: 12px 10px;
+  overflow-y: auto;
+  background-color: var(--ln-chat-bg) !important;
+  background-image: url("/line-wallpaper.png") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+.ln-app .ln-date {
+  display: block;
+  width: fit-content;
+  margin: 10px auto;
+  padding: 2px 10px;
+  border-radius: 10px;
+  background: rgba(220, 223, 230, 0.85);
+  color: var(--ln-chat-muted);
+  font-size: 11px;
+  box-shadow: 0 1px 2px rgba(60, 70, 90, 0.12);
+}
+.ln-app .ln-sys {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0;
+}
+.ln-app .ln-sys span {
+  padding: 4px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--ln-chat-muted);
+  font-size: 13px;
+  text-align: center;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.ln-app .ln-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+.ln-app .ln-log .ln-row {
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+}
+.ln-app .ln-row.out {
+  justify-content: flex-end;
+}
+.ln-app .ln-row .catalog-avatar {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.ln-app .ln-gap {
+  flex: none;
+  width: 40px;
+}
+.ln-app .ln-col {
+  display: flex;
+  flex-direction: column;
+  max-width: 78%;
+}
+.ln-app .ln-row.out .ln-col {
+  align-items: flex-end;
+}
+.ln-app .ln-name {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--ln-chat-muted);
+  font-size: 11px;
+}
+.ln-app .ln-msg {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+.ln-app .ln-meta {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  min-width: max-content;
+  color: var(--ln-meta) !important;
+  font-size: 10px;
+  font-weight: 550;
+  line-height: 1.2;
+  opacity: 1 !important;
+  white-space: nowrap;
+}
+.ln-app .ln-row.out .ln-meta {
+  align-items: flex-end;
+}
+.ln-app .ln-row.in .ln-meta {
+  align-items: flex-start;
+}
+.ln-app .ln-meta em {
+  font-style: normal;
+  color: var(--ln-meta) !important;
+}
+.ln-app .ln-bubble {
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--ln-bubble-in);
+  color: var(--ln-text);
+  font-size: 13px !important;
+  line-height: 1.35;
+  text-align: left;
+  word-break: break-word;
+  box-shadow:
+    0 1px 2px rgba(60, 70, 90, 0.18),
+    0 2px 6px rgba(60, 70, 90, 0.1);
+}
+.ln-app .ln-row.out .ln-bubble {
+  background: var(--ln-bubble-out);
+}
+.ln-app .ln-bubble.media {
+  padding: 0;
+  overflow: hidden;
+  background: none;
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+/* 對方正在輸入的三個點 */
+.ln-bubble.ln-typing {
+  display: inline-flex;
+  gap: 4px;
+  padding: 13px 14px;
+}
+.ln-typing i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #b5b9c0;
+  animation: ln-bl 1.1s infinite;
+}
+.ln-typing i:nth-child(2) {
+  animation-delay: 0.18s;
+}
+.ln-typing i:nth-child(3) {
+  animation-delay: 0.36s;
+}
+@keyframes ln-bl {
+  0%,
+  60%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+/* ---------- 輸入列（沒點輸入框）---------- */
+.ln-app .ln-composer {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 14px;
+  background: var(--ln-bg);
+  border-top: 1px solid var(--ln-border);
+  color: var(--ln-text);
+}
+.ln-app .ln-composer > svg {
+  flex: none;
+}
+.ln-app .ln-c-send {
+  display: none;
+}
+.ln-app .ln-pill {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-width: 0;
+  height: 40px;
+  padding: 0 12px 0 14px;
+  border-radius: 20px;
+  background: var(--ln-pill);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.ln-app .ln-pill .native-compose-field {
+  display: block !important;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  padding: 0 4px !important;
+  border: 0;
+  background: none;
+  color: var(--ln-text);
+  font-size: 16px;
+  text-align: left !important;
+  justify-content: flex-start !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ln-app .ln-pill .native-compose-field:empty::before {
+  content: "輸入訊息";
+  color: var(--ln-icon);
+}
+.ln-app .ln-pill > svg {
+  flex: none;
+  color: #8e8e93;
+}
+
+/* ---------- 點了輸入框（鍵盤打開）：＋、灰色長條、傳送箭頭 ---------- */
+.phone-screen:has(.device-keyboard) .ln-app .ln-c-extra,
+.phone-screen:has(.device-keyboard) .ln-app .ln-c-smile,
+.phone-screen:has(.device-keyboard) .ln-app .ln-c-mic {
+  display: none;
+}
+.phone-screen:has(.device-keyboard) .ln-app .ln-c-send {
+  display: block;
+  color: var(--ln-send-idle);
+}
+.phone-screen:has(.device-keyboard) .ln-app .ln-c-send.ready {
+  color: var(--ln-accent) !important;
+}
+.phone-screen:has(.device-keyboard) .ln-app .ln-pill {
+  background: var(--ln-pill-active);
+  box-shadow: none;
+}
+
+/* ---------- 手機上下色條 ---------- */
+.phone-screen:has(.ln-app),
+.phone-screen:has(.ln-app) .app-screen,
+.phone-screen:has(.ln-app) .status-bar,
+.phone-screen:has(.ln-app) .home-indicator {
+  background: var(--ln-bg) !important;
+}
+.phone-screen:has(.ln-app) .wallpaper-orb,
+.phone-screen:has(.ln-app) .screen-dimmer,
+.phone-screen:has(.ln-app) .hardware-reflection {
+  background: transparent !important;
+  opacity: 0 !important;
+}
+/* 聊天室：最上面的狀態列用淺灰，跟下面的標題列區分 */
+.phone-screen:has(.ln-head) .status-bar {
+  background: var(--ln-statusbar-chat) !important;
+  height: 48px !important;
+}
+/* 鍵盤打開時，最下面那一條跟鍵盤同色 */
+.phone-screen.keyboard-open:has(.ln-app) .home-indicator,
+.phone-screen:has(.ln-app):has(.device-keyboard) .home-indicator {
+  background: var(--ln-kb-strip) !important;
+}
+
+/* ---------- LINE 的鍵盤：只留一條薄的 ▾ 收起條 ---------- */
+.phone-screen:has(.ln-app) .device-keyboard .keyboard-draft {
+  display: flex;
+  justify-content: flex-end;
+  min-height: 34px;
+  padding: 2px 12px;
+  background: transparent;
+}
+.phone-screen:has(.ln-app) .device-keyboard .keyboard-draft input,
+.phone-screen:has(.ln-app) .device-keyboard .keyboard-candidates {
+  display: none;
+}
+.ios18 .keyboard-open:has(.ln-app) .app-screen {
+  padding-bottom: 310px;
+}
+
+/* ---------- 狀態列：只改 LINE 的畫面，左右內容跟動態島垂直置中 ---------- */
+.phone-screen:has(.ln-app) .status-bar {
+  align-items: center !important;
+}
+.phone-screen:has(.ln-app) .status-bar .status-time,
+.phone-screen:has(.ln-app) .status-bar .signals {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  height: 100%;
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  --sb-shift: 5px;
+  transform: translateY(var(--sb-shift, 0px));
+}
+.phone-screen:has(.ln-app) .status-bar svg {
+  display: block;
+}
+.phone-screen:has(.ln-app) .status-bar .ios-battery {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ---------- 桌面圖示紅色數字（device-system.css 也有，留著無害）---------- */
+.app-icon-wrap {
+  position: relative;
+}
+.app-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  z-index: 3;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  background: #ff3b30;
+  color: #fff;
+  font: 600 14px/22px -apple-system, "PingFang TC", sans-serif;
+  text-align: center;
+  box-sizing: border-box;
+}
+/* ---------- 圖示按鈕（上方圖示列）---------- */
+.ln-app .ln-top span button,
+.ln-app .ln-head-icons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+}
+
+/* ---------- 底部「聊天」分頁的未讀數 ---------- */
+.ln-tabicon {
+  position: relative;
+  display: inline-flex;
+}
+.ln-tabicon b {
+  position: absolute;
+  top: -6px;
+  right: -12px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: #ff3b30;
+  color: #fff;
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* ---------- 「尚未開放」小提示 ---------- */
+.ln-app {
+  position: relative;
+}
+.ln-tip {
+  position: absolute;
+  left: 50%;
+  bottom: 96px;
+  z-index: 20;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  border-radius: 18px;
+  background: rgba(60, 62, 61, 0.55);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+  font-size: 13px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+/* ---------- 圖片、貼圖、語音 ---------- */
+.ln-app .ln-img {
+  display: block;
+  max-width: 190px;
+  max-height: 240px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.ln-app .ln-bubble.sticker {
+  padding: 0;
+  background: none !important;
+  box-shadow: none;
+}
+.ln-app .ln-bubble.sticker .ln-img {
+  width: 110px;
+  height: 110px;
+  border-radius: 0;
+  object-fit: contain;
+}
+.ln-app .ln-bubble.voice {
+  padding: 8px 14px;
+}
+.ln-voice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.ln-voice svg {
+  flex: none;
+  fill: currentColor;
+}
+.ln-wave {
+  flex: 1;
+  height: 12px;
+  background: repeating-linear-gradient(
+    90deg,
+    currentColor 0 2px,
+    transparent 2px 5px
+  );
+  opacity: 0.4;
+}
+.ln-voice em {
+  flex: none;
+  font-style: normal;
+  font-size: 12px;
+}
+/* ==================== 深色模式 ==================== */
+.phone-screen:has(.ln-app.ln-dark) {
+  --ln-text: #f2f3f5;
+  --ln-sub: #a1a7b3;
+  --ln-sub2: #9aa1ad;
+  --ln-muted: #9aa1ad;
+  --ln-icon: #7d8490;
+  --ln-bg: #1c1d21;
+  --ln-border: #2e3036;
+  --ln-border2: #3a3d45;
+  --ln-pin: #25272c;
+  --ln-pill: #2a2c32;
+  --ln-pill-active: #2f3238;
+  --ln-bubble-in: #2c2e34;
+  --ln-bubble-out: #3b8f58;
+  --ln-meta: #c3c8d2;
+  --ln-chat-muted: #b6bcc8;
+  --ln-chat-bg: #15161a;
+  --ln-statusbar-chat: #2a2c31;
+  --ln-kb-strip: #2b2d33;
+  --ln-send-idle: #5c626d;
+}
+
+/* 狀態列文字改白色 */
+.phone-screen:has(.ln-app.ln-dark) .status-bar,
+.phone-screen:has(.ln-app.ln-dark) .status-bar .status-time,
+.phone-screen:has(.ln-app.ln-dark) .status-bar .signals {
+  color: #fff !important;
+}
+
+/* 聊天室背景圖壓暗 */
+.ln-app.ln-dark .ln-log {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+    url("/line-wallpaper.png") !important;
+}
+
+/* 搜尋列、底部分頁列 */
+.ln-app.ln-dark .catalog-search {
+  background: var(--ln-pill);
+  color: var(--ln-sub2);
+}
+.ln-app.ln-dark .catalog-tabs button {
+  color: var(--ln-sub2);
+}
+.ln-app.ln-dark .catalog-tabs .selected {
+  color: var(--ln-accent);
+}
+
+/* 聊天室：日期、系統訊息、氣泡陰影 */
+.ln-app.ln-dark .ln-date {
+  background: rgba(60, 64, 72, 0.85);
+  box-shadow: none;
+}
+.ln-app.ln-dark .ln-sys span {
+  background: rgba(40, 42, 48, 0.8);
+}
+.ln-app.ln-dark .ln-bubble {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+.ln-app.ln-dark .ln-row.out .ln-bubble {
+  color: #fff;
+}

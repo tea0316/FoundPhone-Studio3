@@ -1,0 +1,514 @@
+/* ===== X（MymyX）===== */
+.mymy-ui.mymy-x {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  color: #0f1419;
+}
+.mymy-x.x-reference-dark {
+  background: #000;
+  color: #e7e9ea;
+}
+.mymy-x .kzxw {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: inherit;
+}
+.mymy-x .kzxfd { flex: 1; overflow-y: auto; }
+
+/* 手機底色 */
+.phone-screen:has(.mymy-x.x-reference-dark) {
+  background: #000 !important;
+  background-image: none !important;
+}
+.phone-screen:has(.mymy-x.x-reference-dark) .wallpaper-orb { display: none !important; }
+.phone-screen:has(.mymy-x.x-reference-dark) .home-indicator {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+/* 標題列 */
+.mymy-x .kzxh {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: inherit;
+}
+.mymy-x .kzxh > button { background: none; border: 0; padding: 0; color: inherit; }
+.mymy-x .x-me { width: 32px; height: 32px; border-radius: 50%; overflow: hidden; }
+.mymy-x .x-me > * { width: 100%; height: 100%; }
+.mymy-x .kzxlg { display: flex; cursor: pointer; }
+.mymy-x .kzxlg svg { width: 26px; height: 26px; }
+.mymy-x .x-up {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: #16181c;
+  border: 1px solid #2f3336;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* 分頁 */
+.mymy-x .kzxtb { display: flex; border-bottom: 1px solid rgba(128,128,128,.25); }
+.mymy-x .kzxtb button {
+  position: relative;
+  flex: 1;
+  padding: 12px 0;
+  background: none;
+  border: 0;
+  color: #71767b;
+  font-size: 14px;
+  font-weight: 600;
+}
+.mymy-x .kzxtb button.on { color: inherit; font-weight: 800; }
+.mymy-x .kzxtb button.on::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 56px;
+  height: 4px;
+  border-radius: 2px;
+  background: #1d9bf0;
+  transform: translateX(-50%);
+}
+
+/* 貼文 */
+.mymy-x .kzxt {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(128,128,128,.25);
+}
+.mymy-x .kzxt > :first-child { width: 40px; height: 40px; min-width: 40px; }
+.mymy-x .x-rtlabel {
+  order: -1;
+  flex: 0 0 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 50px;
+  margin-bottom: 2px;
+  color: #71767b;
+  font-size: 13px;
+  font-weight: 700;
+}
+.mymy-x .x-rtlabel svg { width: 14px; height: 14px; }
+.mymy-x .kzxb { flex: 1; min-width: 0; }
+.mymy-x .kzxn { display: flex; align-items: center; gap: 6px; }
+.mymy-x .kzxn small { color: #71767b; }
+.mymy-x .kzxn em { margin-left: auto; font-style: normal; color: #71767b; }
+.mymy-x .kzxx {
+  display: block;
+  width: 100%;
+  margin-top: 2px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: left;
+  white-space: pre-wrap;
+}
+.mymy-x .kzxv {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 0;
+  background: none;
+  border: 1px solid rgba(128,128,128,.3);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.mymy-x .kzxv img,
+.mymy-x .kzxv video { display: block; width: 100%; height: auto; }
+
+/* 互動列 */
+.mymy-x .kzxac {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 340px;
+  margin-top: 10px;
+  color: #71767b;
+}
+.mymy-x .kzxac > button,
+.mymy-x .kzxac > span {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 5px;
+  width: auto !important;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font-size: 13px;
+}
+.mymy-x .kzxac .x-ico { display: inline-flex; }
+.mymy-x .kzxac svg { width: 18px; height: 18px; }
+.mymy-x .kzxac > button.on.lk { color: #f91880; }
+.mymy-x .kzxac > button.on.lk svg path { fill: #f91880; }
+.mymy-x .kzxac > button.on.rt { color: #00ba7c; }
+.mymy-x .kzxac > button:disabled { opacity: .3; cursor: default; }
+
+/* 新增貼文按鈕 */
+.mymy-x .x-fab {
+  position: absolute;
+  right: 16px;
+  bottom: 72px;
+  z-index: 20;
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #1d9bf0;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,.4);
+}
+
+/* 底部導覽 */
+.mymy-x .kzxnav { background: #fff; border-top: 1px solid rgba(128,128,128,.25); }
+.mymy-x.x-reference-dark .kzxnav { background: #000; }
+
+/* 我的貼文底下的留言 */
+.mymy-x .x-cms { margin-top: 10px; display: flex; flex-direction: column; }
+.mymy-x .x-cm {
+  display: flex;
+  gap: 8px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(128,128,128,.25);
+}
+.mymy-x .x-cm > :first-child { width: 28px; height: 28px; min-width: 28px; font-size: 12px; }
+.mymy-x .x-cm-h { display: flex; gap: 6px; align-items: baseline; font-size: 13px; }
+.mymy-x .x-cm-h small { color: #71767b; }
+.mymy-x .x-cm-t { font-size: 14px; line-height: 1.5; }
+.mymy-x .x-kw { background: none; border: 0; padding: 0; color: #1d9bf0; font: inherit; text-decoration: underline; }
+
+/* 已回覆區塊 */
+.mymy-x .x-sent {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(128,128,128,.3);
+  border-radius: 12px;
+}
+.mymy-x .x-sh { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+.mymy-x .x-sh span { color: #71767b; }
+.mymy-x .x-s { margin: 2px 0 6px; font-size: 12px; color: #71767b; }
+.mymy-x .x-tx { font-size: 14px; line-height: 1.5; }
+
+/* 撰寫視窗 */
+.mymy-x .x-comp {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  color: #0f1419;
+}
+.mymy-x.x-reference-dark .x-comp { background: #000; color: #e7e9ea; }
+.mymy-x .x-comp-h {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(128,128,128,.25);
+}
+.mymy-x .x-comp-h button { background: none; border: 0; color: inherit; font-size: 15px; }
+.mymy-x .x-comp-h .x-send {
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: #1d9bf0;
+  color: #fff;
+  font-weight: 700;
+  opacity: .4;
+}
+.mymy-x .x-comp-h .x-send.ready { opacity: 1; }
+.mymy-x .x-comp-to { padding: 8px 16px; font-size: 13px; color: #71767b; }
+.mymy-x .x-comp textarea {
+  flex: 1;
+  padding: 12px 16px;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  resize: none;
+  color: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.mymy-x .x-toast {
+  position: absolute;
+  left: 50%;
+  bottom: 84px;
+  z-index: 40;
+  transform: translateX(-50%);
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: #1d9bf0;
+  color: #fff;
+  font-size: 14px;
+}
+.mymy-x .x-toast[hidden] { display: none; }
+/* ===== X 搜尋頁 ===== */
+.mymy-x .x-sp {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: inherit;
+}
+.mymy-x .x-sp-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+}
+.mymy-x .x-sp-bar button {
+  display: flex;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+}
+.mymy-x .x-sp-bar svg { color: #71767b; }
+.mymy-x .x-sp-bar input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: 0;
+  outline: 0;
+  color: inherit;
+  font-size: 17px;
+}
+.mymy-x .x-sp-h {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 16px 8px;
+}
+.mymy-x .x-sp-h b { font-size: 22px; }
+.mymy-x .x-sp-h button {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  background: #e7e9ea;
+  color: #000;
+  font-size: 13px;
+}
+.mymy-x .x-sp-users {
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px 14px;
+  overflow-x: auto;
+}
+.mymy-x .x-sp-u {
+  flex: 0 0 82px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  text-align: center;
+}
+.mymy-x .x-sp-u > :first-child { width: 56px; height: 56px; margin-bottom: 4px; }
+.mymy-x .x-sp-u b {
+  max-width: 82px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+}
+.mymy-x .x-sp-u small {
+  max-width: 82px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #71767b;
+  font-size: 12px;
+}
+.mymy-x .x-sp-t {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px;
+  background: none;
+  border: 0;
+  color: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: left;
+}
+.mymy-x .x-sp-t em {
+  color: #1d9bf0;
+  font-size: 20px;
+  font-style: normal;
+}
+.mymy-x .x-sp-r {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+  color: inherit;
+  text-align: left;
+}
+.mymy-x .x-sp-r > :first-child { width: 40px; height: 40px; min-width: 40px; }
+/* ===== X 貼文詳情頁 ===== */
+.mymy-x .x-dt {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: inherit;
+}
+.mymy-x .x-dt-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+}
+.mymy-x .x-dt-bar button {
+  display: flex;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+}
+.mymy-x .x-dt-bar b { font-size: 18px; }
+.mymy-x .x-dt-bar span { width: 22px; }
+.mymy-x .x-dt-body { flex: 1; overflow-y: auto; }
+.mymy-x .x-dt-main { padding: 6px 16px 0; }
+.mymy-x .x-dt-au { display: flex; align-items: center; gap: 10px; }
+.mymy-x .x-dt-au > :first-child { width: 44px; height: 44px; min-width: 44px; }
+.mymy-x .x-dt-au small { display: block; color: #71767b; }
+.mymy-x .x-dt-tx { margin: 14px 0; font-size: 20px; line-height: 1.5; white-space: pre-wrap; }
+.mymy-x .x-dt-meta,
+.mymy-x .x-dt-stat,
+.mymy-x .x-dt-act {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+  color: #71767b;
+  font-size: 14px;
+}
+.mymy-x .x-dt-stat { display: flex; gap: 16px; }
+.mymy-x .x-dt-stat b { color: inherit; }
+.mymy-x .x-dt-act { display: flex; justify-content: space-around; }
+.mymy-x .x-dt-act svg { width: 20px; height: 20px; }
+.mymy-x .x-dt-c {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+}
+.mymy-x .x-dt-c > :first-child { width: 40px; height: 40px; min-width: 40px; }
+.mymy-x .x-dt-cb { flex: 1; min-width: 0; }
+.mymy-x .x-dt-ch small { margin-left: 6px; color: #71767b; }
+.mymy-x .x-dt-ct { margin-top: 2px; font-size: 15px; line-height: 1.5; }
+.mymy-x .x-dt-reply {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-top: 1px solid rgba(128, 128, 128, 0.25);
+}
+.mymy-x .x-dt-reply > :first-child { width: 36px; height: 36px; min-width: 36px; }
+.mymy-x .x-dt-reply input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 999px;
+  outline: 0;
+  background: rgba(128, 128, 128, 0.18);
+  color: inherit;
+  font-size: 15px;
+}
+.mymy-x .x-dt-reply button {
+  padding: 8px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: #1d9bf0;
+  color: #fff;
+  font-weight: 700;
+}
+.mymy-x .kzxtb button.on::after,
+.mymy-x .kzxtb button.on::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 0 !important;
+  width: 80% !important;
+  height: 4px !important;
+  border-radius: 2px !important;
+  background: #e7e9ea !important;
+  transform: translateX(-50%) !important;
+}
+.mymy-x .kzxtb button.on::before { display: none !important; }
+.mymy-x .kzxnav button,
+.mymy-x .kzxnav button:disabled {
+  color: #e7e9ea !important;
+  opacity: 1 !important;
+}
+.mymy-x .x-sp-r small { color: #71767b; }
+
+.phone-screen:has(.mymy-x.x-reference-dark) .screen-dimmer,
+.phone-screen:has(.mymy-x.x-reference-dark) .hardware-reflection,
+.phone-screen:has(.mymy-x.x-reference-dark)::before,
+.phone-screen:has(.mymy-x.x-reference-dark)::after {
+  display: none !important;
+}
+.phone-screen:has(.mymy-x.x-reference-dark),
+.phone-screen:has(.mymy-x.x-reference-dark) .status-bar,
+.phone-screen:has(.mymy-x.x-reference-dark) .home-indicator {
+  background: #000 !important;
+}
+
+.phone-screen[data-app="twitter"] .app-screen,
+.phone-screen[data-app="twitter"] .app-screen.engine-social,
+.phone-screen[data-app="twitter"] .app-screen.skin-twitter {
+  background: #000 !important;
+  background-color: #000 !important;
+}
+
+.mymy-x .kzxtb button:disabled {
+  opacity: 1 !important;
+  color: #71767b !important;
+  cursor: default;
+}.mymy-x .kzxac {
+  max-width: none !important;
+  width: 100%;
+  margin-top: 12px;
+}
+.mymy-x .kzxac > button,
+.mymy-x .kzxac > span {
+  gap: 6px;
+  font-size: 15px;
+}
+.mymy-x .kzxac svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+.mymy-x .kzxac button.on.rt,
+.mymy-x .kzxac button.on.rt .x-ico,
+.mymy-x .kzxac button.on.rt svg {
+  color: #00ba7c !important;
+  stroke: #00ba7c !important;
+}

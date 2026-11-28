@@ -3,12 +3,12 @@
   "id": "foundphone-demo",
   "title": "山下瞳月的IPHONE",
   "description": "僅用於介面測試，不含劇情",
-  "revision": 60,
+  "revision": 102,
   "phone": {
     "owner": "山下瞳月",
     "date": "2026-10-25",
     "time": "09:41",
-    "battery": 47,
+    "battery": 50,
     "network": "5G",
     "wallpaper": "custom"
   },
@@ -37,7 +37,7 @@
 { "id": "clock", "name": "時鐘", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
 { "id": "settings", "name": "設定", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
 { "id": "find", "name": "尋找", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
-{ "id": "files", "name": "文件", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
+{ "id": "files", "name": "檔案", "installed": true, "visible": true, "dock": false, "folder": "工具", "icon": "" },
 
 
 "instagram",
@@ -76,44 +76,89 @@
     }
   ],
   "content": {
-    "line": [
-      {
-        "id": "msg-1",
-        "title": "測試對話",
-        "sender": "對方",
-        "body": "對方已收回訊息",
-        "kind": "system",
-        "time": "2026-06-07 09:50"
-      },
-      {
-        "id": "msg-2",
-        "title": "測試對話",
-        "sender": "對方",
-        "avatar": "/sea.jpg",
-        "body": "嗨，在嗎？",
-        "kind": "text",
-        "time": "2026-06-07 10:00"
-      },
-      {
-        "id": "msg-3",
-        "title": "測試對話",
-        "sender": "村井優",
-        "body": "在，怎麼了？",
-        "kind": "text",
-        "outgoing": true,
-        "read": true,
-        "time": "2026-06-07 10:01"
-      }
-    ],
-    "phone": [
-      {
-        "id": "test-item-phone",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
-        "kind": "text",
-        "meta": {}
-      }
+"line": [],
+    
+"phone": [
+{
+  "id": "contact-1",
+  "title": "村井優",
+  "body": "",
+  "sender": "村井優",
+  "avatar": "/phone/yu.jpg",
+  "kind": "call",
+  "media": "",
+  "folder": "聯絡人",
+  "meta": { "number": "090-0818-6012" },
+  "likes": 0,
+  "comments": [],
+  "time": "2026-11-23 00:00",
+  "read": true,
+  "favorite": true
+},
+{
+  "id": "contact-test-1",
+  "title": "測試A（秒接）",
+  "body": "喂？\n聽得到嗎？\n（停2秒）\n我：聽得到。\n（以下放慢）\n那就好，我只是想確認一下。",
+  "sender": "測試A",
+  "avatar": "",
+  "kind": "call",
+  "media": "",
+  "folder": "聯絡人",
+  "meta": { "number": "0911111111", "answer": "1" },
+  "likes": 0,
+  "comments": [],
+  "time": "2026-11-23 00:00",
+  "read": true,
+  "favorite": true
+},
+{
+  "id": "contact-test-2",
+  "title": "測試B（響很久、沒人說話）",
+  "body": "",
+  "sender": "測試B",
+  "avatar": "",
+  "kind": "call",
+  "media": "",
+  "folder": "聯絡人",
+  "meta": { "number": "0922222222", "answer": "5" },
+  "likes": 0,
+  "comments": [],
+  "time": "2026-11-23 00:00",
+  "read": true,
+  "favorite": false
+},
+{
+  "id": "vm-test-1",
+  "title": "村井優",
+  "body": "我是優。\n你有空的時候回我電話。",
+  "sender": "村井優",
+  "avatar": "",
+  "kind": "call",
+  "media": "",
+  "folder": "語音信箱",
+  "meta": { "duration": "0:18" },
+  "likes": 0,
+  "comments": [],
+  "time": "2026-11-22 20:30",
+  "read": false,
+  "favorite": false
+},
+{
+  "id": "call-1",
+  "title": "村井優",
+  "body": "",
+  "sender": "村井優",
+  "avatar": "",
+  "kind": "call",
+  "media": "",
+  "folder": "",
+  "meta": { "number": "0912345678", "status": "未接" },
+  "likes": 0,
+  "comments": [],
+  "time": "2026-11-22 21:30",
+  "read": false,
+  "favorite": false
+}
     ],
     "contacts": [
       {
@@ -126,42 +171,247 @@
       }
     ],
     "photos": [
-      {
-        "id": "test-item-photos",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
-        "kind": "text",
-        "meta": {}
-      }
+{ "id": "photo-001", "title": "海邊", "body": "", "sender": "", "avatar": "", "kind": "image", "media": "/ig/airi.jpg", "folder": "旅行", "meta": {}, "likes": 0, "comments": [], "time": "2026-07-01 10:00", "read": true, "favorite": true },
+{ "id": "photo-002", "title": "民宿", "body": "", "sender": "", "avatar": "", "kind": "image", "media": "/ig/mio.jpg", "folder": "旅行", "meta": {}, "likes": 0, "comments": [], "time": "2026-07-01 15:00", "read": true, "favorite": false },
+{ "id": "photo-003", "title": "晚餐", "body": "", "sender": "", "avatar": "", "kind": "image", "media": "/ig/rika.jpg", "folder": "", "meta": {}, "likes": 0, "comments": [], "time": "2026-07-02 19:00", "read": true, "favorite": false },
+{ "id": "photo-009", "title": "不能讓人看到", "body": "", "sender": "", "avatar": "", "kind": "image", "media": "/ig/odkr.jpg", "folder": "已上鎖", "meta": { "password": "1234" }, "likes": 0, "comments": [], "time": "2026-07-03 23:10", "read": true, "favorite": false }
     ],
+
     "camera": [
-      {
-        "id": "test-item-camera",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
-        "kind": "text",
-        "meta": {}
-      }
+  {
+    "id": "camera-front",
+    "folder": "前鏡頭",
+    "body": "",
+    "sender": "我",
+    "kind": "image",
+    "media": "/camera/1.jpg",
+    "time": "",
+    "meta": {}
+  },
+  {
+    "id": "camera-front2",
+    "folder": "前鏡頭",
+    "body": "",
+    "sender": "我",
+    "kind": "image",
+    "media": "/camera/2.jpg",
+    "time": "",
+    "meta": {}
+  },
+  {
+    "id": "camera-front3",
+    "folder": "前鏡頭",
+    "body": "",
+    "sender": "我",
+    "kind": "image",
+    "media": "/camera/3.jpg",
+    "time": "",
+    "meta": {}
+  },
+  {
+    "id": "camera-front4",
+    "folder": "前鏡頭",
+    "body": "",
+    "sender": "我",
+    "kind": "video",
+    "media": "/camera/1.mp4",
+    "time": ""
+  },
+  {
+    "id": "camera-front5",
+    "folder": "前鏡頭",
+    "body": "",
+    "sender": "我",
+    "kind": "video",
+    "media": "/camera/2.mp4",
+    "time": ""
+  },
+  {
+    "id": "camera-front6",
+    "folder": "前鏡頭",
+    "body": "",
+    "sender": "我",
+    "kind": "video",
+    "media": "/camera/3.mp4",
+    "time": ""
+  },
+  {
+    "id": "camera-back7",
+    "folder": "後鏡頭",
+    "body": "",
+    "sender": "我",
+    "kind": "image",
+    "media": "/camera/4.jpg",
+    "time": "",
+    "meta": {}
+  },
+  {
+    "id": "camera-back8",
+    "folder": "後鏡頭",
+    "body": "",
+    "sender": "我",
+    "kind": "video",
+    "media": "/camera/4.mp4",
+    "time": "",
+    "meta": { "muted": "true" }
+  },
+  {
+    "id": "camera-back9",
+    "folder": "後鏡頭",
+    "body": "",
+    "sender": "我",
+    "kind": "video",
+    "media": "/camera/5.mp4",
+    "time": "",
+    "meta": { "muted": "true" }
+  }
     ],
+
     "safari": [
-      {
-        "id": "test-item-safari",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
-        "kind": "text",
-        "meta": {}
-      }
-    ],
+  {
+    "id": "bm-1",
+    "folder": "書籤",
+    "title": "一蘭拉麵"
+  },
+  {
+    "id": "bm-2",
+    "folder": "書籤",
+    "title": "沼王"
+  },
+  {
+    "id": "safari-1",
+    "folder": "歷史紀錄",
+    "title": "すみっコぐらし堂 角落生物"
+  },
+  {
+    "id": "safari-2",
+    "folder": "歷史紀錄",
+    "title": "如果一直待在床上會怎樣？",
+    "meta": {
+      "video": "/safari/1.mp4"
+    }
+  },
+  {
+    "id": "safari-3",
+    "folder": "歷史紀錄",
+    "title": "拉拉熊 拉麵娃娃",
+    "meta": {
+      "image": "/safari/5.jpg",
+      "caption": "🍜🐻"
+    }
+  },
+  {
+    "id": "safari-4",
+    "folder": "歷史紀錄",
+    "title": "上海 迪士尼",
+    "meta": {
+      "image": "/safari/3.jpg",
+      "caption": "迪士尼🏰"
+    }
+  },
+  {
+    "id": "safari-5",
+    "folder": "歷史紀錄",
+    "title": "貓咪會不會知道自己很可愛？"
+  },
+  {
+    "id": "safari-6",
+    "folder": "歷史紀錄",
+    "title": "一蘭拉麵",
+    "meta": {
+      "image": "/safari/4.jpg",
+      "caption": "一蘭拉麵🍜"
+    }
+  },
+  {
+    "id": "safari-7",
+    "folder": "歷史紀錄",
+    "title": "ウェーブ君",
+    "meta": {
+      "linkLabel": "ウェーブ君",
+      "linkUrl": "https://reurl.cc/yWx7Y8"
+    }
+  },
+  {
+    "id": "safari-8",
+    "folder": "歷史紀錄",
+    "title": "可愛的睡衣推薦",
+    "meta": {
+      "image": "/safari/1.jpg",
+      "caption": "睡衣派對"
+    }
+  },
+  {
+    "id": "safari-9",
+    "folder": "歷史紀錄",
+    "title": "兇寓 恐怖遊戲",
+    "meta": {
+      "linkLabel": "お婆ちゃんから全力逃走『Dread Flats 凶寓』に挑戦！",
+      "linkUrl": "https://reurl.cc/ln3DYv"
+    }
+  },
+  {
+    "id": "safari-10",
+    "folder": "歷史紀錄",
+    "title": "捏捏樂"
+  },
+  {
+    "id": "safari-11",
+    "folder": "歷史紀錄",
+    "title": "台北 巧克力泡芙"
+  },
+  {
+    "id": "safari-12",
+    "folder": "歷史紀錄",
+    "title": "沼王 高知縣",
+    "meta": {
+      "image": "/safari/2.jpg",
+      "caption": "ヌオーさん❤️"
+    }
+  },
+  {
+    "id": "safari-13",
+    "folder": "歷史紀錄",
+    "title": "兔子會不會知道我喜歡她呢"
+  },
+  {
+    "id": "safari-14",
+    "folder": "歷史紀錄",
+    "title": "櫻坂46 6th YEAR ANNIVERSARY LIVE"
+  }
+],
     "notes": [
       {
-        "id": "test-item-notes",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
+        "id": "note-1",
+        "title": "購物清單",
+        "body": "牛奶\n雞蛋\n麵包\n咖啡豆",
+        "sender": "我",
         "kind": "text",
+        "time": "2026-10-06 12:00",
+        "folder": "備忘錄",
+        "favorite": true,
+        "meta": {}
+      },
+      {
+        "id": "note-2",
+        "title": "會議紀錄",
+        "body": "10/7 下午三點，討論新專案進度。\n需要準備簡報。",
+        "sender": "我",
+        "kind": "text",
+        "time": "2026-10-05 09:30",
+        "folder": "工作",
+        "favorite": false,
+        "meta": {}
+      },
+      {
+        "id": "note-3",
+        "title": "秘密日記",
+        "body": "今天發生了一件很棒的事⋯⋯",
+        "sender": "我",
+        "kind": "text",
+        "time": "2026-10-04 22:00",
+        "folder": "備忘錄",
+        "password": "1234",
         "meta": {}
       }
     ],
@@ -223,7 +473,7 @@
         "kind": "audio",
         "media": "/MUSIC/I'm very proud of you.mp3",
         "meta": {
-          "folder": "收藏庫"
+          "folder": "收藏庫", "password": "1116", "hint": "三代目キャプテン" 
         }
       }
     ],
@@ -286,16 +536,7 @@
         "meta": {}
       }
     ],
-    "calculator": [
-      {
-        "id": "test-item-calculator",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
-        "kind": "text",
-        "meta": {}
-      }
-    ],
+    "calculator": [],
     "settings": [
       {
         "id": "test-item-settings",
@@ -483,21 +724,226 @@
     ],
     "twitter": [
       {
-        "id": "test-item-twitter",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
-        "kind": "text",
-        "meta": {}
-      }
+  "id": "x-001",
+  "title": "",
+  "body": "開心",
+  "sender": "しらたまさん",
+  "avatar": "/ig/post/yu3.jpg",
+  "kind": "post",
+  "media": "/ig/post/yu3.jpg",
+  "folder": "",
+  "meta": {
+    "handle": "yama2ki_0m0",
+    "replies": "12",
+    "reposts": "35",
+    "repostBy": ""
+  },
+  "likes": 128,
+  "comments": [],
+  "read": false,
+  "favorite": false
+    }
     ],
-    "youtube": [
-      {
-        "id": "test-item-youtube",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
-        "kind": "text",
+
+  "youtube": [
+    {
+      "id": "yt-8",
+      "title": "三期生ドキュメンタリー『私たち、櫻坂46三期生です』+2 Another Story",
+      "body": "",
+      "sender": "櫻坂46 OFFICIAL YouTube CHANNEL",
+      "kind": "image",
+      "media": "/yt/8.jpg",
+      "meta": {
+        "categories": "UsagiNeko,紀錄片",
+        "duration": "26:54",
+        "views": "205萬",
+        "youtubeId": "R3qQjdGoy10",
+        "avatar": "/yt/channel2.jpg"
+      }
+    },
+    {
+      "id": "yt-1",
+      "title": "【Vlog】的野のまったり休日withうさぎねこ",
+      "body": "",
+      "sender": "櫻坂チャンネル",
+      "kind": "image",
+      "media": "/yt/3.jpg",
+      "meta": {
+        "categories": "Vlog,UsagiNeko",
+        "duration": "22:30",
+        "views": "131萬",
+        "youtubeId": "-aSJADouHkA",
+        "avatar": "/yt/channel.jpg"
+      }
+    },
+    {   
+      "id": "yt-12",
+      "title": "【Vlog】初韓国ライブの裏側&お食事会に密着【in韓国】",
+      "body": "",
+      "sender": "櫻坂チャンネル",
+      "kind": "image",
+      "media": "/yt/12.jpg",
+      "meta": {
+        "categories": "Vlog,UsagiNeko",
+        "duration": "15:39",
+        "views": "54萬",
+        "youtubeId": "hxGBWgFuKeI",
+        "avatar": "/yt/channel.jpg"
+      }
+    },
+    {  
+      "id": "yt-5",
+      "title": "【Vlog】海外ライブin香港!&自由時間もしっかり満喫！",
+      "body": "",
+      "sender": "櫻坂チャンネル",
+      "kind": "image",
+      "media": "/yt/6.jpg",
+      "meta": {
+        "categories": "Vlog,UsagiNeko",
+        "duration": "16:37",
+        "views": "57萬",
+        "youtubeId": "yyTJDXW7dEY",
+        "avatar": "/yt/channel.jpg"
+      }
+    },
+    {   
+      "id": "yt-4",
+      "title": "四期生ドキュメンタリー『櫻坂46 四期生物語 ーいま、わたしたちに、できることー』Episode 01",
+      "body": "",
+      "sender": "櫻坂チャンネル",
+      "kind": "image",
+      "media": "/yt/4.jpg",
+      "meta": {
+        "categories": "UsagiNeko,紀錄片",
+        "duration": "17:29",
+        "views": "75萬",
+        "youtubeId": "FhanHuEsLq0",
+        "avatar": "/yt/channel.jpg"
+      }
+    },
+    {
+      "id": "yt-7",
+      "title": "【Vlog】海外ライブin台北!ライブの裏側&台北満喫の自由時間！",
+      "body": "",
+      "sender": "櫻坂チャンネル",
+      "kind": "image",
+      "media": "/yt/7.jpg",
+      "meta": {
+        "categories": "Vlog",
+        "duration": "20:11",
+        "views": "54萬",
+        "youtubeId": "Ux5Va4GuSIQ",
+        "avatar": "/yt/channel.jpg"
+      }
+    },
+    {
+      "id": "yt-2",
+      "title": "【夢叶う】学校貸切って隠れ鬼ごっこ！制服で爆走！",
+      "body": "",
+      "sender": "櫻坂チャンネル",
+      "kind": "image",
+      "media": "/yt/2.jpg",
+      "meta": {
+        "categories": "Vlog",
+        "duration": "42:51",
+        "views": "62萬",
+        "youtubeId": "2eU8J8TDjiM",
+        "avatar": "/yt/channel.jpg"
+      }
+    },
+    {
+      "id": "yt-10",
+      "title": "櫻坂46 三期生 Vlog「村井 優」",
+      "body": "",
+      "sender": "櫻坂46 OFFICIAL YouTube CHANNEL",
+      "kind": "image",
+      "media": "/yt/10.jpg",
+      "meta": {
+        "categories": "UsagiNeko",
+        "duration": "4:42",
+        "views": "50萬",
+        "youtubeId": "Nz-4tc4Oigc",
+        "avatar": "/yt/channel2.jpg"
+      }
+    },
+    {
+      "id": "yt-3",
+      "title": "【マンホール巡り】しーのお友達ヌオーさんとポケふた巡りin高知県!",
+      "body": "",
+      "sender": "櫻坂チャンネル",
+      "kind": "image",
+      "media": "/yt/1.jpg",
+      "meta": {
+        "categories": "Vlog",
+        "duration": "27:23",
+        "views": "54萬",
+        "youtubeId": "5olEEaDPVz0",
+        "avatar": "/yt/channel.jpg"
+      }
+    },
+    {
+      "id": "yt-6",
+      "title": "【京都】関西出身コンビが京都で陶芸体験！嵐山でお散歩&足湯も満喫！【観光】",
+      "body": "",
+      "sender": "櫻坂チャンネル",
+      "kind": "image",
+      "media": "/yt/5.jpg",
+      "meta": {
+        "categories": "Vlog",
+        "duration": "22:24",
+        "views": "60萬",
+        "youtubeId": "K2zmKCy223k",
+        "avatar": "/yt/channel.jpg"
+      }
+    },
+    {
+      "id": "yt-9",
+      "title": "櫻坂46 三期生 Vlog「山下 瞳月」",
+      "body": "",
+      "sender": "櫻坂46 OFFICIAL YouTube CHANNEL",
+      "kind": "image",
+      "media": "/yt/9.jpg",
+      "meta": {
+        "categories": "UsagiNeko",
+        "duration": "4:44",
+        "views": "54萬",
+        "youtubeId": "Nz-4tc4Oigc",
+        "avatar": "/yt/channel2.jpg"
+      }
+    },
+    {
+      "id": "yt-11",
+      "title": "櫻坂46『静寂の暴力』",
+      "body": "",
+      "sender": "櫻坂46 OFFICIAL YouTube CHANNEL",
+      "kind": "image",
+      "media": "/yt/11.jpg",
+      "meta": {
+        "categories": "音樂",
+        "duration": "4:39",
+        "views": "682萬",
+        "youtubeId": "uhbvX4GUrpE",
+        "avatar": "/yt/channel2.jpg"
+      }
+    },
+    {
+        "id": "yt-shorts-1",
+        "title": "櫻坂46『静寂の暴力』Music Video Short Ver.",
+        "body": "",
+        "sender": "櫻坂チャンネル",
+        "kind": "video",
+        "media": "/yt/1.mp4", 
+        "folder": "Shorts",
+        "meta": {}
+      },
+       {
+        "id": "yt-shorts-2",
+        "title": "9th Single「#自業自得」Music Video Solo clip〜山下瞳月 Ver..",
+        "body": "",
+        "sender": "櫻坂チャンネル",
+        "kind": "video",
+        "media": "/yt/2.mp4", 
+        "folder": "Shorts",
         "meta": {}
       }
     ],
@@ -593,14 +1039,157 @@
     ],
     "netflix": [
       {
-        "id": "test-item-netflix",
-        "title": "測試內容",
-        "body": "這是一條測試內容。",
-        "sender": "測試使用者",
-        "kind": "text",
-        "meta": {}
+        "id": "netflix-feature",
+        "title": "路地裏ホテル",
+        "body": "",
+        "sender": "Netflix",
+        "kind": "image",
+        "media": "/netflix/nf-1.png",
+        "folder": "為你推薦",
+        "meta": {
+          "year": "2026",
+          "genre": "青春奇幻",
+          "duration": "4小時40分",
+          "youtubeId": "G9OuMB-3PDA",
+          "banner": "/netflix/nf.png",
+          "videoUrl": "/netflix/nf.mp4"
+        }
+      },
+      {
+        "id": "netflix-2",
+        "title": "劊樂小丑",
+        "body": "",
+        "sender": "Netflix",
+        "kind": "image",
+        "media": "/netflix/nf-2.png",
+        "folder": "劊樂小丑系列",
+        "meta": {
+          "youtubeId": "JJ9nrpdFE8o"
+        }
+      },
+      {
+        "id": "netflix-3",
+        "title": "劊樂小丑2",
+        "body": "",
+        "sender": "Netflix",
+        "kind": "image",
+        "media": "/netflix/nf-3.png",
+        "folder": "劊樂小丑系列",
+        "meta": {
+          "youtubeId": "6KkONLf_ZKU"
+        }
+      },
+      {
+        "id": "netflix-4",
+        "title": "劊樂小丑3",
+        "body": "",
+        "sender": "Netflix",
+        "kind": "image",
+        "media": "/netflix/nf-4.png",
+        "folder": "劊樂小丑系列",
+        "meta": {
+          "youtubeId": "tk2mkXHN2G8"
+        }
+      },
+      {
+        "id": "netflix-5",
+        "title": "靈異入侵",
+        "body": "",
+        "sender": "Netflix",
+        "kind": "image",
+        "media": "/netflix/nf-5.png",
+        "folder": "鬼娃恰吉系列",
+        "meta": {
+          "youtubeId": "sjiyV8mtXiU"
+        }
+      },
+      {
+        "id": "netflix-6",
+        "title": "異靈七殺",
+        "body": "",
+        "sender": "Netflix",
+        "kind": "image",
+        "media": "/netflix/nf-6.png",
+        "folder": "鬼娃恰吉系列",
+        "meta": {
+          "youtubeId": "A1LRR3jLNBs"
+        }
+      },
+      {
+        "id": "netflix-7",
+        "title": "惡靈入侵:少年軍團",
+        "body": "",
+        "sender": "Netflix",
+        "kind": "image",
+        "media": "/netflix/nf-7.png",
+        "folder": "鬼娃恰吉系列",
+        "meta": {
+          "youtubeId": "3No1jTRSvg8"
+        }
+      },
+      {
+        "id": "netflix-8",
+        "title": "鬼娃新娘",
+        "body": "",
+        "sender": "Netflix",
+        "kind": "image",
+        "media": "/netflix/nf-8.png",
+        "folder": "鬼娃恰吉系列",
+        "meta": {
+          "youtubeId": "I-WZYQ6nABA"
+        }
+      },
+      {
+        "id": "netflix-9",
+        "title": "鬼娃新娘之鬼娃也有種",
+        "body": "",
+        "sender": "Netflix",
+        "kind": "image",
+        "media": "/netflix/nf-9.png",
+        "folder": "鬼娃恰吉系列",
+        "meta": {
+          "youtubeId": "U18RvBCCGEg"
+        }
+      },
+      {
+        "id": "netflix-10",
+        "title": "鬼娃魔咒",
+        "body": "",
+        "sender": "Netflix",
+        "kind": "image",
+        "media": "/netflix/nf-10.png",
+        "folder": "鬼娃恰吉系列",
+        "meta": {
+          "youtubeId": "GTE3SiaGIiY"
+        }
+      },
+      {
+        "id": "netflix-11",
+        "title": "鬼娃恰吉7:鬼娃儀式",
+        "body": "",
+        "sender": "Netflix",
+        "kind": "image",
+        "media": "/netflix/nf-11.png",
+        "folder": "鬼娃恰吉系列",
+        "meta": {
+          "youtubeId": "ksTv0_dGiX4"
+        }
+      },
+      {
+        "id": "netflix-12",
+        "title": "新・三茶のポルターガイスト",
+        "body": "",
+        "sender": "Netflix",
+        "kind": "image",
+        "media": "/netflix/nf-12.png",
+        "folder": "為你推薦",
+        "meta": {
+          "youtubeId": "GL0ywmxhMCo"
+        }
       }
     ],
+
+
     "threads": [
       {
         "id": "threads-profile",

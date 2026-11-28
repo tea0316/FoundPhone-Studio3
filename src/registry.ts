@@ -62,7 +62,7 @@ const definitions: [
     ["訊息", "聯絡人"],
   ],
   ["contacts", "聯絡人", "records", "#818c98", Users, ["所有聯絡人", "群組"]],
-  ["photos", "相簿", "media", "#d18769", Image, ["圖庫", "相簿", "收藏"]],
+  ["photos", "照片", "media", "#d18769", Image, ["圖庫", "相簿", "收藏"]],
   ["camera", "相機", "media", "#777d85", Camera, ["照片", "影片"]],
   ["safari", "瀏覽器", "document", "#299bd5", Globe, ["書籤", "瀏覽紀錄"]],
   ["notes", "備忘錄", "document", "#e8b53e", StickyNote, ["備忘錄", "檔案夾"]],

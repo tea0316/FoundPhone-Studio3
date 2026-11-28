@@ -9,6 +9,15 @@ import { useState, useEffect, createContext, useContext } from "react";
 import { useVolume } from "./volume";
 import { coverUrl as _coverUrl, playerNext, playerPrev, playerToggle, usePlayer } from "./player";
 import {
+  composerTap,
+  getDraft,
+  isLocked,
+  sendDraft,
+  setDraft,
+  useDraft,
+  useCanSend,
+} from "./draftStore";
+import {
   LockKeyhole,
   Flashlight,
   Camera,
@@ -16,6 +25,7 @@ import {
   ChevronDown,
   Play,
   Pause,
+  ArrowUp,
   SkipForward,
   Moon,
   RotateCcw,
@@ -24,7 +34,6 @@ import {
   Calculator,
   Globe,
   Mic,
-  ArrowUp,
   ChevronUp,
   Plus,
   Power,
@@ -52,13 +61,20 @@ export function NativeComposer({
   onAdd: () => void;
 }) {
   const open = useContext(KeyboardContext);
+  const draft = useDraft();
   return (
     <button
       className="native-compose-field"
       aria-label={creator ? "添加訊息" : "輸入訊息"}
-      onClick={() => (creator ? onAdd() : open(true))}
+            onClick={() => {
+        if (creator) onAdd();
+        else {
+          open(true);
+          composerTap();
+        }
+      }}
     >
-      {creator ? "添加訊息" : ""}
+      {creator ? "添加訊息" : draft}
     </button>
   );
 }
@@ -422,32 +438,41 @@ const [sharedVolume, setSharedVolume] = useVolume();
     </motion.div>
   );
 }
+function typeInto(t: string) {
+  if (isLocked()) return;
+  setDraft(getDraft() + t);
+}
+
+function eraseOne() {
+  if (isLocked()) return;
+  setDraft(getDraft().slice(0, -1));
+}
+
+function pressEnter() {
+  sendDraft();
+}
 export function DeviceKeyboard({ close }: { close: () => void }) {
-  const [value, setValue] = useState(""),
-    [shift, setShift] = useState(false),
+  const canSend = useCanSend();
+  const [shift, setShift] = useState(false),
     [numbers, setNumbers] = useState(false);
   return (
-    <div className="device-keyboard" role="dialog" aria-label="螢幕鍵盤">
+    <div
+      className="device-keyboard"
+      role="dialog"
+      aria-label="螢幕鍵盤"
+      onMouseDown={(e) => e.preventDefault()}
+    >
       <div className="keyboard-draft">
-        <input
-          autoFocus
-          aria-label="訊息草稿"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          placeholder="輸入訊息"
-        />
         <button aria-label="收起鍵盤" onClick={close}>
           <ChevronDown />
         </button>
       </div>
       <div className="keyboard-candidates">
-        {(value ? [value, "好的", "知道了"] : ["我", "你", "好的"]).map(
-          (v, i) => (
-            <button key={i} onClick={() => setValue(value + v)}>
-              {v}
-            </button>
-          ),
-        )}
+        {["我", "你", "好的"].map((v) => (
+          <button key={v} onClick={() => typeInto(v)}>
+            {v}
+          </button>
+        ))}
       </div>
       {(numbers
         ? ["1234567890", "-/:;()¥&@", ".,?!'"]
@@ -466,17 +491,16 @@ export function DeviceKeyboard({ close }: { close: () => void }) {
           {[...row].map((k) => (
             <button
               key={k}
-              onClick={() => setValue(value + (shift ? k.toUpperCase() : k))}
+              onClick={() => {
+                typeInto(shift ? k.toUpperCase() : k);
+                if (shift) setShift(false);
+              }}
             >
               {shift ? k.toUpperCase() : k}
             </button>
           ))}
           {i === 2 && (
-            <button
-              className="key-special"
-              aria-label="退格"
-              onClick={() => setValue(value.slice(0, -1))}
-            >
+            <button className="key-special" aria-label="退格" onClick={eraseOne}>
               <Delete size={20} />
             </button>
           )}
@@ -486,10 +510,12 @@ export function DeviceKeyboard({ close }: { close: () => void }) {
         <button onClick={() => setNumbers(!numbers)}>
           {numbers ? "ABC" : "123"}
         </button>
-        <button className="key-space" onClick={() => setValue(value + " ")}>
+        <button className="key-space" onClick={() => typeInto(" ")}>
           空格
         </button>
-        <button onClick={close}>完成</button>
+           <button className={canSend ? "key-ready" : ""} onClick={pressEnter}>
+          傳送
+        </button>
       </div>
       <div className="keyboard-accessories">
         <Globe size={24} />

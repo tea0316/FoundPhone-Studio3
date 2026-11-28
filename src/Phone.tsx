@@ -5,6 +5,20 @@ import { HomeLauncher } from "./launcher/HomeLauncher";
 import { useDeviceLayout } from "./launcher/layout";
 import "./launcher/launcher.css";
 import { NativeDetail, nativeDetailApps } from "./ios/Details";
+import { setPhoneItems } from "./phoneData";
+import { bootLineStories, useLiveUnread } from "./useLineStory";
+import { CONTACT_AVATARS } from "./lineContacts";
+import {
+  dismissBanner,
+  dismissNotice as dismissLineNotice,
+  getLineAvatar,
+  setLineAvatars,
+  requestOpen,
+  useLineBanner,
+  useLineNotices,
+  usePendingThread,
+} from "./lineNotify";
+import { useCallInfo, fmtCall } from "./phoneCall";
 import "./ios/details.css";
 import {
   SystemNotifications,
@@ -55,6 +69,7 @@ import {
   SkipBack as IslandPrev,
   SkipForward as IslandNext,
 } from "lucide-react";
+const LINE_APP = "line";
 const PHONE_TZ = "Asia/Tokyo";
 const phoneNow = (d: Date = new Date()) => {
   const parts = Object.fromEntries(
@@ -76,6 +91,27 @@ const phoneNow = (d: Date = new Date()) => {
   };
 };
 const realNow = () => phoneNow();
+const ago = (at: number) => {
+  const s = Math.floor((Date.now() - at) / 1000);
+  if (s < 60) return "剛剛";
+  if (s < 3600) return `${Math.floor(s / 60)} 分鐘前`;
+  return phoneNow(new Date(at)).time;
+};
+// 通知上的對象頭像：有照片就用照片，沒有就顯示名字第一個字
+function NoticeAvatar({
+  thread,
+  className,
+}: {
+  thread: string;
+  className: string;
+}) {
+  const src = getLineAvatar(thread);
+  return src ? (
+    <img className={className} src={src} alt="" />
+  ) : (
+    <span className={className}>{thread.slice(0, 1)}</span>
+  );
+}
 import { AnimatePresence } from "motion/react";
 import {
   ChevronLeft,
@@ -84,10 +120,12 @@ import {
   LockKeyhole,
   Heart,
   MessageCircle,
+  Phone as CallIcon,
   MoreHorizontal,
   ArrowUp,
   Folder,
   Phone as PhoneIcon,
+  X as CloseIcon,
 } from "lucide-react";
 import { getApp, type AppPlugin } from "./registry";
 import {
@@ -107,6 +145,7 @@ export function AppIcon({
   custom = "",
   date,
   time,
+  badge = 0,
 }: {
   id: string;
   name?: string;
@@ -114,6 +153,7 @@ export function AppIcon({
   custom?: string;
   date?: string;
   time?: string;
+  badge?: number;
 }) {
   const a = getApp(id);
   const Icon = a.icon;
@@ -133,10 +173,13 @@ export function AppIcon({
         )}
       </span>
       {name && <span className="app-name">{name}</span>}
+            {badge > 0 && !small && (
+        <b className="app-badge">{badge > 99 ? "99+" : badge}</b>
+      )}
     </span>
   );
 }
-const DECOR_APPS = ["maps", "find"];
+const DECOR_APPS = ["maps", "find", "messages","mail","reminders","files" ];
 type PhoneProps = Omit<Parameters<typeof PhoneRuntime>[0], "deviceLayout">;
 export function Phone(props: PhoneProps) {
   const deviceLayout = useDeviceLayout(props.work, props.creator);
@@ -240,12 +283,6 @@ function PhoneRuntime({
       .get(work.id)
       .then((saved) => {
         if (!active) return;
-        if (saved && saved.state.revision === work.updatedAt)
-          setOwn(saved.state);
-        else {
-          setOwn(dispatch(work, initialRuntime(work), "start"));
-          if (saved) setLoadError("作品已更新，已開始新的進度。");
-        }
         setReady(true);
       })
       .catch(() => {
@@ -313,7 +350,18 @@ function PhoneRuntime({
     onOpen?.(id);
     event("openApp", id);
   };
+    // 聯絡人詳情頁按「通話」時，請手機打開電話 App
+  useEffect(() => {
+    const go = (e: Event) => open((e as CustomEvent<string>).detail);
+    window.addEventListener("app-open", go);
+    return () => window.removeEventListener("app-open", go);
+  });
   const installedApps = work.apps.filter((a) => a.installed);
+    // 點通知：打開 LINE 並進那個聊天室
+  const openLineThread = (thread: string) => {
+    requestOpen(thread);
+    if (locked) beginUnlock();
+  };
   const apps = installedApps.filter((a) => a.visible);
   const unlock = (pin = "") => {
     if (!work.phone.passcode || pin === work.phone.passcode) {
@@ -330,6 +378,51 @@ function PhoneRuntime({
   }, [app, work.apps]);
   useEffect(() => () => stopPlayer(), []);
   const np = usePlayer();
+  const callInfo = useCallInfo();
+        const liveUnread = useLiveUnread();
+  const lineNotices = useLineNotices();
+  const lineBanner = useLineBanner();
+  const lineBadge = creator
+    ? 0
+    : [...(work.data[LINE_APP] ?? []), ...(s.messages[LINE_APP] ?? [])].filter(
+        (i) => !i.outgoing && visible(i, s) && !s.read.includes(i.id),
+      ).length + liveUnread;
+  // 手機一開機，LINE 劇本就開始計時
+  useEffect(() => {
+    if (creator || !ready) return;
+    bootLineStories(work.phone.owner, () => {
+      const n = phoneNow();
+      return `${n.date} ${n.time}`;
+    });
+  }, [creator, ready]);
+  // 通知橫幅 3 秒後收起
+  useEffect(() => {
+    if (!lineBanner) return;
+    const timer = setTimeout(dismissBanner, 3000);
+    return () => clearTimeout(timer);
+  }, [lineBanner]);
+    // 鎖定畫面已經看到的通知，解鎖後不要再跳橫幅
+  useEffect(() => {
+    if (locked && lineBanner) dismissBanner();
+  }, [locked, lineBanner]);
+    useEffect(() => {
+    setPhoneItems(work.data.phone ?? []);
+  }, [work.data.phone]);
+    // 把 LINE 對象的頭像交給通知使用
+  useEffect(() => {
+     const map: Record<string, string> = { ...CONTACT_AVATARS };
+    for (const i of work.data[LINE_APP] ?? []) {
+      if (i.avatar && !i.outgoing && !map[i.title]) map[i.title] = i.avatar;
+    }
+    setLineAvatars(map);
+  }, [work.data]);
+ // 解鎖之後，如果有「要進聊天室」的要求，就打開 LINE
+  const pendingThread = usePendingThread();
+  useEffect(() => {
+    if (locked || !pendingThread || app === LINE_APP) return;
+    open(LINE_APP);
+  }, [locked, pendingThread]);
+
   const [islandOpen, setIslandOpen] = useState(false);
   const inMusicApp = ["spotify", "netease", "music"].includes(app);
   const islandCompact = !!np.item && np.playing && !inMusicApp && !islandOpen;
@@ -496,17 +589,31 @@ useEffect(() => {
               <StatusGlyph kind="silent" />
             </button>
             <div
-  className={
+className={
     "dynamic-island" +
-    (islandCompact ? " np-compact" : "") +
-    (islandOpen ? " np-expanded" : "")
+    (callInfo.active ? " isl-calling" : "") +
+    (islandCompact && !callInfo.active ? " np-compact" : "") +
+    (islandOpen && !callInfo.active ? " np-expanded" : "")
   }
   onClick={() => {
+    if (callInfo.active) return;
     if (!np.item || (!np.playing && !islandOpen)) return;
     setIslandOpen((v) => !v);
   }}
 >
-{np.item && (islandCompact || islandOpen) && (
+{callInfo.active && (
+  <span className="isl-call">
+    <CallIcon size={14} />
+    <span>
+      {callInfo.phase === "in"
+        ? fmtCall(callInfo.secs)
+        : callInfo.phase === "none"
+          ? "無人接聽"
+          : "撥號中…"}
+    </span>
+  </span>
+)}
+{!callInfo.active && np.item && (islandCompact || islandOpen) && (
   <>
     {/* 只有展開時,才顯示專輯圖片 */}
     {islandOpen && (
@@ -724,6 +831,7 @@ onClick={(e) => {
                     custom={a.icon}
                     date={displayDate}
                     time={displayTime}
+                    badge={a.id === LINE_APP ? lineBadge : 0}
                   />
                 )}
                 clearApp={(id) =>
@@ -767,14 +875,63 @@ onClick={(e) => {
           )}
           {panel && panel !== "control" && panel !== "switcher" && (
             <div
-              className={`system-panel ${panel === "light" ? "flash-on" : ""}`}
+             className={`system-panel ${panel === "light" ? "flash-on" : ""} ${panel === "notification" ? "notif-center" : ""}`}
             >
-              <button className="panel-close" onClick={() => setPanel("")}>
-                關閉 <ChevronLeft size={14} />
-              </button>
+                           {panel === "notification" ? (
+                <header className="nc-head">
+                  <h2>通知中心</h2>
+                  <button
+                    className="nc-close"
+                    aria-label="關閉"
+                    onClick={() => setPanel("")}
+                  >
+                    <CloseIcon size={20} />
+                  </button>
+                </header>
+              ) : (
+                <button className="panel-close" onClick={() => setPanel("")}>
+                  關閉 <ChevronLeft size={14} />
+                </button>
+              )}
               {panel === "notification" ? (
                 <>
-                  <h2>通知中心</h2>
+                  {lineNotices.length > 0 && (
+                    <>
+                      <div className="nc-group">
+                        <span>LINE</span>
+                        <small>{lineNotices.length} 條通知</small>
+                      </div>
+                      <div className="nc-list">
+                        {[...lineNotices].reverse().map((n) => (
+                          <div key={n.id} className="nc-card">
+                            <button
+                              className="nc-card-main"
+                              onClick={() => {
+                                setPanel("");
+                                openLineThread(n.thread);
+                              }}
+                            >
+                              <span className="nc-app">
+                                <AppIcon id={LINE_APP} small />
+                                <b>LINE</b>
+                                <small>{ago(n.at)}</small>
+                              </span>
+                              <span className="nc-body">
+                                <span className="nc-text">
+                                  <strong>{n.thread}</strong>
+                                  <span>{n.text}</span>
+                                </span>
+                                <NoticeAvatar
+                                  thread={n.thread}
+                                  className="nc-avatar"
+                                />
+                              </span>
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  )}
                   {work.phone.notifications && s.notifications.length ? (
                     <SystemNotifications
                       notices={s.notifications}
@@ -787,9 +944,9 @@ onClick={(e) => {
                       }}
                       onDismiss={dismissNotice}
                     />
-                  ) : (
+                  ) : lineNotices.length === 0 ? (
                     <p>沒有新通知</p>
-                  )}
+                  ) : null}
                 </>
               ) : panel === "search" ? (
                 <>
@@ -918,6 +1075,55 @@ onClick={(e) => {
               <span>
                 <strong>{notificationContent(banner, work.apps).title}</strong>
                 <span>{notificationContent(banner, work.apps).body}</span>
+              </span>
+            </button>
+          )}
+                              {locked &&
+            lineNotices.length > 0 &&
+            !pinOpen &&
+            (() => {
+              const last = lineNotices[lineNotices.length - 1];
+              const one = lineNotices.length === 1;
+              const when = ago(last.at) === "剛剛" ? "現在" : ago(last.at);
+              return (
+                <div className="lock-line-notices">
+                  <button
+                    className="lock-line-notice"
+                    onClick={() => openLineThread(last.thread)}
+                  >
+                                     <span className="ll-avatar">
+                      <NoticeAvatar
+                        thread={last.thread}
+                        className="ll-photo"
+                      />
+                      <span className="ll-badge">
+                        <AppIcon id={LINE_APP} small />
+                      </span>
+                    </span>
+                    <span className="ll-main">
+                      <strong>{one ? last.thread : "LINE"}</strong>
+                      <span>
+                        {one ? last.text : `${lineNotices.length}則訊息`}
+                      </span>
+                    </span>
+                    <small>{when}</small>
+                  </button>
+                </div>
+              );
+            })()}
+             {lineBanner && !locked && (
+            <button
+              className="device-banner line-banner"
+              onClick={() => {
+                const thread = lineBanner.thread;
+                dismissBanner();
+                openLineThread(thread);
+              }}
+            >
+              <AppIcon id={LINE_APP} small />
+              <span>
+                <strong>{lineBanner.thread}</strong>
+                <span>{lineBanner.text}</span>
               </span>
             </button>
           )}

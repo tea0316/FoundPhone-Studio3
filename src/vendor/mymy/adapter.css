@@ -1,3 +1,5 @@
+
+
 .mymy-ui {
   position: relative;
   display: flex;
@@ -627,4 +629,20 @@
 .x-detail-bottom svg {
   width: 25px;
   height: 25px;
+}
+/* 強制 X App 介面底部的所有元素變為黑色 */
+.phone-screen:has(.mymy-x) .home-indicator,
+.phone-screen:has(.app-screen[data-app="twitter"]) .home-indicator {
+  background: #000 !important;
+}
+
+/* 確保那條白色的 Home 橫線還是白色的，不會跟著變不見 */
+.phone-screen:has(.mymy-x) .home-indicator::after,
+.phone-screen:has(.app-screen[data-app="twitter"]) .home-indicator::after {
+  background: #fff !important;
+}
+
+/* 如果連最外框的 phone-shell 都有灰邊，一併蓋掉 */
+.phone-shell:has(.app-screen[data-app="twitter"]) {
+  background: #000 !important;
 }

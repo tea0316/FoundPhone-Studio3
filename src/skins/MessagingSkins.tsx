@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo, useContext } from "react";
-import { SCRIPT_DATA, type LineScriptStep } from "./lineScripts";
 import {
   CheckCheck,
   Compass,

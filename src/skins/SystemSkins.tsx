@@ -296,7 +296,6 @@ export function PhoneSkin(p: Props) {
       window.clearInterval(id);
       void ctx.close();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [call, phase]);
   
   // 開始通話：1.8 秒後接通（沒台詞就無人接聽），台詞一行一行出現
@@ -354,7 +353,6 @@ export function PhoneSkin(p: Props) {
       alive = false;
       ids.forEach((id) => window.clearTimeout(id));
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [call]);
 
   // 通話計時

@@ -362,7 +362,9 @@ export function LineSkin(p: Props) {
     setDark(next);
     try {
       localStorage.setItem("ln-dark", next ? "1" : "0");
-    } catch {}
+        } catch {
+      /* 瀏覽器不允許儲存時就略過 */
+    }
     setTip(next ? "深色模式：開" : "深色模式：關");
   };
 

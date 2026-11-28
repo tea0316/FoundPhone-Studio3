@@ -14,7 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      STORY_FILE: stories/demo/story.json
+      STORY_FILE: stories/DEMO/story.json
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
